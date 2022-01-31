@@ -4,11 +4,11 @@ export default {
     ternary: '#FFC107',
 
     iphone: '#428CF6',
-    android: '#03DAC6',
     save: '#2CD159',
 
     lines: '#606062',
-    details: '#9A9A9C'
+    details: '#9A9A9C',
+    darkMode: '#1C1C1E'
 }
 
 

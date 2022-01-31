@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { StyleSheet, View, FlatList, Alert, ActivityIndicator } from 'react-native'
-
-import MainText from '../../components/UI/MainText'
+import ProductItem from '../../components/products/ProductItem'
 
 
 const ProductsOverviewScreen = ({ navigation }) => {
     return (
-        <MainText>Ciao</MainText>
+        <>
+            <ProductItem />
+            <ProductItem />
+        </>
     )
 }
 
