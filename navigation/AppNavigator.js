@@ -44,22 +44,22 @@ const AppNavigator = () => {
                 }}
             />
             <Drawer.Screen
-                name="Profile"
-                component={UserProfileNavigator}
-                options={{
-                    drawerLabel: "Profile",
-                    drawerIcon: (drawerConfig) => {
-                        return <Ionicons name={Platform.OS === 'android' ? 'person-circle-sharp' : 'person-outline'} size={23} color={drawerConfig.color} />
-                    }
-                }}
-            />
-            <Drawer.Screen
                 name="Settings"
                 component={SettingsNavigator}
                 options={{
                     drawerLabel: "Settings",
                     drawerIcon: (drawerConfig) => {
                         return <Ionicons name={Platform.OS === 'android' ? 'settings-sharp' : 'settings-outline'} size={23} color={drawerConfig.color} />
+                    }
+                }}
+            />
+            <Drawer.Screen
+                name="Profile"
+                component={UserProfileNavigator}
+                options={{
+                    drawerLabel: "Profile",
+                    drawerIcon: (drawerConfig) => {
+                        return <Ionicons name={Platform.OS === 'android' ? 'person-circle-sharp' : 'person-outline'} size={23} color={drawerConfig.color} />
                     }
                 }}
             />

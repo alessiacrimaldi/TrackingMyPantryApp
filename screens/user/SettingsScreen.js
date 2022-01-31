@@ -1,3 +1,4 @@
+import React from 'react'
 import { StyleSheet, View, Switch } from 'react-native'
 import DefaultText from '../../components/UI/DefaultText'
 
