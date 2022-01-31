@@ -5,14 +5,17 @@ import Colors from '../../constants/Colors'
 import DefaultText from './DefaultText'
 
 
+const modeColor = mode => {
+    switch (mode) {
+        case 'light':
+            return '#efefef'
+        case 'dark':
+            return Colors.darkMode
+    }
+}
+
 const CustomSwitch = ({ style, label, state, onChange }) => {
     const currentMode = useSelector(state => state.mode.theme)
-    let linesColor
-    if (currentMode === 'light') {
-        linesColor = '#efefef'
-    } else {
-        linesColor = Colors.darkMode
-    }
 
     return (
         <View style={{ ...styles.switchContainer, ...style }}>
@@ -20,7 +23,7 @@ const CustomSwitch = ({ style, label, state, onChange }) => {
             <Switch
                 trackColor={{ false: Colors.details, true: Colors.primary }}
                 thumbColor={Platform.OS === 'android' ? 'white' : ''}
-                ios_backgroundColor={linesColor}
+                ios_backgroundColor={modeColor(currentMode)}
                 value={state}
                 onValueChange={onChange}
             />

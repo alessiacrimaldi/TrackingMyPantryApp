@@ -6,20 +6,23 @@ import Colors from '../../constants/Colors'
 import { useSelector } from 'react-redux'
 
 
+const modeColor = mode => {
+    switch (mode) {
+        case 'light':
+            return 'white'
+        case 'dark':
+            return 'black'
+    }
+}
+
 const CustomHeaderButton = props => {
     const currentMode = useSelector(state => state.mode.theme)
-    let color
-    if (currentMode === 'light') {
-        color = 'white'
-    } else {
-        color = 'black'
-    }
 
     return <HeaderButton
         {...props}
         IconComponent={Ionicons}
         iconSize={props.iconSize ?? 25}
-        color={Platform.OS === 'android' ? color : Colors.primary}
+        color={Platform.OS === 'android' ? modeColor(currentMode) : Colors.primary}
     />
 }
 

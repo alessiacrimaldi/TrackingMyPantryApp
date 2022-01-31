@@ -8,17 +8,18 @@ import MainText from '../../components/UI/MainText'
 import CustomSwitch from '../../components/UI/Switch'
 
 
+const modeColor = mode => {
+    switch (mode) {
+        case 'light':
+            return '#efefef'
+        case 'dark':
+            return Colors.darkMode
+    }
+}
+
 const SettingsScreen = () => {
     const [isAvailable, setIsAvailable] = useState(false)
-
     const currentMode = useSelector(state => state.mode.theme)
-    let linesColor
-    if (currentMode === 'light') {
-        linesColor = '#efefef'
-    } else {
-        linesColor = Colors.darkMode
-    }
-
     const dispatch = useDispatch()
 
     const switchThemeHandler = () => {
@@ -30,7 +31,7 @@ const SettingsScreen = () => {
             <View style={styles.option}>
                 <MainText>NOTIFICATIONS</MainText>
                 <CustomSwitch
-                    style={{ borderBottomWidth: 1, borderBottomColor: linesColor }}
+                    style={{ borderBottomWidth: 1, borderBottomColor: modeColor(currentMode) }}
                     label='Notify me when products are nearly to expire'
                     state={isAvailable}
                     onChange={newValue => setIsAvailable(newValue)}
@@ -42,7 +43,7 @@ const SettingsScreen = () => {
                     alignItems: 'center',
                     paddingVertical: 15,
                     borderBottomWidth: 1,
-                    borderBottomColor: linesColor
+                    borderBottomColor: modeColor(currentMode)
                 }}>
                     <CustomButton
                         color={currentMode === 'light' ? Colors.darkMode : 'white'}

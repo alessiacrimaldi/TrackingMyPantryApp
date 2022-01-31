@@ -8,14 +8,17 @@ import DefaultText from '../../components/UI/DefaultText'
 import MainText from '../../components/UI/MainText'
 
 
+const modeColor = mode => {
+    switch (mode) {
+        case 'light':
+            return 'white'
+        case 'dark':
+            return 'black'
+    }
+}
+
 const UserProfileScreen = () => {
     const currentMode = useSelector(state => state.mode.theme)
-    let profileColor
-    if (currentMode === 'light') {
-        profileColor = 'white'
-    } else {
-        profileColor = 'black'
-    }
 
     let TouchableComponent = TouchableOpacity
     if (Platform.OS === 'android' && Platform.Version >= 21) {
@@ -29,13 +32,13 @@ const UserProfileScreen = () => {
             colors={[Colors.primary, Colors.secondary, Colors.ternary]}
             style={styles.linearGradient}
         >
-            <MainText style={{ fontSize: 19, color: profileColor, marginBottom: 15 }}>{`${profileColor}`.toUpperCase()}</MainText>
+            <MainText style={{ fontSize: 19, color: modeColor(currentMode), marginBottom: 15 }}>{`Username`.toUpperCase()}</MainText>
             <Ionicons
                 name={Platform.OS === 'android' ? "person-circle-outline" : "person-outline"}
                 size={120}
-                color={profileColor}
+                color={modeColor(currentMode)}
             />
-            <DefaultText style={{ fontSize: 15, color: profileColor }}>test@test.it</DefaultText>
+            <DefaultText style={{ fontSize: 15, color: modeColor(currentMode) }}>test@test.it</DefaultText>
             <TouchableComponent activeOpacity={0.6}>
                 <View style={styles.logoutButton}>
                     <MainText style={{ color: 'black', fontSize: 16 }}>Logout</MainText>

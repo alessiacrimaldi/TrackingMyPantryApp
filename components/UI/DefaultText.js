@@ -5,14 +5,11 @@ import { useSelector } from 'react-redux'
 
 const DefaultText = ({ style, children }) => {
     const currentMode = useSelector(state => state.mode.theme)
-    let content
     if (currentMode === 'light') {
-        content = <Text style={{ ...styles.modeLightText, ...style }}>{children}</Text>
+        return <Text style={{ ...styles.modeLightText, ...style }}>{children}</Text>
     } else {
-        content = <Text style={{ ...styles.modeDarkText, ...style }}>{children}</Text>
+        return <Text style={{ ...styles.modeDarkText, ...style }}>{children}</Text>
     }
-
-    return content
 }
 
 const styles = StyleSheet.create({

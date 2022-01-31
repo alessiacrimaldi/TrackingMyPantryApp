@@ -15,30 +15,30 @@ const Tab =
         ? createMaterialBottomTabNavigator()
         : createBottomTabNavigator()
 
+const modeColors = mode => {
+    switch (mode) {
+        case 'light':
+            return {tabColor: 'white', lineColor: '#efefef'}
+        case 'dark':
+            return {tabColor: 'black', lineColor: Colors.lines}
+    }
+}
+
 const ProductsTabNavigator = () => {
     const currentMode = useSelector(state => state.mode.theme)
-    let tabColor
-    let lineColor
-    if (currentMode === 'light') {
-        tabColor = 'white'
-        lineColor = '#efefef'
-    } else {
-        tabColor = 'black'
-        lineColor = Colors.lines
-    }
 
     return (
         <Tab.Navigator
             initialRouteName='All Products'
             shifting={true}
-            activeColor={tabColor}
+            activeColor={modeColors(currentMode).tabColor}
             initialLayout={{ width: Dimensions.get('window').width, backgroundColor: '#121212' }}
             screenOptions={{
                 headerShown: false,
                 tabBarActiveTintColor: Colors.secondary,
                 tabBarStyle: {
-                    backgroundColor: tabColor,
-                    borderTopColor: lineColor
+                    backgroundColor: modeColors(currentMode).tabColor,
+                    borderTopColor: modeColors(currentMode).lineColor
                 }
             }}
         >
