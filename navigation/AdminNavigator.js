@@ -6,7 +6,7 @@ import { defaultLightScreenOption, defaultDarkScreenOption } from './defaultScre
 import { useSelector } from 'react-redux'
 
 import AdminScreen from '../screens/products/AdminScreen'
-import HeaderButton from '../components/UI/HeaderButton'
+import CustomHeaderButton from '../components/UI/HeaderButton'
 
 
 const Stack = createStackNavigator()
@@ -30,7 +30,7 @@ const AdminNavigator = () => {
                 options={({ navigation }) => {
                     return {
                         headerLeft: () => (
-                            <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                                 <Item
                                     title='Menu'
                                     iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu-outline'}
@@ -41,7 +41,7 @@ const AdminNavigator = () => {
                             </HeaderButtons>
                         ),
                         headerRight: () => (
-                            <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                                 <Item
                                     title='Filters'
                                     iconName={Platform.OS === 'android' ? 'filter-sharp' : 'filter-outline'}

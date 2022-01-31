@@ -1,6 +1,6 @@
-export const CHANGE_THEME_TO_LIGHT = 'CHANGE_THEME_TO_LIGHT'
+export const CHANGE_THEME = 'CHANGE_THEME'
 
 
-export const changeThemeToLight = () => {
+export const changeTheme = () => {
     return { type: CHANGE_THEME }
 }

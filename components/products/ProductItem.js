@@ -7,7 +7,7 @@ import {
     TouchableNativeFeedback
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
-import { SecondaryButton } from '../UI/Buttons'
+import { CustomButton } from '../UI/Buttons'
 import moment from 'moment'
 import Colors from '../../constants/Colors'
 import DefaultText from '../../components/UI/DefaultText'
@@ -49,7 +49,9 @@ const ProductItem = ({ date, favorite }) => {
                                 />
                             }
                         </View>
-                        <SecondaryButton style={{ alignSelf: 'center' }}>VOTE</SecondaryButton>
+                        <View style={{ alignItems: 'center' }}>
+                            <CustomButton color={Colors.secondary}>VOTE</CustomButton>
+                        </View>
                     </View>
                 </TouchableComponent>
             </View>

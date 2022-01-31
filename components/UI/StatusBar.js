@@ -5,14 +5,11 @@ import { useSelector } from 'react-redux'
 
 const CustomStatusBar = () => {
     const currentMode = useSelector(state => state.mode.theme)
-    let content
     if (currentMode === 'light') {
-        content = <StatusBar style='dark' />
+        return <StatusBar style='dark' />
     } else {
-        content = <StatusBar style='light' />
+        return <StatusBar style='light' />
     }
-
-    return content
 }
 
 export default CustomStatusBar

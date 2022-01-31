@@ -1,16 +1,71 @@
-import React from 'react'
-import { StyleSheet, View, Switch } from 'react-native'
-import DefaultText from '../../components/UI/DefaultText'
+import React, { useState } from 'react'
+import { StyleSheet, View } from 'react-native'
+import { CustomButton } from '../../components/UI/Buttons'
+import { useSelector, useDispatch } from 'react-redux'
+import { changeTheme } from '../../store/actions/theme'
+import Colors from '../../constants/Colors'
+import MainText from '../../components/UI/MainText'
+import CustomSwitch from '../../components/UI/Switch'
 
 
-const SettingsScreen = ({ navigation }) => {
+const SettingsScreen = () => {
+    const [isAvailable, setIsAvailable] = useState(false)
+
+    const currentMode = useSelector(state => state.mode.theme)
+    let linesColor
+    if (currentMode === 'light') {
+        linesColor = '#efefef'
+    } else {
+        linesColor = Colors.darkMode
+    }
+
+    const dispatch = useDispatch()
+
+    const switchThemeHandler = () => {
+        dispatch(changeTheme())
+    }
+
     return (
-        <View></View>
+        <View style={styles.screen}>
+            <View style={styles.option}>
+                <MainText>NOTIFICATIONS</MainText>
+                <CustomSwitch
+                    style={{ borderBottomWidth: 1, borderBottomColor: linesColor }}
+                    label='Notify me when products are nearly to expire'
+                    state={isAvailable}
+                    onChange={newValue => setIsAvailable(newValue)}
+                />
+            </View>
+            <View style={styles.option}>
+                <MainText>THEME</MainText>
+                <View style={{
+                    alignItems: 'center',
+                    paddingVertical: 15,
+                    borderBottomWidth: 1,
+                    borderBottomColor: linesColor
+                }}>
+                    <CustomButton
+                        color={currentMode === 'light' ? Colors.darkMode : 'white'}
+                        style={{ width: 130 }}
+                        onPress={switchThemeHandler}
+                    >
+                        {currentMode === 'light' ? 'Dark Mode' : 'Light Mode'}
+                    </CustomButton>
+                </View>
+            </View>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
-
+    screen: {
+        flex: 1,
+        margin: 20
+    },
+    option: {
+        paddingLeft: 10,
+        marginTop: 15
+    }
 })
 
 export default SettingsScreen

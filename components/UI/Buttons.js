@@ -2,15 +2,13 @@ import React from 'react'
 import { StyleSheet, View, TouchableOpacity } from 'react-native'
 import { useSelector } from 'react-redux'
 import MainText from './MainText'
-import Colors from '../../constants/Colors'
 
 
-let textColor
-let disabledColor
-let disabledTextColor
-
-export const SecondaryButton = ({ children, onPress, isDisabled, style }) => {
+export const CustomButton = ({ children, onPress, isDisabled, color, style }) => {
     const currentMode = useSelector(state => state.mode.theme)
+    let textColor
+    let disabledColor
+    let disabledTextColor
     if (currentMode === 'light') {
         textColor = 'white'
         disabledColor = '#ccc'
@@ -23,7 +21,7 @@ export const SecondaryButton = ({ children, onPress, isDisabled, style }) => {
 
     return (
         <TouchableOpacity activeOpacity={0.6} onPress={onPress} disabled={isDisabled}>
-            <View style={{ ...styles.button, ...style, backgroundColor: isDisabled ? disabledColor : Colors.secondary }}>
+            <View style={{ ...styles.button, ...style, backgroundColor: isDisabled ? disabledColor : color }}>
                 <MainText style={{ ...styles.buttonText, color: isDisabled ? disabledTextColor : textColor }}>
                     {children}
                 </MainText>

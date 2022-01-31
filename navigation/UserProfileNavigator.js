@@ -6,7 +6,7 @@ import { defaultLightScreenOption, defaultDarkScreenOption } from './defaultScre
 import { useSelector } from 'react-redux'
 
 import UserProfileScreen from '../screens/user/UserProfileScreen'
-import HeaderButton from '../components/UI/HeaderButton'
+import CustomHeaderButton from '../components/UI/HeaderButton'
 
 
 const Stack = createStackNavigator()
@@ -31,7 +31,7 @@ const UserProfileNavigator = () => {
                     return {
                         title: 'Profile',
                         headerLeft: () => (
-                            <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                                 <Item
                                     title='Menu'
                                     iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu-outline'}

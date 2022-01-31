@@ -1,4 +1,4 @@
-import CustomStatusBar from './components/UI/CustomStatusBar'
+import CustomStatusBar from './components/UI/StatusBar'
 import AppBootstrap from './components/UI/AppBootstrap'
 import MainNavigator from './navigation/MainNavigator'
 

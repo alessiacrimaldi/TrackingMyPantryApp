@@ -21,10 +21,9 @@ const AppNavigator = () => {
                 drawerStyle: { backgroundColor: Colors.primary },
                 drawerLabelStyle: { fontFamily: 'open-sans-bold' }
             }}
-            initialRouteName='Your Products'
         >
             <Drawer.Screen
-                name="ProductsTabs"
+                name="Products Tabs"
                 component={ProductsTabNavigator}
                 options={{
                     drawerLabel: "Products",
