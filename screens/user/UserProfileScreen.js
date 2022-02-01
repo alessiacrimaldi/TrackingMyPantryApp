@@ -75,16 +75,16 @@ const styles = StyleSheet.create({
         height: 75,
         backgroundColor: 'red',
         borderRadius: 5,
-        paddingVertical: 8,
-        paddingHorizontal: 10,
         justifyContent: 'space-around',
         alignItems: 'center',
         shadowColor: 'black',
         shadowOffset: { width: 0, height: 5 },
         shadowOpacity: 0.26,
-        shadowRadius: 6,
+        shadowRadius: 5,
         elevation: 8,
-        marginTop: 70
+        paddingVertical: 8,
+        paddingHorizontal: 10,
+        marginTop: 120
     }
 })
 

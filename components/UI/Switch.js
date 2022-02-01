@@ -14,14 +14,14 @@ const modeColor = mode => {
     }
 }
 
-const CustomSwitch = ({ style, label, state, onChange }) => {
+const CustomSwitch = ({ style, color, label, state, onChange }) => {
     const currentMode = useSelector(state => state.mode.theme)
 
     return (
         <View style={{ ...styles.switchContainer, ...style }}>
             <DefaultText style={styles.switchText}>{label}</DefaultText>
             <Switch
-                trackColor={{ false: Colors.details, true: Colors.primary }}
+                trackColor={{ false: Colors.details, true: color }}
                 thumbColor={Platform.OS === 'android' ? 'white' : ''}
                 ios_backgroundColor={modeColor(currentMode)}
                 value={state}
