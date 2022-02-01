@@ -2,7 +2,8 @@ import React from 'react'
 import { StyleSheet, Platform, View, TouchableOpacity, TouchableNativeFeedback } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Ionicons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { logout } from '../../store/actions/auth'
 import Colors from '../../constants/Colors'
 import DefaultText from '../../components/UI/DefaultText'
 import MainText from '../../components/UI/MainText'
@@ -19,6 +20,9 @@ const modeColor = mode => {
 
 const UserProfileScreen = () => {
     const currentMode = useSelector(state => state.mode.theme)
+    const username = useSelector(state => state.auth.userName)
+    const email = useSelector(state => state.auth.userEmail)
+    const dispatch = useDispatch()
 
     let TouchableComponent = TouchableOpacity
     if (Platform.OS === 'android' && Platform.Version >= 21) {
@@ -32,14 +36,19 @@ const UserProfileScreen = () => {
             colors={[Colors.primary, Colors.secondary, Colors.ternary]}
             style={styles.linearGradient}
         >
-            <MainText style={{ fontSize: 19, color: modeColor(currentMode), marginBottom: 15 }}>{`Username`.toUpperCase()}</MainText>
+            <MainText style={{ fontSize: 19, color: modeColor(currentMode), marginBottom: 15 }}>{username ? username.toUpperCase() : 'USER'}</MainText>
             <Ionicons
                 name={Platform.OS === 'android' ? "person-circle-outline" : "person-outline"}
                 size={120}
                 color={modeColor(currentMode)}
             />
-            <DefaultText style={{ fontSize: 15, color: modeColor(currentMode) }}>test@test.it</DefaultText>
-            <TouchableComponent activeOpacity={0.6}>
+            <DefaultText style={{ fontSize: 15, color: modeColor(currentMode) }}>{email ? email : 'no email'}</DefaultText>
+            <TouchableComponent
+                activeOpacity={0.6}
+                onPress={() => {
+                    dispatch(logout())
+                }}
+            >
                 <View style={styles.logoutButton}>
                     <MainText style={{ color: 'black', fontSize: 16 }}>Logout</MainText>
                     {Platform.OS === 'android'

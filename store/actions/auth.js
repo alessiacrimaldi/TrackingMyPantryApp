@@ -3,14 +3,10 @@ export const AUTHENTICATE = 'AUTHENTICATE'
 export const TRIED_LOGIN = 'TRIED_LOGIN'
 export const LOGOUT = 'LOGOUT'
 
-let timer;
 
-
-export const authenticate = (token, userId, expiryTime) => {
+export const authenticate = (token, userId, userName, userEmail) => {
     return dispatch => {
-        dispatch(setLogoutTimer(expiryTime))
-        dispatch({ type: AUTHENTICATE, token: token, userId: userId })
-        /* qui spediamo due azioni, ma questo non crea alcun tipo di problema */
+        dispatch({ type: AUTHENTICATE, token: token, userId: userId, userName: userName, userEmail: userEmail })
     }
 }
 
@@ -18,10 +14,29 @@ export const triedLogin = () => {
     return { type: TRIED_LOGIN }
 }
 
-export const signup = (email, password) => {
+export const register = (username, email, password) => {
     return async dispatch => {
-        const response = await fetch(
-            'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD0NGXCv2bZbc4VHCZurQmDvollZuPbkY8',
+        const responseRegister = await fetch(
+            'https://lam21.iot-prism-lab.cs.unibo.it/users',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: username,
+                    email: email,
+                    password: password
+                })
+            }
+        )
+        if (!responseRegister.ok) {
+            throw new Error('Please check your credentials')
+        }
+        const resRegisterData = await responseRegister.json()
+
+        const responseLogin = await fetch(
+            'https://lam21.iot-prism-lab.cs.unibo.it/auth/login',
             {
                 method: 'POST',
                 headers: {
@@ -29,37 +44,29 @@ export const signup = (email, password) => {
                 },
                 body: JSON.stringify({
                     email: email,
-                    password: password,
-                    returnSecureToken: true
+                    password: password
                 })
             }
         )
-        if (!response.ok) {
-            const errorResData = await response.json()
-            const errorId = errorResData.error.message
-            let message = 'Something went wrong!'
-            if (errorId === 'EMAIL_EXISTS') {               // found in the Firebase Rest Auth API
-                message = 'This email exists already!'
-            }
-            throw new Error(message)
+        if (!responseLogin.ok) {
+            throw new Error('Please check your credentials')
         }
-        const resData = await response.json()   // decomprimerà il corpo della risposta e lo trasformerà automaticamente dal formato JSON in Javascript (quindi in un oggetto o array Javascript)
+        const resLoginData = await responseLogin.json()
+
         dispatch(authenticate(
-            resData.idToken,
-            resData.localId,
-            parseInt(resData.expiresIn) * 1000
-        ))                                      // sono valori dell'oggetto response.json() = resData
-        const expirationDate = new Date(
-            new Date().getTime() + parseInt(resData.expiresIn) * 1000
-        )
-        saveDataToStorage(resData.idToken, resData.localId, expirationDate)
+            resLoginData.accessToken,
+            resRegisterData.id,
+            resRegisterData.username,
+            resRegisterData.email
+        ))
+        saveDataToStorage(resLoginData.accessToken, resRegisterData.id, resRegisterData.username, resRegisterData.email)
     }
 }
 
 export const login = (email, password) => {
     return async dispatch => {
-        const response = await fetch(
-            'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyD0NGXCv2bZbc4VHCZurQmDvollZuPbkY8',
+        const responseLogin = await fetch(
+            'https://lam21.iot-prism-lab.cs.unibo.it/auth/login',
             {
                 method: 'POST',
                 headers: {
@@ -67,62 +74,55 @@ export const login = (email, password) => {
                 },
                 body: JSON.stringify({
                     email: email,
-                    password: password,
-                    returnSecureToken: true
+                    password: password
                 })
             }
         )
-        if (!response.ok) {
-            const errorResData = await response.json()
-            const errorId = errorResData.error.message
-            let message = 'Something went wrong!'
-            if (errorId === 'EMAIL_NOT_FOUND') {            // found in the Firebase Rest Auth API
-                message = 'This email could not be found!'
-            } else if (errorId === 'INVALID_PASSWORD') {    // found in the Firebase Rest Auth API
-                message = 'This password is not valid!'
-            }
-            throw new Error(message)
+        if (!responseLogin.ok) {
+            throw new Error('Please check your credentials')
         }
-        const resData = await response.json()  // decomprimerà il corpo della risposta e lo trasformerà automaticamente dal formato JSON in Javascript (quindi in un oggetto o array Javascript)
-        dispatch(authenticate(
-            resData.idToken,
-            resData.localId,
-            parseInt(resData.expiresIn) * 1000
-        ))
-        const expirationDate = new Date(
-            new Date().getTime() + parseInt(resData.expiresIn) * 1000
+        const resLoginData = await responseLogin.json()
+
+        const token = resLoginData.accessToken
+        const response = await fetch(
+            'https://lam21.iot-prism-lab.cs.unibo.it/users/me',
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
         )
-        saveDataToStorage(resData.idToken, resData.localId, expirationDate)
+        if (!response.ok) {
+            throw new Error('Please check your credentials')
+        }
+        const resData = await response.json()
+
+        dispatch(authenticate(
+            resLoginData.accessToken,
+            resData.id,
+            resData.username,
+            resData.email
+        ))
+
+        saveDataToStorage(resLoginData.accessToken, resData.id, resData.username, resData.email)
     }
 }
 
 export const logout = () => {
-    clearLogoutTimer()
-    AsyncStorage.removeItem('userData')  // restituisce una promessa: nel caso fossimo interessati nel risultato di removeItem potremmo aspettare il completamento di questa promessa
+    AsyncStorage.removeItem('userData')
     return { type: LOGOUT }
 }
 
-const clearLogoutTimer = () => {
-    if (timer) {
-        clearTimeout(timer)
-    }
-}
-
-const setLogoutTimer = expirationTime => {  // l'expirationTime che passiamo dev'essere in millisecondi
-    return dispatch => {
-        timer = setTimeout(() => {  // quando il timer scade (dopo expirationTime ms), possiamo spedire l'azione di logout
-            dispatch(logout())
-        }, expirationTime)
-    }
-}
-
-const saveDataToStorage = (token, userId, expirationDate) => {
+const saveDataToStorage = (token, userId, userName, userEmail) => {
     AsyncStorage.setItem(
         'userData',
         JSON.stringify({
             token: token,
             userId: userId,
-            expiryDate: expirationDate
+            userName: userName,
+            userEmail: userEmail
         })
     )
 }
