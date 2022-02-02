@@ -61,7 +61,7 @@ const ProductItem = ({ date, favorite }) => {
 
 const styles = StyleSheet.create({
     productItem: {
-        marginTop: 15,
+        marginTop: 20,
         marginHorizontal: 15
     },
     touchable: {

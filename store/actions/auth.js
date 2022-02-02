@@ -4,8 +4,9 @@ export const TRIED_LOGIN = 'TRIED_LOGIN'
 export const LOGOUT = 'LOGOUT'
 
 
-export const authenticate = (token, userId, userName, userEmail) => {
+export const authenticate = (token, userId, userName, userEmail, expiryTime) => {
     return dispatch => {
+        dispatch(setLogoutTimer(expiryTime))
         dispatch({ type: AUTHENTICATE, token: token, userId: userId, userName: userName, userEmail: userEmail })
     }
 }
@@ -57,9 +58,13 @@ export const register = (username, email, password) => {
             resLoginData.accessToken,
             resRegisterData.id,
             resRegisterData.username,
-            resRegisterData.email
+            resRegisterData.email,
+            604800000
         ))
-        saveDataToStorage(resLoginData.accessToken, resRegisterData.id, resRegisterData.username, resRegisterData.email)
+
+        const expirationDate = new Date(new Date().getTime() + 604800000)
+
+        saveDataToStorage(resLoginData.accessToken, resRegisterData.id, resRegisterData.username, resRegisterData.email, expirationDate)
     }
 }
 
@@ -103,26 +108,47 @@ export const login = (email, password) => {
             resLoginData.accessToken,
             resData.id,
             resData.username,
-            resData.email
+            resData.email,
+            604800000
         ))
 
-        saveDataToStorage(resLoginData.accessToken, resData.id, resData.username, resData.email)
+        const expirationDate = new Date(new Date().getTime() + 604800000)
+
+        saveDataToStorage(resLoginData.accessToken, resData.id, resData.username, resData.email, expirationDate)
     }
 }
 
 export const logout = () => {
+    clearLogoutTimer()
     AsyncStorage.removeItem('userData')
     return { type: LOGOUT }
 }
 
-const saveDataToStorage = (token, userId, userName, userEmail) => {
+let timer
+
+const setLogoutTimer = expirationTime => {
+    return dispatch => {
+        timer = setTimeout(() => {
+            dispatch(logout())   // quando il timer scade (dopo 604800000 ms = 7 giorni), possiamo spedire l'azione di Auto-Logout
+        }, expirationTime)
+    }
+}
+
+const clearLogoutTimer = () => {
+    if (timer) {
+        clearTimeout(timer)
+    }
+}
+
+const saveDataToStorage = (token, userId, userName, userEmail, expirationDate) => {
     AsyncStorage.setItem(
         'userData',
         JSON.stringify({
             token: token,
             userId: userId,
             userName: userName,
-            userEmail: userEmail
+            userEmail: userEmail,
+            expiryDate: expirationDate
         })
     )
 }

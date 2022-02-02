@@ -1,3 +1,8 @@
+/* to avoid "Setting a timer for a long period of time, i.e. multiple minutes, is a performance and correctness issue on Android" warning */
+import { LogBox } from 'react-native'
+LogBox.ignoreLogs(['Setting a timer for a long period of time'])
+
+import React from 'react'
 import CustomStatusBar from './components/UI/StatusBar'
 import AppBootstrap from './components/UI/AppBootstrap'
 import MainNavigator from './navigation/MainNavigator'
