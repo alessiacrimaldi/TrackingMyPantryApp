@@ -9,6 +9,7 @@ export const defaultLightScreenOption = {
         backgroundColor: Platform.OS === 'android' ? Colors.primary : 'white',
         shadowColor: 'transparent'
     },
+    headerTitleAlign: 'center',
     headerTitleStyle: {
         fontFamily: 'poppins-semibold',
         fontSize: 22,
@@ -27,6 +28,7 @@ export const defaultDarkScreenOption = {
         backgroundColor: Platform.OS === 'android' ? Colors.primary : 'black',
         shadowColor: 'transparent'
     },
+    headerTitleAlign: 'center',
     headerTitleStyle: {
         fontFamily: 'poppins-semibold',
         fontSize: 22,

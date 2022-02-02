@@ -36,7 +36,7 @@ const UserProfileScreen = () => {
             colors={[Colors.primary, Colors.secondary, Colors.ternary]}
             style={styles.linearGradient}
         >
-            <View style={styles.user}>
+            <View style={styles.userInfo}>
                 <MainText style={{ fontSize: 19, color: modeColor(currentMode), marginBottom: 15 }}>{username ? username.toUpperCase() : 'USER'}</MainText>
                 <Ionicons
                     name={Platform.OS === 'android' ? "person-circle-outline" : "person-outline"}
@@ -82,13 +82,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    user: {
+    userInfo: {
         alignItems: 'center',
         marginBottom: 120
     },
     touchable: {
         borderRadius: 6,
-        overflow: 'hidden'
+        overflow: 'hidden',
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 0.26,
+        shadowRadius: 5,
+        elevation: 8
     },
     logoutButton: {
         width: 100,
@@ -97,13 +102,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: 'red',
         justifyContent: 'space-around',
-        alignItems: 'center',
-        shadowColor: 'black',
-        borderRadius: 6,
-        shadowOffset: { width: 0, height: 5 },
-        shadowOpacity: 0.26,
-        shadowRadius: 5,
-        elevation: 8
+        alignItems: 'center'
     }
 })
 
