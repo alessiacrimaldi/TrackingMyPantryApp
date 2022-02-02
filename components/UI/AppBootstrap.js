@@ -5,6 +5,7 @@ import AppLoading from 'expo-app-loading'
 
 const fetchFonts = () => {
   return Font.loadAsync({
+    'poppins-semibold': require('../../assets/fonts/Poppins-SemiBold.ttf'),
     'open-sans': require('../../assets/fonts/OpenSans-Regular.ttf'),
     'open-sans-bold': require('../../assets/fonts/OpenSans-Bold.ttf')
   })

@@ -10,8 +10,8 @@ export const defaultLightScreenOption = {
         shadowColor: 'transparent'
     },
     headerTitleStyle: {
-        fontFamily: 'open-sans-bold',
-        fontSize: 21,
+        fontFamily: 'poppins-semibold',
+        fontSize: 22,
         color: Platform.OS === 'android' ? 'white' : Colors.primary
     },
     headerBackTitleStyle: {
@@ -28,8 +28,8 @@ export const defaultDarkScreenOption = {
         shadowColor: 'transparent'
     },
     headerTitleStyle: {
-        fontFamily: 'open-sans-bold',
-        fontSize: 21,
+        fontFamily: 'poppins-semibold',
+        fontSize: 22,
         color: Platform.OS === 'android' ? 'black' : Colors.primary
     },
     headerBackTitleStyle: {

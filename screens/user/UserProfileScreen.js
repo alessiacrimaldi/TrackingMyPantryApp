@@ -36,40 +36,43 @@ const UserProfileScreen = () => {
             colors={[Colors.primary, Colors.secondary, Colors.ternary]}
             style={styles.linearGradient}
         >
-            <MainText style={{ fontSize: 19, color: modeColor(currentMode), marginBottom: 15 }}>{username ? username.toUpperCase() : 'USER'}</MainText>
-            <Ionicons
-                name={Platform.OS === 'android' ? "person-circle-outline" : "person-outline"}
-                size={120}
-                color={modeColor(currentMode)}
-            />
-            <DefaultText style={{ fontSize: 15, color: modeColor(currentMode) }}>{email ? email : 'no email'}</DefaultText>
-            <TouchableComponent
-                activeOpacity={0.6}
-                onPress={() => {
-                    dispatch(logout())
-                }}
-            >
-                <View style={styles.logoutButton}>
-                    <MainText style={{ color: 'black', fontSize: 16 }}>Logout</MainText>
-                    {Platform.OS === 'android'
-                        ? (
-                            <MaterialCommunityIcons
-                                name="logout"
-                                size={24}
-                                color='black'
-                            />
-                        )
-                        : (
-                            <AntDesign
-                                name="logout"
-                                size={22}
-                                color='black'
-                            />
-                        )
-                    }
-                </View>
-            </TouchableComponent>
-        </LinearGradient>
+            <View style={styles.user}>
+                <MainText style={{ fontSize: 19, color: modeColor(currentMode), marginBottom: 15 }}>{username ? username.toUpperCase() : 'USER'}</MainText>
+                <Ionicons
+                    name={Platform.OS === 'android' ? "person-circle-outline" : "person-outline"}
+                    size={120}
+                    color={modeColor(currentMode)}
+                />
+                <DefaultText style={{ fontSize: 15, color: modeColor(currentMode) }}>{email ? email : 'no email'}</DefaultText>
+            </View>
+            <View style={styles.touchable}>
+                <TouchableComponent
+                    onPress={() => {
+                        dispatch(logout())
+                    }}
+                >
+                    <View style={styles.logoutButton}>
+                        <MainText style={{ color: 'black', fontSize: 16 }}>Logout</MainText>
+                        {Platform.OS === 'android'
+                            ? (
+                                <MaterialCommunityIcons
+                                    name="logout"
+                                    size={24}
+                                    color='black'
+                                />
+                            )
+                            : (
+                                <AntDesign
+                                    name="logout"
+                                    size={22}
+                                    color='black'
+                                />
+                            )
+                        }
+                    </View>
+                </TouchableComponent>
+            </View>
+        </LinearGradient >
     )
 }
 
@@ -79,21 +82,28 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    user: {
+        alignItems: 'center',
+        marginBottom: 120
+    },
+    touchable: {
+        borderRadius: 6,
+        overflow: 'hidden'
+    },
     logoutButton: {
-        width: 120,
-        height: 75,
+        width: 100,
+        height: 50,
+        paddingLeft: 8,
+        flexDirection: 'row',
         backgroundColor: 'red',
-        borderRadius: 5,
         justifyContent: 'space-around',
         alignItems: 'center',
         shadowColor: 'black',
+        borderRadius: 6,
         shadowOffset: { width: 0, height: 5 },
         shadowOpacity: 0.26,
         shadowRadius: 5,
-        elevation: 8,
-        paddingVertical: 8,
-        paddingHorizontal: 10,
-        marginTop: 120
+        elevation: 8
     }
 })
 

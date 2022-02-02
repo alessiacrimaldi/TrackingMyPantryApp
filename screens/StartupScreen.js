@@ -12,15 +12,16 @@ const StartupScreen = () => {
     useEffect(() => {
         const tryLogin = async () => {
             const userData = await AsyncStorage.getItem('userData')
-            const transformedData = JSON.parse(userData)
-            const { token, userId, userName, userEmail, expiryDate } = transformedData
-            const expirationDate = new Date(expiryDate)
 
             /* CASO 1) Non ci sono i dati: l'utente non ha effettuato l'accesso */
             if (!userData) {
                 dispatch(authActions.triedLogin())  // cambia lo stato globale (didtTryLogin) e mi fa andare all'Autenticazione (vedi condizionali nel MainNavigator)
                 return
             }
+
+            const transformedData = JSON.parse(userData)
+            const { token, userId, userName, userEmail, expiryDate } = transformedData
+            const expirationDate = new Date(expiryDate)
 
             /* CASO 2) Il token non è più valido (expirationDate è passata) o non ci sono i dati (ulteriore controllo) */
             if (expirationDate <= new Date() || !token || !userId || !userName || !userEmail) {

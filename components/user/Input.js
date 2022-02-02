@@ -54,7 +54,7 @@ const Input = props => {
         const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         /* costante che imposta un'espressione regolare e-mail, quindi un'espressione regolare che consente di convalidare gli indirizzi e-mail */
         let isValid = true
-        /* is Valid è di default true, ma false non appena una convalida fallisce */
+        /* is Valid è di default true, ma diventa false non appena una convalida fallisce */
         if (props.required && text.trim().length === 0) {
             isValid = false
         }
