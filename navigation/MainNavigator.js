@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 
 import StartupScreen from '../screens/StartupScreen'
-import AuthNavigator from './AuthNavigator'
+import AuthNavigator from './user/AuthNavigator'
 import AppNavigator from './AppNavigator'
 
 

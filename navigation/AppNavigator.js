@@ -3,10 +3,10 @@ import { createDrawerNavigator } from '@react-navigation/drawer'
 import { Ionicons } from '@expo/vector-icons'
 import Colors from '../constants/Colors'
 
-import ProductsTabNavigator from '../navigation/ProductsTabNavigator'
-import AdminNavigator from '../navigation/AdminNavigator'
-import UserProfileNavigator from '../navigation/UserProfileNavigator'
-import SettingsNavigator from '../navigation/SettingsNavigator'
+import ProductsTabNavigator from './products/ProductsTabNavigator'
+import AdminNavigator from './products/AdminNavigator'
+import UserProfileNavigator from './user/UserProfileNavigator'
+import SettingsNavigator from './user/SettingsNavigator'
 
 
 const Drawer = createDrawerNavigator()

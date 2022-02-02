@@ -2,16 +2,16 @@ import React from 'react'
 import { Platform } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
-import { defaultLightScreenOption, defaultDarkScreenOption } from './defaultScreenOptions'
+import { defaultLightScreenOption, defaultDarkScreenOption } from '../defaultScreenOptions'
 import { useSelector } from 'react-redux'
 
-import ProductsOverviewScreen from '../screens/products/ProductsOverviewScreen'
-import CustomHeaderButton from '../components/UI/HeaderButton'
+import AdminScreen from '../../screens/products/AdminScreen'
+import CustomHeaderButton from '../../components/UI/HeaderButton'
 
 
 const Stack = createStackNavigator()
 
-const ProductsNavigator = () => {
+const AdminNavigator = () => {
     const currentMode = useSelector(state => state.mode.theme)
     let defaultScreenOption
     if (currentMode === 'light') {
@@ -25,8 +25,8 @@ const ProductsNavigator = () => {
             screenOptions={{ ...defaultScreenOption }}
         >
             <Stack.Screen
-                name="Your Products"
-                component={ProductsOverviewScreen}
+                name="Manage Products"
+                component={AdminScreen}
                 options={({ navigation }) => {
                     return {
                         headerLeft: () => (
@@ -58,4 +58,4 @@ const ProductsNavigator = () => {
     )
 }
 
-export default ProductsNavigator
+export default AdminNavigator

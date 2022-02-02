@@ -1,17 +1,17 @@
 import React from 'react'
+import { Platform } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
-import { defaultLightScreenOption, defaultDarkScreenOption } from './defaultScreenOptions'
+import { defaultLightScreenOption, defaultDarkScreenOption } from '../defaultScreenOptions'
 import { useSelector } from 'react-redux'
 
-import FavoritesScreen from '../screens/products/FavoritesScreen'
-import ProductDetailsScreen from '../screens/products/ProductDetailsScreen'
-import CustomHeaderButton from '../components/UI/HeaderButton'
+import SettingsScreen from '../../screens/user/SettingsScreen'
+import CustomHeaderButton from '../../components/UI/HeaderButton'
 
 
 const Stack = createStackNavigator()
 
-const ProductsFavNavigator = () => {
+const SettingsNavigator = () => {
     const currentMode = useSelector(state => state.mode.theme)
     let defaultScreenOption
     if (currentMode === 'light') {
@@ -25,29 +25,18 @@ const ProductsFavNavigator = () => {
             screenOptions={{ ...defaultScreenOption }}
         >
             <Stack.Screen
-                name="Favorites"
-                component={FavoritesScreen}
+                name="App Settings"
+                component={SettingsScreen}
                 options={({ navigation }) => {
                     return {
+                        title: 'Settings',
                         headerLeft: () => (
                             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                                 <Item
                                     title='Menu'
                                     iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu-outline'}
                                     onPress={() => {
-                                        navigation.jumpTo('All Products')
                                         navigation.toggleDrawer()
-                                    }}
-                                />
-                            </HeaderButtons>
-                        ),
-                        headerRight: () => (
-                            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-                                <Item
-                                    title='Filters'
-                                    iconName={Platform.OS === 'android' ? 'filter-sharp' : 'filter-outline'}
-                                    onPress={() => {
-
                                     }}
                                 />
                             </HeaderButtons>
@@ -55,12 +44,8 @@ const ProductsFavNavigator = () => {
                     }
                 }}
             />
-            <Stack.Screen
-                name="Product Details"
-                component={ProductDetailsScreen}
-            />
         </Stack.Navigator>
     )
 }
 
-export default ProductsFavNavigator
+export default SettingsNavigator

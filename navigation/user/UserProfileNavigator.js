@@ -2,16 +2,16 @@ import React from 'react'
 import { Platform } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
-import { defaultLightScreenOption, defaultDarkScreenOption } from './defaultScreenOptions'
+import { defaultLightScreenOption, defaultDarkScreenOption } from '../defaultScreenOptions'
 import { useSelector } from 'react-redux'
 
-import SettingsScreen from '../screens/user/SettingsScreen'
-import CustomHeaderButton from '../components/UI/HeaderButton'
+import UserProfileScreen from '../../screens/user/UserProfileScreen'
+import CustomHeaderButton from '../../components/UI/HeaderButton'
 
 
 const Stack = createStackNavigator()
 
-const SettingsNavigator = () => {
+const UserProfileNavigator = () => {
     const currentMode = useSelector(state => state.mode.theme)
     let defaultScreenOption
     if (currentMode === 'light') {
@@ -25,11 +25,11 @@ const SettingsNavigator = () => {
             screenOptions={{ ...defaultScreenOption }}
         >
             <Stack.Screen
-                name="App Settings"
-                component={SettingsScreen}
+                name="User Profile"
+                component={UserProfileScreen}
                 options={({ navigation }) => {
                     return {
-                        title: 'Settings',
+                        title: 'Profile',
                         headerLeft: () => (
                             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                                 <Item
@@ -48,4 +48,4 @@ const SettingsNavigator = () => {
     )
 }
 
-export default SettingsNavigator
+export default UserProfileNavigator

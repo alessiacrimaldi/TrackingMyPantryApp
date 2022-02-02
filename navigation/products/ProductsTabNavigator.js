@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import { Ionicons } from '@expo/vector-icons'
 import { useSelector } from 'react-redux'
-import Colors from '../constants/Colors'
+import Colors from '../../constants/Colors'
 
 import ProductsNavigator from './ProductsNavigator'
 import ProductsFavNavigator from './ProductsFavNavigator'
