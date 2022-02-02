@@ -6,6 +6,8 @@ import { defaultLightScreenOption, defaultDarkScreenOption } from '../defaultScr
 import { useSelector } from 'react-redux'
 
 import ProductsOverviewScreen from '../../screens/products/ProductsOverviewScreen'
+import FiltersScreen from '../../screens/products/FiltersScreen'
+import ProductDetailsScreen from '../../screens/products/ProductDetailsScreen'
 import CustomHeaderButton from '../../components/UI/HeaderButton'
 
 
@@ -23,6 +25,7 @@ const ProductsNavigator = () => {
     return (
         <Stack.Navigator
             screenOptions={{ ...defaultScreenOption }}
+            initialRouteName='Your Products'
         >
             <Stack.Screen
                 name="Your Products"
@@ -46,13 +49,21 @@ const ProductsNavigator = () => {
                                     title='Filters'
                                     iconName={Platform.OS === 'android' ? 'filter-sharp' : 'filter-outline'}
                                     onPress={() => {
-
+                                        navigation.navigate('Apply Filters')
                                     }}
                                 />
                             </HeaderButtons>
                         )
                     }
                 }}
+            />
+            <Stack.Screen
+                name="Apply Filters"
+                component={FiltersScreen}
+            />
+            <Stack.Screen
+                name="Product Details"
+                component={ProductDetailsScreen}
             />
         </Stack.Navigator>
     )

@@ -3,39 +3,34 @@ import Colors from '../constants/Colors'
 
 
 export const defaultLightScreenOption = {
-    presentation: 'modal',
+    presentation: 'transparentModal',
     cardStyle: { backgroundColor: 'white' },
     headerStyle: {
-        backgroundColor: Platform.OS === 'android' ? Colors.primary : 'white',
-        shadowColor: 'transparent'
+        backgroundColor: Platform.OS === 'android' ? Colors.primary : 'white'
     },
     headerTitleAlign: 'center',
+    headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primary,
+    headerBackTitleStyle: { fontFamily: 'open-sans' },
     headerTitleStyle: {
         fontFamily: 'poppins-semibold',
-        fontSize: 22,
+        fontSize: 21,
         color: Platform.OS === 'android' ? 'white' : Colors.primary
-    },
-    headerBackTitleStyle: {
-        fontFamily: 'open-sans',
-        color: Colors.iphone
     }
 }
 
 export const defaultDarkScreenOption = {
-    presentation: 'modal',
+    presentation: 'transparentModal',
     cardStyle: { backgroundColor: 'black' },
     headerStyle: {
         backgroundColor: Platform.OS === 'android' ? Colors.primary : 'black',
         shadowColor: 'transparent'
     },
     headerTitleAlign: 'center',
+    headerTintColor: Platform.OS === 'android' ? 'black' : Colors.primary,
+    headerBackTitleStyle: { fontFamily: 'open-sans' },
     headerTitleStyle: {
         fontFamily: 'poppins-semibold',
-        fontSize: 22,
+        fontSize: 21,
         color: Platform.OS === 'android' ? 'black' : Colors.primary
-    },
-    headerBackTitleStyle: {
-        fontFamily: 'open-sans',
-        color: Colors.iphone
     }
 }

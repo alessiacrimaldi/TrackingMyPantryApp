@@ -10,8 +10,9 @@ import MainNavigator from './navigation/MainNavigator'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import ReduxThunk from 'redux-thunk'
-import authReducer from './store/reducers/auth'
 import themeReducer from './store/reducers/theme'
+import authReducer from './store/reducers/auth'
+import productsReducer from './store/reducers/products'
 
 import { enableScreens } from 'react-native-screens'
 // import { init } from './helpers/db'
@@ -28,8 +29,9 @@ enableScreens()
 //   })
 
 const rootReducer = combineReducers({
+  mode: themeReducer,
   auth: authReducer,
-  mode: themeReducer
+  products: productsReducer
 })
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk))

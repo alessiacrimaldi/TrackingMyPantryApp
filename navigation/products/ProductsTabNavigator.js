@@ -48,7 +48,7 @@ const ProductsTabNavigator = () => {
                 options={{
                     tabBarLabel: Platform.OS === 'android' ? <Text style={{ fontFamily: 'open-sans-bold' }}>Products</Text> : 'Products',
                     tabBarIcon: (tabInfo) => {
-                        return <Ionicons name='pricetags-outline' size={25} color={tabInfo.color} />
+                        return <Ionicons name={Platform.OS === 'android' ? 'md-cart' : 'cart-outline'} size={25} color={tabInfo.color} />
                     },
                     tabBarColor: Colors.secondary
                 }}
@@ -59,7 +59,7 @@ const ProductsTabNavigator = () => {
                 options={{
                     tabBarLabel: Platform.OS === 'android' ? <Text style={{ fontFamily: 'open-sans-bold' }}>Favorites</Text> : 'Favorites',
                     tabBarIcon: (tabInfo) => {
-                        return <Ionicons name='star-outline' size={25} color={tabInfo.color} />
+                        return <Ionicons name={Platform.OS === 'android' ? 'ios-star' : 'star-outline'} size={25} color={tabInfo.color} />
                     },
                     tabBarColor: Colors.ternary
                 }}
