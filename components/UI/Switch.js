@@ -14,11 +14,11 @@ const modeColor = mode => {
     }
 }
 
-const CustomSwitch = ({ style, color, label, state, onChange }) => {
+const CustomSwitch = ({ color, label, state, onChange }) => {
     const currentMode = useSelector(state => state.mode.theme)
 
     return (
-        <View style={{ ...styles.switchContainer, ...style }}>
+        <View style={styles.switchContainer}>
             <DefaultText style={styles.switchText}>{label}</DefaultText>
             <Switch
                 trackColor={{ false: Colors.details, true: color }}

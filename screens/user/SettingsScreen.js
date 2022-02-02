@@ -28,24 +28,18 @@ const SettingsScreen = () => {
 
     return (
         <View style={styles.screen}>
-            <View style={styles.option}>
+            <View style={{ ...styles.option, borderBottomColor: modeColor(currentMode) }}>
                 <MainText>NOTIFICATIONS</MainText>
                 <CustomSwitch
-                    style={{ borderBottomWidth: 1, borderBottomColor: modeColor(currentMode) }}
                     color={Colors.primary}
                     label='Notify me when products are nearly to expire'
                     state={isAvailable}
                     onChange={newValue => setIsAvailable(newValue)}
                 />
             </View>
-            <View style={styles.option}>
+            <View style={{ ...styles.option, borderBottomColor: modeColor(currentMode) }}>
                 <MainText>THEME</MainText>
-                <View style={{
-                    alignItems: 'center',
-                    paddingVertical: 15,
-                    borderBottomWidth: 1,
-                    borderBottomColor: modeColor(currentMode)
-                }}>
+                <View style={styles.buttonContainer}>
                     <CustomButton
                         color={currentMode === 'light' ? Colors.darkMode : 'white'}
                         style={{ width: 130 }}
@@ -62,11 +56,16 @@ const SettingsScreen = () => {
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        margin: 20
+        marginTop: 15,
+        marginHorizontal: 20
     },
     option: {
-        paddingLeft: 10,
-        marginTop: 15
+        marginTop: 15,
+        borderBottomWidth: 2
+    },
+    buttonContainer: {
+        alignItems: 'center',
+        paddingVertical: 15
     }
 })
 

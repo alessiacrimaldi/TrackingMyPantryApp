@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
         width: 100,
         height: 50,
         paddingLeft: 8,
+        paddingRight: 5,
         flexDirection: 'row',
         backgroundColor: 'red',
         justifyContent: 'space-around',
