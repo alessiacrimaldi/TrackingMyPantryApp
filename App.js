@@ -15,18 +15,18 @@ import authReducer from './store/reducers/auth'
 import productsReducer from './store/reducers/products'
 
 import { enableScreens } from 'react-native-screens'
-// import { init } from './helpers/db'
+import { init } from './helpers/db'
 
 
 enableScreens()
 
-// init()
-//   .then(() => {
-//     console.log('Initialized database')
-//   }).catch(err => {
-//     console.log('Initializing db failed.')
-//     console.log(err)
-//   })
+init()
+  .then(() => {
+    console.log('Initialized database')
+  }).catch(err => {
+    console.log('Initializing db failed.')
+    console.log(err)
+  })
 
 const rootReducer = combineReducers({
   mode: themeReducer,

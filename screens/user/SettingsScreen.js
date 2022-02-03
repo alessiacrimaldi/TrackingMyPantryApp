@@ -42,7 +42,7 @@ const SettingsScreen = () => {
                 <View style={styles.buttonContainer}>
                     <CustomButton
                         color={currentMode === 'light' ? Colors.darkMode : 'white'}
-                        style={{ width: 130 }}
+                        style={{ width: 130, alignItems: 'center' }}
                         onPress={switchThemeHandler}
                     >
                         {currentMode === 'light' ? 'Dark Mode' : 'Light Mode'}
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     },
     option: {
         marginTop: 15,
-        borderBottomWidth: 2
+        borderBottomWidth: 1
     },
     buttonContainer: {
         alignItems: 'center',

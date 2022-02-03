@@ -1,3 +1,6 @@
+import moment from 'moment'
+
+
 class Product {
     constructor(
         id,
@@ -33,6 +36,10 @@ class Product {
         this.lng = lng
 
         this.rating = rating
+    }
+
+    get readableDate() {
+        return moment(this.expiryDate).format('DD/MM/YYYY')
     }
 }
 

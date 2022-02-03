@@ -1,9 +1,16 @@
-import { TOGGLE_FAVORITE, SET_FILTERS } from '../actions/products'
+import {
+    TOGGLE_FAVORITE,
+    SET_FILTERS,
+    SET_PRODUCTS,
+    CREATE_PRODUCT,
+    DELETE_PRODUCT,
+    VOTE_PRODUCT
+} from '../actions/products'
 
 
 const initialState = {
-    products: [],
-    favoriteProducts: [],
+    userProducts: [],
+    userFavoriteProducts: [],
     filteredProducts: []
 }
 
@@ -11,19 +18,19 @@ const productsReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case TOGGLE_FAVORITE:
-            const existingIndex = state.filteredProducts.findIndex(product => product.id === action.productId)
+            const existingIndex = state.userFavoriteProducts.findIndex(product => product.id === action.productId)
             if (existingIndex >= 0) {
-                const updatedFavProducts = [...state.favoriteProducts]
+                const updatedFavProducts = [...state.userFavoriteProducts]
                 updatedFavProducts.splice(existingIndex, 1)
-                return { ...state, favoriteProducts: updatedFavProducts }
+                return { ...state, userFavoriteProducts: updatedFavProducts }
             } else {
-                const product = state.products.find(product => product.id === action.productId)
-                return { ...state, favoriteProducts: state.favoriteProducts.concat(product) }
+                const product = state.userProducts.find(product => product.id === action.productId)
+                return { ...state, userFavoriteProducts: state.userFavoriteProducts.concat(product) }
             }
 
         case SET_FILTERS:
             const appliedFilters = action.filters
-            const updatedFilteredProducts = state.products.filter(product => {
+            const updatedFilteredProducts = state.userProducts.filter(product => {
                 if (appliedFilters.sortByRating && !product.rating) {
                     return false
                 }

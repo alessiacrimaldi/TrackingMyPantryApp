@@ -19,7 +19,7 @@ export const CustomButton = ({ children, onPress, isDisabled, color, style }) =>
     return (
         <TouchableOpacity activeOpacity={0.6} onPress={onPress} disabled={isDisabled}>
             <View style={{ ...styles.button, ...style, backgroundColor: isDisabled ? modeColors(currentMode).disabledColor : color }}>
-                <MainText style={{ ...styles.buttonText, color: isDisabled ? modeColors(currentMode).disabledTextColor : modeColors(currentMode).textColor }}>
+                <MainText style={{ ...styles.buttonText, ...style, color: isDisabled ? modeColors(currentMode).disabledTextColor : modeColors(currentMode).textColor }}>
                     {children}
                 </MainText>
             </View>

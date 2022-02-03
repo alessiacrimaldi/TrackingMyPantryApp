@@ -2,7 +2,6 @@ export default {
     primary: '#724CA1',
     secondary: '#CC1B8D',
     ternary: '#FFC107',
-
     save: '#2CD159',
     lines: '#606062',
     details: '#9A9A9C',

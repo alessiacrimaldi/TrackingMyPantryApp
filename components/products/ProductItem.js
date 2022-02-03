@@ -38,7 +38,7 @@ const ProductItem = ({ date, favorite }) => {
                         </View>
                         <View style={styles.productRow}>
                             <View>
-                                <MainText style={{ fontSize: 17 }}>Product</MainText>
+                                <MainText style={{ fontSize: 16 }}>{`Product`.toUpperCase()}</MainText>
                                 <DefaultText>barcode: <DefaultText style={{ color: Colors.secondary }}>000000</DefaultText></DefaultText>
                             </View>
                             {favorite &&
@@ -50,7 +50,7 @@ const ProductItem = ({ date, favorite }) => {
                             }
                         </View>
                         <View style={{ alignItems: 'center' }}>
-                            <CustomButton color={Colors.secondary}>VOTE</CustomButton>
+                            <CustomButton color={Colors.secondary} style={{width: 80, alignItems: 'center'}}>VOTE</CustomButton>
                         </View>
                     </View>
                 </TouchableComponent>

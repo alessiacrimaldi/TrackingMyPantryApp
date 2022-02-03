@@ -51,7 +51,7 @@ const FiltersScreen = ({ navigation }) => {
                         iconName={Platform.OS === 'android' ? 'bookmark-sharp' : 'bookmark-outline'}
                         onPress={() => {
                             saveFilters()
-                            Alert.alert('Filters saved!', 'Go back to Products or Admin to see them applied')
+                            Alert.alert('Filters saved!', `Go back to 'Products' or 'Admin' to see them applied`)
                         }}
                     />
                 </HeaderButtons>
@@ -63,7 +63,7 @@ const FiltersScreen = ({ navigation }) => {
         <ScrollView style={styles.screen}>
             <View style={{ ...styles.filterRow, borderBottomColor: modeColor(currentMode) }}>
                 <CustomSwitch
-                    color={Colors.secondary}
+                    color={Colors.primary}
                     label='Sort by quantity'
                     state={isSortedByQuantity}
                     onChange={newValue => {
@@ -74,7 +74,7 @@ const FiltersScreen = ({ navigation }) => {
             </View>
             <View style={{ ...styles.filterRow, borderBottomColor: modeColor(currentMode) }}>
                 <CustomSwitch
-                    color={Colors.secondary}
+                    color={Colors.primary}
                     label='Sort by rating'
                     state={isSortedByRating}
                     onChange={newValue => {
@@ -85,7 +85,7 @@ const FiltersScreen = ({ navigation }) => {
             </View>
             <View style={{ ...styles.filterRow, borderBottomColor: modeColor(currentMode) }}>
                 <CustomSwitch
-                    color={Colors.secondary}
+                    color={Colors.primary}
                     label='Gluten-free'
                     state={isGlutenFree}
                     onChange={newValue => setIsGlutenFree(newValue)}
@@ -93,7 +93,7 @@ const FiltersScreen = ({ navigation }) => {
             </View>
             <View style={{ ...styles.filterRow, borderBottomColor: modeColor(currentMode) }}>
                 <CustomSwitch
-                    color={Colors.secondary}
+                    color={Colors.primary}
                     label='Lactose-free'
                     state={isLactoseFree}
                     onChange={newValue => setIsLactoseFree(newValue)}
@@ -101,7 +101,7 @@ const FiltersScreen = ({ navigation }) => {
             </View>
             <View style={{ ...styles.filterRow, borderBottomColor: modeColor(currentMode) }}>
                 <CustomSwitch
-                    color={Colors.secondary}
+                    color={Colors.primary}
                     label='Vegan'
                     state={isVegan}
                     onChange={newValue => setIsVegan(newValue)}
@@ -109,7 +109,7 @@ const FiltersScreen = ({ navigation }) => {
             </View>
             <View style={{ ...styles.filterRow, borderBottomColor: modeColor(currentMode) }}>
                 <CustomSwitch
-                    color={Colors.secondary}
+                    color={Colors.primary}
                     label='Vegetarian'
                     state={isVegetarian}
                     onChange={newValue => setIsVegetarian(newValue)}
@@ -117,7 +117,7 @@ const FiltersScreen = ({ navigation }) => {
             </View>
             <View style={{ paddingLeft: 20, paddingRight: 10 }}>
                 <CustomSwitch
-                    color={Colors.secondary}
+                    color={Colors.primary}
                     label='Expired'
                     state={isExpired}
                     onChange={newValue => setIsExpired(newValue)}
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 30
     },
     filterRow: {
-        borderBottomWidth: 2,
+        borderBottomWidth: 1,
         paddingLeft: 20,
         paddingRight: 10
     }

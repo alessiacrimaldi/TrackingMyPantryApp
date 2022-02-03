@@ -46,9 +46,9 @@ const ProductsTabNavigator = () => {
                 name="All Products"
                 component={ProductsNavigator}
                 options={{
-                    tabBarLabel: Platform.OS === 'android' ? <Text style={{ fontFamily: 'open-sans-bold' }}>Products</Text> : 'Products',
+                    tabBarLabel: Platform.OS === 'android' ? <Text style={{ fontFamily: 'open-sans-bold' }}>Home</Text> : 'Home',
                     tabBarIcon: (tabInfo) => {
-                        return <Ionicons name={Platform.OS === 'android' ? 'md-cart' : 'cart-outline'} size={25} color={tabInfo.color} />
+                        return <Ionicons name={Platform.OS === 'android' ? 'md-home' : 'ios-home-outline'} size={25} color={tabInfo.color} />
                     },
                     tabBarColor: Colors.secondary
                 }}
