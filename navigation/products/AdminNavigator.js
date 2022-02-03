@@ -6,7 +6,6 @@ import { defaultLightScreenOption, defaultDarkScreenOption } from '../defaultScr
 import { useSelector } from 'react-redux'
 
 import AdminScreen from '../../screens/products/AdminScreen'
-import FiltersScreen from '../../screens/products/FiltersScreen'
 import CustomHeaderButton from '../../components/UI/HeaderButton'
 
 
@@ -40,24 +39,9 @@ const AdminNavigator = () => {
                                     }}
                                 />
                             </HeaderButtons>
-                        ),
-                        headerRight: () => (
-                            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-                                <Item
-                                    title='Filters'
-                                    iconName={Platform.OS === 'android' ? 'filter-sharp' : 'filter-outline'}
-                                    onPress={() => {
-                                        navigation.navigate('Apply Filters')
-                                    }}
-                                />
-                            </HeaderButtons>
                         )
                     }
                 }}
-            />
-            <Stack.Screen
-                name="Apply Filters"
-                component={FiltersScreen}
             />
         </Stack.Navigator>
     )

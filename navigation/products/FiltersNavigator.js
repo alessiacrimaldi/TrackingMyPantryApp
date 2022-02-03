@@ -5,14 +5,13 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { defaultLightScreenOption, defaultDarkScreenOption } from '../defaultScreenOptions'
 import { useSelector } from 'react-redux'
 
-import ProductsOverviewScreen from '../../screens/products/ProductsOverviewScreen'
-import ProductDetailsScreen from '../../screens/products/ProductDetailsScreen'
+import FiltersScreen from '../../screens/products/FiltersScreen'
 import CustomHeaderButton from '../../components/UI/HeaderButton'
 
 
 const Stack = createStackNavigator()
 
-const ProductsNavigator = () => {
+const AdminNavigator = () => {
     const currentMode = useSelector(state => state.mode.theme)
     let defaultScreenOption
     if (currentMode === 'light') {
@@ -24,11 +23,10 @@ const ProductsNavigator = () => {
     return (
         <Stack.Navigator
             screenOptions={{ ...defaultScreenOption }}
-            initialRouteName='Your Products'
         >
             <Stack.Screen
-                name="Your Products"
-                component={ProductsOverviewScreen}
+                name="Apply Filters"
+                component={FiltersScreen}
                 options={({ navigation }) => {
                     return {
                         headerLeft: () => (
@@ -45,12 +43,8 @@ const ProductsNavigator = () => {
                     }
                 }}
             />
-            <Stack.Screen
-                name="Product Details"
-                component={ProductDetailsScreen}
-            />
         </Stack.Navigator>
     )
 }
 
-export default ProductsNavigator
+export default AdminNavigator

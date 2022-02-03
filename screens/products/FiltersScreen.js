@@ -1,5 +1,5 @@
 import React, { useState, useLayoutEffect, useCallback } from 'react'
-import { StyleSheet, View, ScrollView } from 'react-native'
+import { StyleSheet, View, ScrollView, Alert } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { setFilters } from '../../store/actions/products'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
@@ -49,7 +49,10 @@ const FiltersScreen = ({ navigation }) => {
                     <Item
                         title='Save filters'
                         iconName={Platform.OS === 'android' ? 'bookmark-sharp' : 'bookmark-outline'}
-                        onPress={saveFilters}
+                        onPress={() => {
+                            saveFilters()
+                            Alert.alert('Filters saved!', 'Go back to Products or Admin to see them applied')
+                        }}
                     />
                 </HeaderButtons>
             )

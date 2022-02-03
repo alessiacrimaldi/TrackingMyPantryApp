@@ -23,14 +23,10 @@ const productsReducer = (state = initialState, action) => {
 
         case SET_FILTERS:
             const appliedFilters = action.filters
-            const updatedFilteredProducts = state.products
-            // if (appliedFilters.sortByQuantity) {
-            //     updatedFilteredProducts.sort()
-            // }
-            // if (appliedFilters.sortByRating) {
-            //     updatedFilteredProducts.sort()
-            // }
-            updatedFilteredProducts.filter(product => {
+            const updatedFilteredProducts = state.products.filter(product => {
+                if (appliedFilters.sortByRating && !product.rating) {
+                    return false
+                }
                 if (appliedFilters.glutenFree && !product.isGlutenFree) {
                     return false
                 }
@@ -48,6 +44,12 @@ const productsReducer = (state = initialState, action) => {
                 }
                 return true
             })
+            if (appliedFilters.sortByQuantity) {
+                updatedFilteredProducts.sort((a, b) => a.quantity - b.quantity)
+            }
+            if (appliedFilters.sortByRating) {
+                updatedFilteredProducts.sort((a, b) => b.rating - a.rating)
+            }
             return { ...state, filteredProducts: updatedFilteredProducts }
 
         default:

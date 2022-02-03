@@ -5,8 +5,9 @@ import Colors from '../constants/Colors'
 
 import ProductsTabNavigator from './products/ProductsTabNavigator'
 import AdminNavigator from './products/AdminNavigator'
-import UserProfileNavigator from './user/UserProfileNavigator'
+import FiltersNavigator from './products/FiltersNavigator'
 import SettingsNavigator from './user/SettingsNavigator'
+import UserProfileNavigator from './user/UserProfileNavigator'
 
 
 const Drawer = createDrawerNavigator()
@@ -39,6 +40,16 @@ const AppNavigator = () => {
                     drawerLabel: "Admin",
                     drawerIcon: (drawerConfig) => {
                         return <Ionicons name={Platform.OS === 'android' ? 'md-create' : 'create-outline'} size={23} color={drawerConfig.color} />
+                    }
+                }}
+            />
+            <Drawer.Screen
+                name="Filters"
+                component={FiltersNavigator}
+                options={{
+                    drawerLabel: "Filters",
+                    drawerIcon: (drawerConfig) => {
+                        return <Ionicons name={Platform.OS === 'android' ? 'filter-sharp' : 'filter-outline'} size={23} color={drawerConfig.color} />
                     }
                 }}
             />
