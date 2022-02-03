@@ -1,7 +1,7 @@
 import ENVIRONMENT from '../../env'
 export const TOGGLE_FAVORITE = 'TOGGLE_FAVORITE'
 export const SET_FILTERS = 'SET_FILTERS'
-import { insertProduct, fetchProducts, removeProduct, rateProduct } from '../../helpers/db'
+import { insertProduct, fetchProducts, removeProduct, rateProduct, addFavorite } from '../../helpers/db'
 export const ADD_PRODUCT = 'CREATE_PRODUCT'
 export const SET_PRODUCTS = 'SET_PRODUCTS'
 export const DELETE_PRODUCT = 'DELETE_PRODUCT'

@@ -6,6 +6,7 @@ import { defaultLightScreenOption, defaultDarkScreenOption } from '../defaultScr
 import { useSelector } from 'react-redux'
 
 import AdminScreen from '../../screens/products/AdminScreen'
+import AddProductScreen from '../../screens/products/AddProductScreen'
 import CustomHeaderButton from '../../components/UI/HeaderButton'
 
 
@@ -42,6 +43,10 @@ const AdminNavigator = () => {
                         )
                     }
                 }}
+            />
+            <Stack.Screen
+                name="Add Product"
+                component={AddProductScreen}
             />
         </Stack.Navigator>
     )

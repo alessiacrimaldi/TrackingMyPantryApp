@@ -34,7 +34,13 @@ const AdminScreen = ({ navigation }) => {
             <Card style={styles.card}>
                 <View style={styles.header}>
                     <MainText style={styles.total}>Total Products: <MainText style={styles.totalNumber}>{totalItems}</MainText></MainText>
-                    <CustomButton color={Colors.save} style={styles.addButton}>
+                    <CustomButton
+                        color={Colors.save}
+                        style={styles.addButton}
+                        onPress={() => {
+                            navigation.navigate('Add Product')
+                        }}
+                    >
                         <Ionicons name="ios-add-sharp" size={50} />
                     </CustomButton>
                 </View>
