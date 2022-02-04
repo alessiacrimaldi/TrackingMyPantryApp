@@ -7,15 +7,14 @@ import MainText from './MainText'
 const modeColors = mode => {
     switch (mode) {
         case 'light':
-            return {textColor: 'white', disabledColor: '#ccc', disabledTextColor: '#9A9A9C'}
+            return { textColor: 'white', disabledColor: '#ccc', disabledTextColor: '#9A9A9C' }
         case 'dark':
-            return {textColor: 'black', disabledColor: '#888', disabledTextColor: '#1C1C1E'}
+            return { textColor: 'black', disabledColor: '#888', disabledTextColor: '#1C1C1E' }
     }
 }
 
 export const CustomButton = ({ children, onPress, isDisabled, color, style }) => {
     const currentMode = useSelector(state => state.mode.theme)
-
     return (
         <TouchableOpacity activeOpacity={0.6} onPress={onPress} disabled={isDisabled}>
             <View style={{ ...styles.button, ...style, backgroundColor: isDisabled ? modeColors(currentMode).disabledColor : color }}>
@@ -23,6 +22,17 @@ export const CustomButton = ({ children, onPress, isDisabled, color, style }) =>
                     {children}
                 </MainText>
             </View>
+        </TouchableOpacity>
+    )
+}
+
+export const CustomTextButton = ({ children, onPress, isDisabled, color, style }) => {
+    const currentMode = useSelector(state => state.mode.theme)
+    return (
+        <TouchableOpacity activeOpacity={0.6} onPress={onPress} disabled={isDisabled}>
+            <MainText style={{ ...styles.buttonText, ...style, color: isDisabled ? modeColors(currentMode).disabledColor : color }}>
+                {children}
+            </MainText>
         </TouchableOpacity>
     )
 }

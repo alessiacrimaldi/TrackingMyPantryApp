@@ -2,7 +2,8 @@ import ENVIRONMENT from '../../env'
 export const TOGGLE_FAVORITE = 'TOGGLE_FAVORITE'
 export const SET_FILTERS = 'SET_FILTERS'
 import { insertProduct, fetchProducts, removeProduct, rateProduct, addFavorite } from '../../helpers/db'
-export const ADD_PRODUCT = 'CREATE_PRODUCT'
+export const GET_PRODUCT_BY_BARCODE = 'GET_PRODUCT_BY_BARCODE'
+export const ADD_PRODUCT = 'ADD_PRODUCT'
 export const SET_PRODUCTS = 'SET_PRODUCTS'
 export const DELETE_PRODUCT = 'DELETE_PRODUCT'
 export const VOTE_PRODUCT = 'VOTE_PRODUCT'
@@ -14,6 +15,10 @@ export const toggleFavorite = id => {
 
 export const setFilters = filterSettings => {
     return { type: SET_FILTERS, filters: filterSettings }
+}
+
+export const getProductByBarcode = barcode => {
+    return { type: GET_PRODUCT_BY_BARCODE, productBarcode: barcode }
 }
 
 export const addProduct = (name, description, barcode, userId, quantity, isGlutenFree, isLactoseFree, isVegan, isVegetarian, expiryDate, location) => {
@@ -45,7 +50,7 @@ export const addProduct = (name, description, barcode, userId, quantity, isGlute
                 location.lng
             )
             dispatch({
-                type: ADD_PLACE,
+                type: ADD_PRODUCT,
                 productData: {
                     id: dbResult.insertId,
                     name: name,

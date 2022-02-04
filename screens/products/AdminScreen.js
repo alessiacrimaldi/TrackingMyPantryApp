@@ -38,7 +38,7 @@ const AdminScreen = ({ navigation }) => {
                         color={Colors.save}
                         style={styles.addButton}
                         onPress={() => {
-                            navigation.navigate('Add Product')
+                            navigation.navigate('Scan Product')
                         }}
                     >
                         <Ionicons name="ios-add-sharp" size={50} />

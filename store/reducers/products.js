@@ -1,16 +1,19 @@
 import {
     TOGGLE_FAVORITE,
     SET_FILTERS,
+    GET_PRODUCT_BY_BARCODE,
+    ADD_PRODUCT,
     SET_PRODUCTS,
-    CREATE_PRODUCT,
     DELETE_PRODUCT,
     VOTE_PRODUCT
 } from '../actions/products'
 
 
 const initialState = {
+    pickedProduct: {},
     userProducts: [],
     userFavoriteProducts: [],
+    filters: {},
     filteredProducts: []
 }
 
@@ -57,7 +60,11 @@ const productsReducer = (state = initialState, action) => {
             if (appliedFilters.sortByRating) {
                 updatedFilteredProducts.sort((a, b) => b.rating - a.rating)
             }
-            return { ...state, filteredProducts: updatedFilteredProducts }
+            return {
+                ...state,
+                filters: appliedFilters,
+                filteredProducts: updatedFilteredProducts
+            }
 
         default:
             return state
