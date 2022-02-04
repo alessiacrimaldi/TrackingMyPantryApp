@@ -157,11 +157,18 @@ const AuthScreen = () => {
                             <CustomButton
                                 style={{ width: 94, alignItems: 'center' }}
                                 color={Colors.secondary}
+                                isDisabled={
+                                    isRegisterMode && !formState.formIsValid
+                                        ? true
+                                        : false
+                                }
                                 onPress={authHandler}
                             >
                                 {isLoading
                                     ? (
-                                        <ActivityIndicator size='small' color={Colors.details} />
+                                        <View style={Platform.OS === 'ios' && { paddingLeft: 35 }}>
+                                            <ActivityIndicator style={{ alignSelf: 'center' }} size='small' color={Colors.details} />
+                                        </View>
                                     )
                                     : (
                                         isRegisterMode ? 'Sign Up' : 'Login'
@@ -171,7 +178,7 @@ const AuthScreen = () => {
                         </View>
                         <View style={styles.buttonContainer}>
                             <CustomButton
-                                style={{ width: 170 }}
+                                style={{ width: 170, alignItems: 'center' }}
                                 color={Colors.ternary}
                                 onPress={() => {
                                     setIsSignup(prevState => !prevState)

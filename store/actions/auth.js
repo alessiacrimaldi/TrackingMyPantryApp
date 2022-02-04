@@ -32,7 +32,7 @@ export const register = (username, email, password) => {
             }
         )
         if (!responseRegister.ok) {
-            throw new Error('Please check your credentials')
+            throw new Error('This email exists already')
         }
         const resRegisterData = await responseRegister.json()
 
@@ -50,7 +50,7 @@ export const register = (username, email, password) => {
             }
         )
         if (!responseLogin.ok) {
-            throw new Error('Please check your credentials')
+            throw new Error('This email exists already')
         }
         const resLoginData = await responseLogin.json()
 
