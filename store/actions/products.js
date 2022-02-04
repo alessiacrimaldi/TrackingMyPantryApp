@@ -17,8 +17,35 @@ export const setFilters = filterSettings => {
     return { type: SET_FILTERS, filters: filterSettings }
 }
 
-export const getProductByBarcode = barcode => {
-    return { type: GET_PRODUCT_BY_BARCODE, productBarcode: barcode }
+export const getProductByBarcode = (barcode, user) => {
+    return async dispatch => {
+        try {
+            const response = await fetch(
+                `https://lam21.iot-prism-lab.cs.unibo.it/products?barcode=${barcode}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${user}`
+                    }
+                }
+            )
+            const resData = await response.json()
+            let newProduct
+            let mode
+            if (resData.products.length === 0) {
+                newProduct = {}
+                mode = 'create'
+            } else {
+                newProduct = resData.products[(resData.products.length) - 1]
+                mode = 'update'
+            }
+            dispatch({ type: GET_PRODUCT_BY_BARCODE, product: newProduct })
+            return mode
+        } catch (err) {
+            throw err
+        }
+    }
 }
 
 export const addProduct = (name, description, barcode, userId, quantity, isGlutenFree, isLactoseFree, isVegan, isVegetarian, expiryDate, location) => {
@@ -71,7 +98,6 @@ export const addProduct = (name, description, barcode, userId, quantity, isGlute
                 }
             })
         } catch (err) {
-            console.log(err)
             throw err
         }
     }
@@ -83,7 +109,6 @@ export const loadProducts = (userId) => {
             const dbResult = await fetchProducts(userId)
             dispatch({ type: SET_PRODUCTS, userProducts: dbResult.rows._array })
         } catch (err) {
-            console.log(err)
             throw err
         }
     }
@@ -95,7 +120,6 @@ export const deleteProduct = (id) => {
             await removeProduct(id)
             dispatch({ type: DELETE_PRODUCT, productId: id })
         } catch (err) {
-            console.log(err)
             throw err
         }
     }
@@ -107,7 +131,6 @@ export const voteProduct = (id, rating) => {
             await rateProduct(id, rating)
             dispatch({ type: VOTE_PRODUCT, productId: id, productRating: rating })
         } catch (err) {
-            console.log(err)
             throw err
         }
     }

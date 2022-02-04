@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
-import { StyleSheet, View, TextInput, TouchableWithoutFeedback } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { StyleSheet, View, TextInput, TouchableWithoutFeedback, ActivityIndicator, Alert } from 'react-native'
 import { FontAwesome5, Entypo } from '@expo/vector-icons'
 import { Keyboard } from 'react-native'
-import { useSelector } from 'react-redux'
-import { CustomTextButton } from '../../components/UI/Buttons'
+import { useSelector, useDispatch } from 'react-redux'
+import { getProductByBarcode } from '../../store/actions/products'
+import { CustomButton, CustomTextButton } from '../../components/UI/Buttons'
+import Colors from '../../constants/Colors'
 import DefaultText from '../../components/UI/DefaultText'
 import BarCodeScan from '../../components/products/BarCodeScanner'
 
@@ -19,38 +21,55 @@ const modeColors = mode => {
 
 const ScanProductScreen = () => {
     const currentMode = useSelector(state => state.mode.theme)
+    const user = useSelector(state => state.auth.token)
+    const dispatch = useDispatch()
+    const [productMode, setProductMode] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState(null)
     const [isScanning, setIsScanning] = useState(false)
     const [barcode, setBarcode] = useState('')
     const [barcodeTaken, setBarcodeTaken] = useState('')
 
-    /* per vedere se l'oggetto è vuoto */
-    // const pickedProduct = useSelector(state => state.products.pickedProduct)
-    // (if Object.values(pickedProduct).length === 0)
+    useEffect(() => {
+        if (error) {
+            Alert.alert('Something went wrong!', error, [{ text: 'Okay' }])
+        }
+    }, [error])
 
-    return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={styles.screen}>
-                <DefaultText style={styles.title}>Scan or Insert the product barcode</DefaultText>
-                <FontAwesome5 name="barcode" size={180} color={modeColors(currentMode).textColor} />
+    const searchProduct = async () => {
+        setError(null)
+        setIsLoading(true)
+        try {
+            const mode = await dispatch(getProductByBarcode(barcodeTaken, user))
+            setProductMode(mode)
+        } catch (err) {
+            setError(err.message)
+        }
+        setIsLoading(false)
+    }
 
+    let content
+    if (barcodeTaken === '') {
+        content = (
+            <View style={{ alignItems: 'center' }}>
                 <TextInput
                     style={{ ...styles.input, borderBottomColor: modeColors(currentMode).color, color: modeColors(currentMode).textColor }}
                     value={barcode}
                     onChangeText={code => setBarcode(code)}
-                    placeholder="Insert barcode"
+                    placeholder="INSERT BARCODE"
                     placeholderTextColor={modeColors(currentMode).color}
-                    keyboardType='decimal-pad'
+                    keyboardType='numeric'
                 />
-                <View style={styles.button}>
+                <View style={styles.OKbtn}>
                     <CustomTextButton
                         color={modeColors(currentMode).textColor}
                         style={{ fontSize: 17 }}
                         isDisabled={barcode.length !== 13 ? true : false}
                         onPress={() => setBarcodeTaken(barcode)}
-                    >OK
+                    >
+                        OK
                     </CustomTextButton>
                 </View>
-
                 <View style={{ ...styles.scan, borderColor: modeColors(currentMode).color }}>
                     {!isScanning &&
                         <Entypo
@@ -63,6 +82,40 @@ const ScanProductScreen = () => {
                     {isScanning && <BarCodeScan onBarcodeTaken={setBarcodeTaken} />}
                 </View>
             </View>
+        )
+    } else {
+        content = (
+            <View>
+                <DefaultText style={{ fontSize: 18, letterSpacing: 4 }}>
+                    {barcodeTaken}
+                </DefaultText>
+                <View style={styles.searchBtnContainer}>
+                    {isLoading
+                        ? <ActivityIndicator style={{ alignSelf: 'center' }} size='large' color={Colors.details} />
+                        : !productMode && (
+                            <CustomButton
+                                color={Colors.secondary}
+                                style={styles.searchBtn}
+                                onPress={searchProduct}
+                            >
+                                SEARCH
+                            </CustomButton>
+                        )
+                    }
+                </View>
+            </View >
+        )
+    }
+
+    return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.screen}>
+                <DefaultText style={styles.title}>
+                    {barcodeTaken === '' ? 'Scan or Insert the product barcode' : 'Your product'}
+                </DefaultText>
+                <FontAwesome5 name="barcode" size={180} color={modeColors(currentMode).textColor} />
+                {content}
+            </View>
         </TouchableWithoutFeedback>
     )
 }
@@ -73,24 +126,38 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     title: {
-        fontSize: 20
+        fontSize: 22
     },
     input: {
         width: 180,
         paddingBottom: 3,
         borderBottomWidth: 1,
+        textAlign: 'center',
         fontSize: 17
     },
-    button: {
+    OKbtn: {
         marginTop: 15
     },
     scan: {
-        width: '80%',
+        width: 300,
         height: 200,
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
         marginTop: 30
+    },
+    searchBtnContainer: {
+        alignItems: 'center',
+        marginTop: 90
+    },
+    searchBtn: {
+        width: 90,
+        alignItems: 'center',
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.26,
+        shadowRadius: 6,
+        elevation: 8
     }
 })
 

@@ -66,6 +66,10 @@ const productsReducer = (state = initialState, action) => {
                 filteredProducts: updatedFilteredProducts
             }
 
+        case GET_PRODUCT_BY_BARCODE:
+            const newProduct = action.product
+            return { ...state, pickedProduct: newProduct }
+
         default:
             return state
     }
