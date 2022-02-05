@@ -1,12 +1,11 @@
 import ENVIRONMENT from '../../env'
 export const TOGGLE_FAVORITE = 'TOGGLE_FAVORITE'
 export const SET_FILTERS = 'SET_FILTERS'
-import { insertProduct, fetchProducts, removeProduct, rateProduct, addFavorite } from '../../helpers/db'
+import { insertProduct, fetchProducts, removeProduct, addFavorite } from '../../helpers/db'
 export const GET_PRODUCT_BY_BARCODE = 'GET_PRODUCT_BY_BARCODE'
 export const ADD_PRODUCT = 'ADD_PRODUCT'
 export const SET_PRODUCTS = 'SET_PRODUCTS'
 export const DELETE_PRODUCT = 'DELETE_PRODUCT'
-export const VOTE_PRODUCT = 'VOTE_PRODUCT'
 
 
 export const toggleFavorite = id => {
@@ -48,7 +47,15 @@ export const getProductByBarcode = (barcode, user) => {
     }
 }
 
-export const addLocalProduct = (name, description, barcode, userId, quantity, isGlutenFree, isLactoseFree, isVegan, isVegetarian, expiryDate, location) => {
+export const addLocalProduct = (id, name, description, barcode, userId, quantity, isGlutenFree, isLactoseFree, isVegan, isVegetarian, expiryDate, location, rating) => {
+
+}
+
+export const addRemoteAndLocalProduct = (name, description, barcode, userId, quantity, isGlutenFree, isLactoseFree, isVegan, isVegetarian, expiryDate, location, rating) => {
+
+}
+
+export const addProduct = (id, name, description, barcode, userId, quantity, isGlutenFree, isLactoseFree, isVegan, isVegetarian, expiryDate, location, rating) => {
     return async dispatch => {
         const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.lat},${location.lng}&key=${ENVIRONMENT.googleApiKey}`)
         if (!response.ok) {
@@ -103,10 +110,24 @@ export const addLocalProduct = (name, description, barcode, userId, quantity, is
     }
 }
 
-
-
-
-
+const pickSessionToken = async (barcode, user) => {
+    try {
+        const response = await fetch(
+            `https://lam21.iot-prism-lab.cs.unibo.it/products?barcode=${barcode}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user}`
+                }
+            }
+        )
+        const resData = await response.json()
+        return resData.token
+    } catch (err) {
+        throw err
+    }
+}
 
 export const loadProducts = (userId) => {
     return async dispatch => {

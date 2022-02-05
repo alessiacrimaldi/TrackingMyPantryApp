@@ -43,9 +43,10 @@ const formReducer = (state, action) => {
 }
 
 const AuthScreen = () => {
-    const [isRegisterMode, setIsSignup] = useState(false)  // initially in login mode
+    const [isRegisterMode, setIsSignup] = useState(false)  // initially in Login mode
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
+
     const dispatch = useDispatch()
 
     const [formState, dispatchFormState] = useReducer(formReducer, {
@@ -171,7 +172,7 @@ const AuthScreen = () => {
                                         </View>
                                     )
                                     : (
-                                        isRegisterMode ? 'Sign Up' : 'Login'
+                                        isRegisterMode ? 'Register' : 'Login'
                                     )
                                 }
                             </CustomButton>
@@ -184,7 +185,7 @@ const AuthScreen = () => {
                                     setIsSignup(prevState => !prevState)
                                 }}
                             >
-                                {`Switch to ${isRegisterMode ? 'Login' : 'Sign Up'}`}
+                                {`Switch to ${isRegisterMode ? 'Login' : 'Register'}`}
                             </CustomButton>
                         </View>
                     </ScrollView>

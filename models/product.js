@@ -34,7 +34,6 @@ class Product {
         this.address = address
         this.lat = lat
         this.lng = lng
-
         this.rating = rating
     }
 
