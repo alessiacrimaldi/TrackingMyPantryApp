@@ -5,7 +5,7 @@ import { CustomButton } from '../UI/Buttons'
 import Colors from '../../constants/Colors'
 
 
-const RNCalendar = ({ onShowCalendar, setShowCalendar, onDateChosen }) => {
+const DatePicker = ({ onShowCalendar, setShowCalendar, onDateChosen }) => {
     return (
         <View style={styles.centered}>
             <Modal
@@ -56,4 +56,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default RNCalendar
+export default DatePicker

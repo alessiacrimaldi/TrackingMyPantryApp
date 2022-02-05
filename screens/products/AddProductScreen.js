@@ -11,7 +11,7 @@ import Input from '../../components/user/Input'
 import MainText from '../../components/UI/MainText'
 import DefaultText from '../../components/UI/DefaultText'
 import CustomSwitch from '../../components/UI/Switch'
-import RNCalendar from '../../components/products/RNCalendar'
+import DatePicker from '../../components/products/DatePicker'
 
 
 const modeColors = mode => {
@@ -210,7 +210,7 @@ const AddProductScreen = ({ navigation, route }) => {
                                 />
                             </View>
                             {showModal &&
-                                <RNCalendar
+                                <DatePicker
                                     onShowCalendar={showModal}
                                     setShowCalendar={setShowModal}
                                     onDateChosen={setExpiryDate}
