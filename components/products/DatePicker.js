@@ -23,14 +23,14 @@ const DatePicker = ({ onShowCalendar, setShowCalendar, onDateChosen }) => {
                         <View style={styles.actions}>
                             <CustomButton
                                 color={Colors.primary}
-                                style={{ width: 80, alignItems: 'center', fontSize: 13 }}
+                                style={styles.button}
                                 onPress={() => setShowCalendar(!onShowCalendar)}
                             >
                                 Cancel
                             </CustomButton>
                             <CustomButton
                                 color={Colors.save}
-                                style={{ width: 80, alignItems: 'center', fontSize: 13 }}
+                                style={styles.button}
                                 isDisabled={!value ? true : false}
                                 onPress={() => {
                                     onDateChosen(value)
@@ -70,6 +70,11 @@ const styles = StyleSheet.create({
         width: '45%',
         flexDirection: 'row',
         justifyContent: 'space-around'
+    },
+    button: {
+        width: 80,
+        alignItems: 'center',
+        fontSize: 13 
     }
 })
 
