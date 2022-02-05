@@ -1,15 +1,27 @@
 import React, { useState, useEffect, useReducer, useCallback } from 'react'
-import { StyleSheet, View, ScrollView, KeyboardAvoidingView, TouchableWithoutFeedback, Alert } from 'react-native'
+import { StyleSheet, View, ScrollView, KeyboardAvoidingView, TouchableWithoutFeedback, Alert, ActivityIndicator } from 'react-native'
 import { Keyboard } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
+import { AntDesign } from '@expo/vector-icons'
 import { CustomButton } from '../../components/UI/Buttons'
 import * as productsActions from '../../store/actions/products'
 import Colors from '../../constants/Colors'
 import Card from '../../components/UI/Card'
 import Input from '../../components/user/Input'
 import MainText from '../../components/UI/MainText'
+import DefaultText from '../../components/UI/DefaultText'
 import CustomSwitch from '../../components/UI/Switch'
+import RNCalendar from '../../components/products/RNCalendar'
 
+
+const modeColors = mode => {
+    switch (mode) {
+        case 'light':
+            return { linesColor: '#ccc', textColor: 'black' }
+        case 'dark':
+            return { linesColor: '#888', textColor: 'white' }
+    }
+}
 
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE'
 
@@ -37,6 +49,7 @@ const formReducer = (state, action) => {
 }
 
 const AddProductScreen = ({ navigation, route }) => {
+    const currentMode = useSelector(state => state.mode.theme)
     const productMode = route.params.mode
     const productBarcode = route.params.barcode
     const userId = useSelector(state => state.auth.userId)
@@ -45,7 +58,8 @@ const AddProductScreen = ({ navigation, route }) => {
     const [isLactoseFree, setIsLactoseFree] = useState(false)
     const [isVegan, setIsVegan] = useState(false)
     const [isVegetarian, setIsVegetarian] = useState(false)
-    const [expiryDate, setExpiryDate] = useState(null)
+    const [showModal, setShowModal] = useState(false)
+    const [expiryDate, setExpiryDate] = useState()
     const [selectedLocation, setSelectedLocation] = useState()
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
@@ -75,44 +89,36 @@ const AddProductScreen = ({ navigation, route }) => {
         }
     }, [error])
 
+    let product
     const saveProductHandler = useCallback(async () => {
         setError(null)
         setIsLoading(true)
+        product = {
+            name: formState.inputValues.name,
+            description: formState.inputValues.description,
+            barcode: productBarcode,
+            userId: userId,
+            quantity: formState.inputValues.quantity,
+            glutenFree: isGlutenFree,
+            lactoseFree: isLactoseFree,
+            vegan: isVegan,
+            vegetarian: isVegetarian,
+            expiryDate: expiryDate ? new Date(expiryDate) : null,
+            location: selectedLocation,
+            rating: formState.inputValues.rating
+        }
         try {
             if (productMode === 'update') {
+                product = {
+                    id: pickedProduct.id,
+                    ...product
+                }
                 await dispatch(
-                    productsActions.addLocalProduct(
-                        pickedProduct.productId,
-                        formState.inputValues.name,
-                        formState.inputValues.description,
-                        productBarcode,
-                        userId,
-                        formState.inputValues.quantity,
-                        isGlutenFree,
-                        isLactoseFree,
-                        isVegan,
-                        isVegetarian,
-                        expiryDate,
-                        selectedLocation,
-                        formState.inputValues.rating
-                    )
+                    productsActions.addLocalProduct(product)
                 )
             } else if (productMode === 'create') {
                 await dispatch(
-                    productsActions.addRemoteAndLocalProduct(
-                        formState.inputValues.name,
-                        formState.inputValues.description,
-                        productBarcode,
-                        userId,
-                        formState.inputValues.quantity,
-                        isGlutenFree,
-                        isLactoseFree,
-                        isVegan,
-                        isVegetarian,
-                        expiryDate,
-                        selectedLocation,
-                        formState.inputValues.rating
-                    )
+                    productsActions.addLocalProduct(product)
                 )
             }
             navigation.navigate('Manage Products')
@@ -193,7 +199,23 @@ const AddProductScreen = ({ navigation, route }) => {
                             />
                         </Card>
                         <Card style={styles.cardInput}>
-
+                            <MainText style={styles.label}>Expiry Date</MainText>
+                            <View style={{ ...styles.input, borderBottomColor: modeColors(currentMode).linesColor, color: modeColors(currentMode).textColor }}>
+                                <DefaultText>{expiryDate}</DefaultText>
+                                <AntDesign
+                                    name="calendar"
+                                    size={24}
+                                    color={Colors.details}
+                                    onPress={() => setShowModal(true)}
+                                />
+                            </View>
+                            {showModal &&
+                                <RNCalendar
+                                    onShowCalendar={showModal}
+                                    setShowCalendar={setShowModal}
+                                    onDateChosen={setExpiryDate}
+                                />
+                            }
                         </Card>
                         <Card style={styles.cardInput}>
                             <View style={styles.properties}>
@@ -272,6 +294,13 @@ const styles = StyleSheet.create({
     },
     label: {
         marginVertical: 8
+    },
+    input: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 2,
+        paddingBottom: 5,
+        borderBottomWidth: 1
     },
     properties: {
         marginHorizontal: 25

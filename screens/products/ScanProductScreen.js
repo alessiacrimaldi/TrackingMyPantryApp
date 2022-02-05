@@ -72,7 +72,7 @@ const ScanProductScreen = ({ navigation }) => {
                 <MainText>
                     {productMode === 'update'
                         ? 'PRODUCT FOUND'
-                        : 'NO PRODUCT FOUND'
+                        : 'PRODUCT NOT FOUND'
                     }
                 </MainText>
                 <DefaultText>

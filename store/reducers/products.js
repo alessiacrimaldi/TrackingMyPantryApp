@@ -4,8 +4,7 @@ import {
     GET_PRODUCT_BY_BARCODE,
     ADD_PRODUCT,
     SET_PRODUCTS,
-    DELETE_PRODUCT,
-    VOTE_PRODUCT
+    DELETE_PRODUCT
 } from '../actions/products'
 
 

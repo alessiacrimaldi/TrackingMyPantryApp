@@ -47,12 +47,26 @@ export const getProductByBarcode = (barcode, user) => {
     }
 }
 
-export const addLocalProduct = (id, name, description, barcode, userId, quantity, isGlutenFree, isLactoseFree, isVegan, isVegetarian, expiryDate, location, rating) => {
-
+export const addLocalProduct = (product) => {
+    console.log(product)
+    return async dispatch => {
+        try {
+            dispatch({ type: ADD_PRODUCT })
+        } catch (err) {
+            throw err
+        }
+    }
 }
 
-export const addRemoteAndLocalProduct = (name, description, barcode, userId, quantity, isGlutenFree, isLactoseFree, isVegan, isVegetarian, expiryDate, location, rating) => {
-
+export const addRemoteAndLocalProduct = (product) => {
+    console.log(product)
+    return async dispatch => {
+        try {
+            dispatch({ type: ADD_PRODUCT })
+        } catch (err) {
+            throw err
+        }
+    }
 }
 
 export const addProduct = (id, name, description, barcode, userId, quantity, isGlutenFree, isLactoseFree, isVegan, isVegetarian, expiryDate, location, rating) => {
@@ -150,14 +164,3 @@ export const deleteProduct = (id) => {
         }
     }
 }
-
-// export const voteProduct = (id, rating) => {
-//     return async dispatch => {
-//         try {
-//             await rateProduct(id, rating)
-//             dispatch({ type: VOTE_PRODUCT, productId: id, productRating: rating })
-//         } catch (err) {
-//             throw err
-//         }
-//     }
-// }
