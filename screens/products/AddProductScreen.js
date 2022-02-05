@@ -147,7 +147,7 @@ const AddProductScreen = ({ navigation, route }) => {
             behavior={Platform.OS === 'ios' && 'padding'}
             keyboardVerticalOffset={Platform.OS === 'ios' && 50}
         >
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <View style={styles.form}>
                         <Card style={styles.cardInput}>

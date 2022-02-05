@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { StyleSheet, View, FlatList, Alert, ActivityIndicator } from 'react-native'
+import React from 'react'
+import { StyleSheet, View, FlatList } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { useSelector, useDispatch } from 'react-redux'
 import DefaultText from '../../components/UI/DefaultText'
