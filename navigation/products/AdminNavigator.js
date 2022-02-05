@@ -48,7 +48,6 @@ const AdminNavigator = () => {
             <Stack.Screen
                 name="Scan Product"
                 component={ScanProductScreen}
-                options={{ title: 'Add Product' }}
             />
             <Stack.Screen
                 name="Add Product"

@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getProductByBarcode } from '../../store/actions/products'
 import { CustomButton, CustomTextButton } from '../../components/UI/Buttons'
 import Colors from '../../constants/Colors'
+import MainText from '../../components/UI/MainText'
 import DefaultText from '../../components/UI/DefaultText'
 import BarCodeScan from '../../components/products/BarCodeScanner'
 
@@ -19,16 +20,17 @@ const modeColors = mode => {
     }
 }
 
-const ScanProductScreen = () => {
+const ScanProductScreen = ({ navigation }) => {
     const currentMode = useSelector(state => state.mode.theme)
     const user = useSelector(state => state.auth.token)
-    const dispatch = useDispatch()
     const [productMode, setProductMode] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
     const [isScanning, setIsScanning] = useState(false)
     const [barcode, setBarcode] = useState('')
     const [barcodeTaken, setBarcodeTaken] = useState('')
+
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if (error) {
@@ -46,6 +48,55 @@ const ScanProductScreen = () => {
             setError(err.message)
         }
         setIsLoading(false)
+    }
+
+    let conditionalMode
+    if (!productMode) {
+        conditionalMode = (
+            <View>
+                {isLoading
+                    ? <ActivityIndicator style={{ alignSelf: 'center' }} size='large' color={Colors.details} />
+                    : <CustomButton
+                        color={Colors.secondary}
+                        style={styles.searchBtn}
+                        onPress={searchProduct}
+                    >
+                        SEARCH
+                    </CustomButton>
+                }
+            </View>
+        )
+    } else {
+        conditionalMode = (
+            <View style={{ alignItems: 'center' }}>
+                <MainText>
+                    {productMode === 'update'
+                        ? 'PRODUCT FOUND'
+                        : 'NO PRODUCT FOUND'
+                    }
+                </MainText>
+                <DefaultText>
+                    {productMode === 'update'
+                        ? 'A product matches with your search!'
+                        : 'No product matches with your search...'
+                    }
+                </DefaultText>
+                <View style={styles.buttonContainer}>
+                    <CustomButton
+                        color={Colors.secondary}
+                        style={styles.button}
+                        onPress={() => {
+                            navigation.navigate('Add Product', {barcode: barcodeTaken, mode: productMode})
+                        }}
+                    >
+                        {productMode === 'update'
+                            ? 'Update Product'
+                            : 'Create Product'
+                        }
+                    </CustomButton>
+                </View>
+            </View>
+        )
     }
 
     let content
@@ -85,23 +136,12 @@ const ScanProductScreen = () => {
         )
     } else {
         content = (
-            <View>
+            <View style={{ alignItems: 'center' }}>
                 <DefaultText style={{ fontSize: 18, letterSpacing: 4 }}>
                     {barcodeTaken}
                 </DefaultText>
                 <View style={styles.searchBtnContainer}>
-                    {isLoading
-                        ? <ActivityIndicator style={{ alignSelf: 'center' }} size='large' color={Colors.details} />
-                        : !productMode && (
-                            <CustomButton
-                                color={Colors.secondary}
-                                style={styles.searchBtn}
-                                onPress={searchProduct}
-                            >
-                                SEARCH
-                            </CustomButton>
-                        )
-                    }
+                    {conditionalMode}
                 </View>
             </View >
         )
@@ -152,6 +192,19 @@ const styles = StyleSheet.create({
     },
     searchBtn: {
         width: 90,
+        alignItems: 'center',
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.26,
+        shadowRadius: 6,
+        elevation: 8
+    },
+    buttonContainer: {
+        alignItems: 'center',
+        marginTop: 50
+    },
+    button: {
+        width: 145,
         alignItems: 'center',
         shadowColor: 'black',
         shadowOffset: { width: 0, height: 2 },

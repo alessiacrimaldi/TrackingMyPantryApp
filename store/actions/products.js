@@ -48,7 +48,7 @@ export const getProductByBarcode = (barcode, user) => {
     }
 }
 
-export const addProduct = (name, description, barcode, userId, quantity, isGlutenFree, isLactoseFree, isVegan, isVegetarian, expiryDate, location) => {
+export const addLocalProduct = (name, description, barcode, userId, quantity, isGlutenFree, isLactoseFree, isVegan, isVegetarian, expiryDate, location) => {
     return async dispatch => {
         const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.lat},${location.lng}&key=${ENVIRONMENT.googleApiKey}`)
         if (!response.ok) {
@@ -103,6 +103,11 @@ export const addProduct = (name, description, barcode, userId, quantity, isGlute
     }
 }
 
+
+
+
+
+
 export const loadProducts = (userId) => {
     return async dispatch => {
         try {
@@ -125,13 +130,13 @@ export const deleteProduct = (id) => {
     }
 }
 
-export const voteProduct = (id, rating) => {
-    return async dispatch => {
-        try {
-            await rateProduct(id, rating)
-            dispatch({ type: VOTE_PRODUCT, productId: id, productRating: rating })
-        } catch (err) {
-            throw err
-        }
-    }
-}
+// export const voteProduct = (id, rating) => {
+//     return async dispatch => {
+//         try {
+//             await rateProduct(id, rating)
+//             dispatch({ type: VOTE_PRODUCT, productId: id, productRating: rating })
+//         } catch (err) {
+//             throw err
+//         }
+//     }
+// }
