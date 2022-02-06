@@ -21,12 +21,12 @@ export const init = () => {
     return promise
 }
 
-export const insertProduct = (name, description, barcode, userId, quantity, isGlutenFree, isLactoseFree, isVegan, isVegetarian, expiryDate, address, lat, lng, rating) => {
+export const insertProduct = (name, description, barcode, userId, quantity, isGlutenFree, isLactoseFree, isVegan, isVegetarian, expiryDate, address, lat = null, lng = null, rating, favorite) => {
     const promise = new Promise((resolve, reject) =>
         db.transaction((tx) => {
             tx.executeSql(
-                `INSERT INTO products (name, description, barcode, userId, quantity, isGlutenFree, isLactoseFree, isVegan, isVegetarian, expiryDate, address, lat, lng, rating, favorite) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, false)`,  // we do this to avoid SQL injection!
-                [name, description, barcode, userId, quantity, isGlutenFree, isLactoseFree, isVegan, isVegetarian, expiryDate, address, lat, lng, rating],
+                `INSERT INTO products (name, description, barcode, userId, quantity, isGlutenFree, isLactoseFree, isVegan, isVegetarian, expiryDate, address, lat, lng, rating, favorite) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,  // we do this to avoid SQL injection!
+                [name, description, barcode, userId, quantity, isGlutenFree, isLactoseFree, isVegan, isVegetarian, expiryDate, address, lat, lng, rating, favorite],
                 (_, result) => {
                     resolve(result)
                 },
@@ -75,6 +75,24 @@ export const fetchFavorites = () => {
     return promise
 }
 
+export const addFavorite = (id) => {
+    const promise = new Promise((resolve, reject) =>
+        db.transaction((tx) => {
+            tx.executeSql(
+                `UPDATE products SET favorite = true WHERE id = ?`,
+                [id],
+                (_, result) => {
+                    resolve(result)
+                },
+                (_, err) => {
+                    reject(err)
+                }
+            )
+        })
+    )
+    return promise
+}
+
 export const removeProduct = (id) => {
     const promise = new Promise((resolve, reject) =>
         db.transaction((tx) => {
@@ -93,20 +111,20 @@ export const removeProduct = (id) => {
     return promise
 }
 
-export const addFavorite = (id) => {
-    const promise = new Promise((resolve, reject) =>
-        db.transaction((tx) => {
-            tx.executeSql(
-                `UPDATE products SET favorite = true WHERE id = ?`,
-                [id],
-                (_, result) => {
-                    resolve(result)
-                },
-                (_, err) => {
-                    reject(err)
-                }
-            )
-        })
-    )
-    return promise
-}
+
+// export const destroy = () =>
+//     new Promise((resolve, reject) => {
+//         db.transaction((tx) => {
+//             tx.executeSql(
+//                 "DROP TABLE products",
+//                 [],
+//                 () => {
+//                     resolve(true);
+//                 },
+//                 (_, err) => {
+//                     reject(err);
+//                     return true;
+//                 }
+//             )
+//         })
+//     })

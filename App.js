@@ -15,11 +15,12 @@ import authReducer from './store/reducers/auth'
 import productsReducer from './store/reducers/products'
 
 import { enableScreens } from 'react-native-screens'
-import { init } from './helpers/db'
+import { init, destroy } from './helpers/db'
 
 
 enableScreens()
 
+// destroy()
 init()
   .then(() => {
     console.log('Initialized database')

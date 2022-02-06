@@ -22,7 +22,6 @@ const modeColors = mode => {
 
 const ScanProductScreen = ({ navigation }) => {
     const currentMode = useSelector(state => state.mode.theme)
-    const user = useSelector(state => state.auth.token)
     const [productMode, setProductMode] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
@@ -42,7 +41,7 @@ const ScanProductScreen = ({ navigation }) => {
         setError(null)
         setIsLoading(true)
         try {
-            const mode = await dispatch(getProductByBarcode(barcodeTaken, user))
+            const mode = await dispatch(getProductByBarcode(barcodeTaken))
             setProductMode(mode)
         } catch (err) {
             setError(err.message)

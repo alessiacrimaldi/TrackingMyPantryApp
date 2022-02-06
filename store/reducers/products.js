@@ -1,3 +1,4 @@
+import Product from '../../models/product'
 import {
     GET_PRODUCT_BY_BARCODE,
     ADD_PRODUCT,
@@ -27,6 +28,29 @@ const productsReducer = (state = initialState, action) => {
                 ...state,
                 pickedProduct: newProduct,
                 sessionToken: newToken
+            }
+
+        case ADD_PRODUCT:
+            const product = new Product(
+                action.productData.id.toString(),
+                action.productData.name,
+                action.productData.description,
+                action.productData.barcode,
+                action.productData.userId,
+                action.productData.quantity,
+                action.productData.isGlutenFree,
+                action.productData.isLactoseFree,
+                action.productData.isVegan,
+                action.productData.isVegetarian,
+                action.productData.expiryDate,
+                action.productData.address,
+                action.productData.coords.lat,
+                action.productData.coords.lng,
+                action.productData.rating
+            )
+            return {
+                ...state,
+                userProducts: state.userProducts.concat(product)
             }
 
         case TOGGLE_FAVORITE:

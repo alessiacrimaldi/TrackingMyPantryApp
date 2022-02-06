@@ -8,16 +8,18 @@ export const SET_FILTERS = 'SET_FILTERS'
 export const DELETE_PRODUCT = 'DELETE_PRODUCT'
 
 
-export const getProductByBarcode = (barcode, user) => {
-    return async dispatch => {
+export const getProductByBarcode = (barcode) => {
+    return async (dispatch, getState) => {
+        const accessToken = getState().auth.token
         try {
+            /* GET PRODUCTS BY BARCODE */
             const response = await fetch(
                 `https://lam21.iot-prism-lab.cs.unibo.it/products?barcode=${barcode}`,
                 {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${user}`
+                        'Authorization': `Bearer ${accessToken}`
                     }
                 }
             )
@@ -41,12 +43,48 @@ export const getProductByBarcode = (barcode, user) => {
 }
 
 export const addLocalProduct = (product) => {
-    console.log(product)
     return async (dispatch, getState) => {
         const accessToken = getState().auth.token
         const sessionToken = getState().products.sessionToken
         try {
-            dispatch(addProduct())
+            /* POST PRODUCT PREFERENCE */
+            const response = await fetch(
+                'https://lam21.iot-prism-lab.cs.unibo.it/votes',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`
+                    },
+                    body: JSON.stringify({
+                        token: sessionToken,
+                        rating: +product.rating,
+                        productId: product.id
+                    })
+                }
+            )
+            const resData = await response.json()
+            if (!response.ok) {
+                console.log('YOU HAVE ALREADY RELEASED A RATING FOR THIS PRODUCT!')
+                console.log(resData)
+            } else {
+                console.log('THANKS! YOUR VOTE HAS BEEN RELEASED!')
+                console.log(resData)
+            }
+
+            dispatch(addProduct(
+                product.name,
+                product.description,
+                product.barcode,
+                product.quantity,
+                product.glutenFree,
+                product.lactoseFree,
+                product.vegan,
+                product.vegetarian,
+                product.expiryDate,
+                product.location,
+                product.rating
+            ))
         } catch (err) {
             throw err
         }
@@ -54,12 +92,45 @@ export const addLocalProduct = (product) => {
 }
 
 export const addRemoteAndLocalProduct = (product) => {
-    console.log(product)
     return async (dispatch, getState) => {
         const accessToken = getState().auth.token
         const sessionToken = getState().products.sessionToken
         try {
-            dispatch(addProduct())
+            /* POST PRODUCT DETAILS */
+            const response = await fetch(
+                'https://lam21.iot-prism-lab.cs.unibo.it/products',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`
+                    },
+                    body: JSON.stringify({
+                        token: sessionToken,
+                        name: product.name,
+                        description: product.description,
+                        barcode: product.barcode,
+                        test: false
+                    })
+                }
+            )
+            const resData = await response.json()
+            console.log('THE FOLLOWING PRODUCT HAS BEEN POSTED ON THE REMOTE KNOWLEDGE BASE:')
+            console.log(resData)
+
+            dispatch(addProduct(
+                product.name,
+                product.description,
+                product.barcode,
+                product.quantity,
+                product.glutenFree,
+                product.lactoseFree,
+                product.vegan,
+                product.vegetarian,
+                product.expiryDate,
+                product.location,
+                product.rating
+            ))
         } catch (err) {
             throw err
         }
@@ -70,15 +141,18 @@ const addProduct = (name, description, barcode, quantity, isGlutenFree, isLactos
     return async (dispatch, getState) => {
         const userId = getState().auth.userId
 
-        const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.lat},${location.lng}&key=${ENVIRONMENT.googleApiKey}`)
-        if (!response.ok) {
-            throw new Error('Something went wrong!')
+        let address
+        if (location) {
+            const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.lat},${location.lng}&key=${ENVIRONMENT.googleApiKey}`)
+            if (!response.ok) {
+                throw new Error('Something went wrong!')
+            }
+            const resData = await response.json()
+            if (!resData.results) {
+                throw new Error('No result!')
+            }
+            address = resData.results[0].formatted_address
         }
-        const resData = await response.json()
-        if (!resData.results) {
-            throw new Error('No result!')
-        }
-        const address = resData.results[0].formatted_address
 
         try {
             const dbResult = await insertProduct(
@@ -93,9 +167,10 @@ const addProduct = (name, description, barcode, quantity, isGlutenFree, isLactos
                 isVegetarian,
                 expiryDate,
                 address,
-                location.lat,
-                location.lng,
-                rating
+                location?.lat,
+                location?.lng,
+                rating,
+                false
             )
             dispatch({
                 type: ADD_PRODUCT,
@@ -113,8 +188,8 @@ const addProduct = (name, description, barcode, quantity, isGlutenFree, isLactos
                     expiryDate: expiryDate,
                     address: address,
                     coords: {
-                        lat: location.lat,
-                        lng: location.lng
+                        lat: location?.lat,
+                        lng: location?.lng
                     },
                     rating
                 }

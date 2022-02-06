@@ -17,6 +17,7 @@ export const triedLogin = () => {
 
 export const register = (username, email, password) => {
     return async dispatch => {
+        /* REGISTER */
         const responseRegister = await fetch(
             'https://lam21.iot-prism-lab.cs.unibo.it/users',
             {
@@ -70,6 +71,7 @@ export const register = (username, email, password) => {
 
 export const login = (email, password) => {
     return async dispatch => {
+        /* LOGIN */
         const responseLogin = await fetch(
             'https://lam21.iot-prism-lab.cs.unibo.it/auth/login',
             {

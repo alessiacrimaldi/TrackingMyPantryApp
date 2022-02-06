@@ -1,7 +1,7 @@
 import moment from 'moment'
 
 
-class Product {
+export class Product {
     constructor(
         id,
         name,
