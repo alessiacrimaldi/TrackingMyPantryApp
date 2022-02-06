@@ -39,7 +39,8 @@ export const getProductByBarcode = (barcode, user) => {
                 newProduct = resData.products[(resData.products.length) - 1]
                 mode = 'update'
             }
-            dispatch({ type: GET_PRODUCT_BY_BARCODE, product: newProduct })
+            const newToken = resData.token
+            dispatch({ type: GET_PRODUCT_BY_BARCODE, product: newProduct, token: newToken })
             return mode
         } catch (err) {
             throw err
@@ -95,7 +96,8 @@ export const addProduct = (id, name, description, barcode, userId, quantity, isG
                 expiryDate,
                 address,
                 location.lat,
-                location.lng
+                location.lng,
+                rating
             )
             dispatch({
                 type: ADD_PRODUCT,
@@ -110,36 +112,18 @@ export const addProduct = (id, name, description, barcode, userId, quantity, isG
                     isLactoseFree: isLactoseFree,
                     isVegan: isVegan,
                     isVegetarian: isVegetarian,
-                    expiryDate: new Date(expiryDate),
+                    expiryDate: expiryDate,
                     address: address,
                     coords: {
                         lat: location.lat,
                         lng: location.lng
-                    }
+                    },
+                    rating
                 }
             })
         } catch (err) {
             throw err
         }
-    }
-}
-
-const pickSessionToken = async (barcode, user) => {
-    try {
-        const response = await fetch(
-            `https://lam21.iot-prism-lab.cs.unibo.it/products?barcode=${barcode}`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${user}`
-                }
-            }
-        )
-        const resData = await response.json()
-        return resData.token
-    } catch (err) {
-        throw err
     }
 }
 

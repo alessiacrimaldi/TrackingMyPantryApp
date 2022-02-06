@@ -24,7 +24,6 @@ class Product {
         this.description = description
         this.barcode = barcode
         this.userId = userId
-
         this.quantity = quantity
         this.isGlutenFree = isGlutenFree
         this.isLactoseFree = isLactoseFree
@@ -38,7 +37,8 @@ class Product {
     }
 
     get readableDate() {
-        return moment(this.expiryDate).format('DD/MM/YYYY')
+        const expires = new Date(this.expiryDate)
+        return moment(expires).format('DD/MM/YYYY')
     }
 }
 

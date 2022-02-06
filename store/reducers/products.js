@@ -10,6 +10,7 @@ import {
 
 const initialState = {
     pickedProduct: {},
+    sessionToken: null,
     userProducts: [],
     userFavoriteProducts: [],
     filters: {},
@@ -67,7 +68,12 @@ const productsReducer = (state = initialState, action) => {
 
         case GET_PRODUCT_BY_BARCODE:
             const newProduct = action.product
-            return { ...state, pickedProduct: newProduct }
+            const newToken = action.token
+            return {
+                ...state,
+                pickedProduct: newProduct,
+                sessionToken: newToken
+            }
 
         default:
             return state

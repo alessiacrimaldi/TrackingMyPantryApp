@@ -13,12 +13,14 @@ const modeColors = mode => {
     }
 }
 
-export const CustomButton = ({ children, onPress, isDisabled, color, style }) => {
+export const CustomButton = ({ children, onPress, isDisabled, color, textColor, style }) => {
     const currentMode = useSelector(state => state.mode.theme)
+    const text = textColor ? textColor : modeColors(currentMode).textColor
+
     return (
         <TouchableOpacity activeOpacity={0.6} onPress={onPress} disabled={isDisabled}>
             <View style={{ ...styles.button, ...style, backgroundColor: isDisabled ? modeColors(currentMode).disabledColor : color }}>
-                <MainText style={{ ...styles.buttonText, ...style, color: isDisabled ? modeColors(currentMode).disabledTextColor : modeColors(currentMode).textColor }}>
+                <MainText style={{ ...styles.buttonText, ...style, color: isDisabled ? modeColors(currentMode).disabledTextColor : text }}>
                     {children}
                 </MainText>
             </View>
@@ -28,6 +30,7 @@ export const CustomButton = ({ children, onPress, isDisabled, color, style }) =>
 
 export const CustomTextButton = ({ children, onPress, isDisabled, color, style }) => {
     const currentMode = useSelector(state => state.mode.theme)
+    
     return (
         <TouchableOpacity activeOpacity={0.6} onPress={onPress} disabled={isDisabled}>
             <MainText style={{ ...styles.buttonText, ...style, color: isDisabled ? modeColors(currentMode).disabledColor : color }}>

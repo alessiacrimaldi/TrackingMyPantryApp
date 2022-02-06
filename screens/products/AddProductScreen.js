@@ -52,6 +52,8 @@ const AddProductScreen = ({ navigation, route }) => {
     const currentMode = useSelector(state => state.mode.theme)
     const productMode = route.params.mode
     const productBarcode = route.params.barcode
+    const sessionToken = useSelector(state => state.products.sessionToken)
+    const userToken = useSelector(state => state.auth.token)
     const userId = useSelector(state => state.auth.userId)
     const pickedProduct = useSelector(state => state.products.pickedProduct)
     const [isGlutenFree, setIsGlutenFree] = useState(false)
@@ -94,6 +96,8 @@ const AddProductScreen = ({ navigation, route }) => {
         setError(null)
         setIsLoading(true)
         product = {
+            accessToken: userToken,
+            sessionToken: sessionToken,
             name: formState.inputValues.name,
             description: formState.inputValues.description,
             barcode: productBarcode,
@@ -103,7 +107,7 @@ const AddProductScreen = ({ navigation, route }) => {
             lactoseFree: isLactoseFree,
             vegan: isVegan,
             vegetarian: isVegetarian,
-            expiryDate: expiryDate ? new Date(expiryDate) : null,
+            expiryDate: expiryDate,
             location: selectedLocation,
             rating: formState.inputValues.rating
         }
@@ -118,8 +122,9 @@ const AddProductScreen = ({ navigation, route }) => {
                 )
             } else if (productMode === 'create') {
                 await dispatch(
-                    productsActions.addLocalProduct(product)
+                    productsActions.addRemoteAndLocalProduct(product)
                 )
+                Alert.alert('Success!', 'Product added to the remote knowledge base', [{ text: 'Okay' }])
             }
             navigation.navigate('Manage Products')
         } catch (err) {
@@ -179,7 +184,7 @@ const AddProductScreen = ({ navigation, route }) => {
                                 autoCapitalize='sentences'
                                 autoCorrect
                                 multiline
-                                numberOfLines={5}
+                                numberOfLines={2}
                                 onInputChange={inputChangeHandler}
                                 initialValue={pickedProduct?.description}
                                 initiallyValid={pickedProduct.description}
