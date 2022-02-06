@@ -1,20 +1,12 @@
 import ENVIRONMENT from '../../env'
-export const TOGGLE_FAVORITE = 'TOGGLE_FAVORITE'
-export const SET_FILTERS = 'SET_FILTERS'
 import { insertProduct, fetchProducts, removeProduct, addFavorite } from '../../helpers/db'
 export const GET_PRODUCT_BY_BARCODE = 'GET_PRODUCT_BY_BARCODE'
 export const ADD_PRODUCT = 'ADD_PRODUCT'
 export const SET_PRODUCTS = 'SET_PRODUCTS'
+export const TOGGLE_FAVORITE = 'TOGGLE_FAVORITE'
+export const SET_FILTERS = 'SET_FILTERS'
 export const DELETE_PRODUCT = 'DELETE_PRODUCT'
 
-
-export const toggleFavorite = id => {
-    return { type: TOGGLE_FAVORITE, productId: id }
-}
-
-export const setFilters = filterSettings => {
-    return { type: SET_FILTERS, filters: filterSettings }
-}
 
 export const getProductByBarcode = (barcode, user) => {
     return async dispatch => {
@@ -50,9 +42,11 @@ export const getProductByBarcode = (barcode, user) => {
 
 export const addLocalProduct = (product) => {
     console.log(product)
-    return async dispatch => {
+    return async (dispatch, getState) => {
+        const accessToken = getState().auth.token
+        const sessionToken = getState().products.sessionToken
         try {
-            dispatch({ type: ADD_PRODUCT })
+            dispatch(addProduct())
         } catch (err) {
             throw err
         }
@@ -61,17 +55,21 @@ export const addLocalProduct = (product) => {
 
 export const addRemoteAndLocalProduct = (product) => {
     console.log(product)
-    return async dispatch => {
+    return async (dispatch, getState) => {
+        const accessToken = getState().auth.token
+        const sessionToken = getState().products.sessionToken
         try {
-            dispatch({ type: ADD_PRODUCT })
+            dispatch(addProduct())
         } catch (err) {
             throw err
         }
     }
 }
 
-export const addProduct = (id, name, description, barcode, userId, quantity, isGlutenFree, isLactoseFree, isVegan, isVegetarian, expiryDate, location, rating) => {
-    return async dispatch => {
+const addProduct = (name, description, barcode, quantity, isGlutenFree, isLactoseFree, isVegan, isVegetarian, expiryDate, location, rating) => {
+    return async (dispatch, getState) => {
+        const userId = getState().auth.userId
+
         const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.lat},${location.lng}&key=${ENVIRONMENT.googleApiKey}`)
         if (!response.ok) {
             throw new Error('Something went wrong!')
@@ -136,6 +134,14 @@ export const loadProducts = (userId) => {
             throw err
         }
     }
+}
+
+export const toggleFavorite = id => {
+    return { type: TOGGLE_FAVORITE, productId: id }
+}
+
+export const setFilters = filterSettings => {
+    return { type: SET_FILTERS, filters: filterSettings }
 }
 
 export const deleteProduct = (id) => {

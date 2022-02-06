@@ -86,7 +86,7 @@ const ScanProductScreen = ({ navigation }) => {
                         color={Colors.secondary}
                         style={styles.button}
                         onPress={() => {
-                            navigation.navigate('Add Product', {mode: productMode, barcode: barcodeTaken})
+                            navigation.navigate('Add Product', {barcode: barcodeTaken})
                         }}
                     >
                         {productMode === 'update'

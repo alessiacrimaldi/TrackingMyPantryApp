@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Alert, Button } from 'react-native'
+import { View, Alert } from 'react-native'
 import { BarCodeScanner, usePermissions } from 'expo-barcode-scanner'
 import DefaultText from '../UI/DefaultText'
 

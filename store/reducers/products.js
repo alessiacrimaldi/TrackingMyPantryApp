@@ -1,9 +1,9 @@
 import {
-    TOGGLE_FAVORITE,
-    SET_FILTERS,
     GET_PRODUCT_BY_BARCODE,
     ADD_PRODUCT,
     SET_PRODUCTS,
+    TOGGLE_FAVORITE,
+    SET_FILTERS,
     DELETE_PRODUCT
 } from '../actions/products'
 
@@ -19,6 +19,15 @@ const initialState = {
 
 const productsReducer = (state = initialState, action) => {
     switch (action.type) {
+
+        case GET_PRODUCT_BY_BARCODE:
+            const newProduct = action.product
+            const newToken = action.token
+            return {
+                ...state,
+                pickedProduct: newProduct,
+                sessionToken: newToken
+            }
 
         case TOGGLE_FAVORITE:
             const existingIndex = state.userFavoriteProducts.findIndex(product => product.id === action.productId)
@@ -64,15 +73,6 @@ const productsReducer = (state = initialState, action) => {
                 ...state,
                 filters: appliedFilters,
                 filteredProducts: updatedFilteredProducts
-            }
-
-        case GET_PRODUCT_BY_BARCODE:
-            const newProduct = action.product
-            const newToken = action.token
-            return {
-                ...state,
-                pickedProduct: newProduct,
-                sessionToken: newToken
             }
 
         default:

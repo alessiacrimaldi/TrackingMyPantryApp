@@ -12,14 +12,15 @@ import MainText from '../../components/UI/MainText'
 import DefaultText from '../../components/UI/DefaultText'
 import CustomSwitch from '../../components/UI/Switch'
 import DatePicker from '../../components/products/DatePicker'
+import LocationPicker from '../../components/products/LocationPicker'
 
 
 const modeColors = mode => {
     switch (mode) {
         case 'light':
-            return { linesColor: '#ccc', textColor: 'black' }
+            return { linesColor: '#ccc', textColor: 'black', saveColor: 'white' }
         case 'dark':
-            return { linesColor: '#888', textColor: 'white' }
+            return { linesColor: '#888', textColor: 'white', saveColor: 'black' }
     }
 }
 
@@ -50,11 +51,7 @@ const formReducer = (state, action) => {
 
 const AddProductScreen = ({ navigation, route }) => {
     const currentMode = useSelector(state => state.mode.theme)
-    const productMode = route.params.mode
     const productBarcode = route.params.barcode
-    const sessionToken = useSelector(state => state.products.sessionToken)
-    const userToken = useSelector(state => state.auth.token)
-    const userId = useSelector(state => state.auth.userId)
     const pickedProduct = useSelector(state => state.products.pickedProduct)
     const [isGlutenFree, setIsGlutenFree] = useState(false)
     const [isLactoseFree, setIsLactoseFree] = useState(false)
@@ -65,8 +62,14 @@ const AddProductScreen = ({ navigation, route }) => {
     const [selectedLocation, setSelectedLocation] = useState()
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
-
     const dispatch = useDispatch()
+
+    let productMode
+    if (Object.values(pickedProduct).length === 0) {
+        productMode = 'create'
+    } else {
+        productMode = 'update'
+    }
 
     const [formState, dispatchFormState] = useReducer(formReducer, {
         /* lo stato (formState) cambierà ad ogni digitazione */
@@ -92,16 +95,13 @@ const AddProductScreen = ({ navigation, route }) => {
     }, [error])
 
     let product
-    const saveProductHandler = useCallback(async () => {
+    const saveProductHandler = async () => {
         setError(null)
         setIsLoading(true)
         product = {
-            accessToken: userToken,
-            sessionToken: sessionToken,
             name: formState.inputValues.name,
             description: formState.inputValues.description,
             barcode: productBarcode,
-            userId: userId,
             quantity: formState.inputValues.quantity,
             glutenFree: isGlutenFree,
             lactoseFree: isLactoseFree,
@@ -114,24 +114,21 @@ const AddProductScreen = ({ navigation, route }) => {
         try {
             if (productMode === 'update') {
                 product = {
-                    id: pickedProduct.id,
-                    ...product
+                    ...product,
+                    id: pickedProduct.id
                 }
-                await dispatch(
-                    productsActions.addLocalProduct(product)
-                )
+                await dispatch(productsActions.addLocalProduct(product))
+                Alert.alert('Success!', 'Product locally added', [{ text: 'Okay' }])
             } else if (productMode === 'create') {
-                await dispatch(
-                    productsActions.addRemoteAndLocalProduct(product)
-                )
-                Alert.alert('Success!', 'Product added to the remote knowledge base', [{ text: 'Okay' }])
+                await dispatch(productsActions.addRemoteAndLocalProduct(product))
+                Alert.alert('Success!', 'Product locally and remotely added', [{ text: 'Okay' }])
             }
             navigation.navigate('Manage Products')
         } catch (err) {
             setError(err.message)
         }
         setIsLoading(false)
-    }, [dispatch, formState])  // se formState cambia (ovvero ad ogni digitazione), allora la funzione viene ricostruita
+    }
 
     const inputChangeHandler = useCallback((inputIdentifier, inputValue, inputValidity) => {
         dispatchFormState({
@@ -141,10 +138,6 @@ const AddProductScreen = ({ navigation, route }) => {
             input: inputIdentifier
         })
     }, [dispatchFormState])
-
-    const locationPickedHandler = useCallback(location => {
-        setSelectedLocation(location)
-    }, [])
 
     if (isLoading) {
         return <View style={styles.centered}>
@@ -252,6 +245,7 @@ const AddProductScreen = ({ navigation, route }) => {
                         </Card>
                         <Card style={styles.cardInput}>
                             <MainText style={styles.label}>Location</MainText>
+                            <LocationPicker navigation={navigation} route={route} barcode={productBarcode} onLocationPicked={setSelectedLocation} colors={modeColors(currentMode)} />
                         </Card>
                         <Card style={styles.cardInput}>
                             <Input

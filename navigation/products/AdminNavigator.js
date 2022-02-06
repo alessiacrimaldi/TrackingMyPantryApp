@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 import AdminScreen from '../../screens/products/AdminScreen'
 import ScanProductScreen from '../../screens/products/ScanProductScreen'
 import AddProductScreen from '../../screens/products/AddProductScreen'
+import MapScreen from '../../screens/products/MapScreen'
 import CustomHeaderButton from '../../components/UI/HeaderButton'
 
 
@@ -52,6 +53,10 @@ const AdminNavigator = () => {
             <Stack.Screen
                 name="Add Product"
                 component={AddProductScreen}
+            />
+            <Stack.Screen
+                name="Map"
+                component={MapScreen}
             />
         </Stack.Navigator>
     )
