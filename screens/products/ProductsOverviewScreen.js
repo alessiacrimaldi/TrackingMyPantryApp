@@ -26,6 +26,12 @@ const ProductsOverviewScreen = ({ navigation }) => {
             expiryDate={itemData.item.expiryDate && itemData.item.readableDate}
             rating={itemData.item.rating}
             favorite={itemData.item.favorite}
+            onSelect={() => {
+                navigation.navigate('Product Details', {
+                    productId: itemData.item.id,
+                    productName: itemData.item.name
+                })
+            }}
         />
     }
 
@@ -37,7 +43,7 @@ const ProductsOverviewScreen = ({ navigation }) => {
                         There are no products <Ionicons name='cart' size={15} />
                     </DefaultText>
                 </View>
-                : <View>
+                : <View style={{ marginTop: 10 }}>
                     <FlatList
                         keyExtractor={item => item.id}
                         data={availableProducts}

@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux'
 
 import ProductsOverviewScreen from '../../screens/products/ProductsOverviewScreen'
 import ProductDetailsScreen from '../../screens/products/ProductDetailsScreen'
+import MapScreen from '../../screens/products/MapScreen'
 import CustomHeaderButton from '../../components/UI/HeaderButton'
 
 
@@ -48,6 +49,15 @@ const ProductsNavigator = () => {
             <Stack.Screen
                 name="Product Details"
                 component={ProductDetailsScreen}
+                options={({ route }) => {
+                    return {
+                        title: route.params.productName
+                    }
+                }}
+            />
+            <Stack.Screen
+                name="Map"
+                component={MapScreen}
             />
         </Stack.Navigator>
     )

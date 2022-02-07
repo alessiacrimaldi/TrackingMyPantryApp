@@ -34,14 +34,14 @@ const AdminScreen = ({ navigation }) => {
             onRemove={() => {
                 Alert.alert(
                     'Are you sure?',
-                    `Once you remove this product, it's lost`,
+                    `If you continue, you will remove this product definitely`,
                     [
                         {
                             text: 'Cancel',
                             style: 'cancel'
                         },
                         {
-                            text: 'Confirm',
+                            text: 'Continue',
                             style: 'default',
                             onPress: () => {
                                 dispatch(productsActions.deleteProduct(itemData.item.id))

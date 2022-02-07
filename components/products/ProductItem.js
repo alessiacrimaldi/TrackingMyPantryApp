@@ -13,7 +13,7 @@ import MainText from '../../components/UI/MainText'
 import Card from '../../components/UI/Card'
 
 
-const ProductItem = ({ quantity, name, barcode, expiryDate, rating, favorite }) => {
+const ProductItem = ({ quantity, name, barcode, expiryDate, rating, favorite, onSelect }) => {
     let TouchableComponent = TouchableOpacity
     if (Platform.OS === 'android' && Platform.Version >= 21) {
         TouchableComponent = TouchableNativeFeedback
@@ -22,7 +22,7 @@ const ProductItem = ({ quantity, name, barcode, expiryDate, rating, favorite }) 
     return (
         <Card style={styles.productItem}>
             <View style={styles.touchable}>
-                <TouchableComponent>
+                <TouchableComponent onPress={onSelect}>
                     <View style={styles.card}>
                         <View style={styles.productRow}>
                             <MainText style={{ color: Colors.details }}>({quantity})</MainText>
@@ -36,7 +36,7 @@ const ProductItem = ({ quantity, name, barcode, expiryDate, rating, favorite }) 
                             <View>
                                 <MainText style={{ fontSize: 17 }}>{name.toUpperCase()}</MainText>
                                 <DefaultText style={{ fontSize: 15 }}>barcode: <DefaultText style={{ color: Colors.secondary, fontSize: 16 }}>{barcode}</DefaultText></DefaultText>
-                                <DefaultText style={{fontSize: 15}}>
+                                <DefaultText style={{ fontSize: 15 }}>
                                     {rating}
                                     <Ionicons
                                         name="star"
