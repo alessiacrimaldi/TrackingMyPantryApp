@@ -17,7 +17,8 @@ export class Product {
         address,
         lat,
         lng,
-        rating
+        rating,
+        favorite
     ) {
         this.id = id
         this.name = name
@@ -34,6 +35,7 @@ export class Product {
         this.lat = lat
         this.lng = lng
         this.rating = rating
+        this.favorite = favorite
     }
 
     get readableDate() {

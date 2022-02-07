@@ -1,8 +1,7 @@
 import React, { useCallback } from 'react'
 import { useFocusEffect } from '@react-navigation/native'
-import { StyleSheet, View, FlatList } from 'react-native'
+import { StyleSheet, View, FlatList, Alert } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
-import { deleteProduct } from '../../store/actions/products'
 import { CustomButton } from '../../components/UI/Buttons'
 import { Ionicons } from '@expo/vector-icons'
 import * as productsActions from '../../store/actions/products'
@@ -13,8 +12,8 @@ import ManageProductItem from '../../components/products/ManageProductItem'
 
 
 const AdminScreen = ({ navigation }) => {
+    const totalItems = useSelector(state => state.products.userProducts).length
     const items = useSelector(state => state.products.filteredProducts)
-    const totalItems = items.length
 
     const dispatch = useDispatch()
 
@@ -30,9 +29,26 @@ const AdminScreen = ({ navigation }) => {
             name={itemData.item.name}
             barcode={itemData.item.barcode}
             description={itemData.item.description}
-            expiryDate={itemData.item.expiryDate}
+            expiryDate={itemData.item.expiryDate && itemData.item.readableDate}
+            rating={itemData.item.rating}
             onRemove={() => {
-                dispatch(deleteProduct(itemData.item.id))
+                Alert.alert(
+                    'Are you sure?',
+                    `Once you remove this product, it's lost`,
+                    [
+                        {
+                            text: 'Cancel',
+                            style: 'cancel'
+                        },
+                        {
+                            text: 'Confirm',
+                            style: 'default',
+                            onPress: () => {
+                                dispatch(productsActions.deleteProduct(itemData.item.id))
+                            }
+                        }
+                    ]
+                )
             }}
         />
     }
@@ -53,14 +69,13 @@ const AdminScreen = ({ navigation }) => {
                     </CustomButton>
                 </View>
             </Card>
-            <View>
-                {/* <FlatList
+            <View style={styles.listContainer}>
+                <FlatList
                     keyExtractor={item => item.id}
                     data={items}
                     renderItem={renderItem}
                     showsVerticalScrollIndicator={false}
-                /> */}
-                <ManageProductItem />
+                />
             </View>
         </View>
     )
@@ -94,6 +109,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         paddingLeft: 10
+    },
+    listContainer: {
+        marginTop: 3,
+        marginBottom: 150
     }
 })
 

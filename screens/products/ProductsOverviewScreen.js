@@ -23,16 +23,15 @@ const ProductsOverviewScreen = ({ navigation }) => {
             quantity={itemData.item.quantity}
             name={itemData.item.name}
             barcode={itemData.item.barcode}
-            expiryDate={itemData.item.expiryDate}
-            onVote={() => {
-
-            }}
+            expiryDate={itemData.item.expiryDate && itemData.item.readableDate}
+            rating={itemData.item.rating}
+            favorite={itemData.item.favorite}
         />
     }
 
     return (
         <View>
-            {/* {products.length === 0
+            {availableProducts.length === 0
                 ? <View style={styles.screen}>
                     <DefaultText>
                         There are no products <Ionicons name='cart' size={15} />
@@ -41,13 +40,12 @@ const ProductsOverviewScreen = ({ navigation }) => {
                 : <View>
                     <FlatList
                         keyExtractor={item => item.id}
-                        data={products}
+                        data={availableProducts}
                         renderItem={renderProduct}
                         showsVerticalScrollIndicator={false}
                     />
                 </View>
-            } */}
-            <ProductItem />
+            }
         </View>
     )
 }

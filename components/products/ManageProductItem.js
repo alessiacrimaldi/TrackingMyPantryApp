@@ -3,7 +3,6 @@ import { StyleSheet, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { useSelector } from 'react-redux'
 import { CustomButton } from '../UI/Buttons'
-import moment from 'moment'
 import Colors from '../../constants/Colors'
 import DefaultText from '../../components/UI/DefaultText'
 import MainText from '../../components/UI/MainText'
@@ -18,21 +17,24 @@ const modeColor = mode => {
     }
 }
 
-const ManageProductItem = ({ quantity, name, barcode, description, expiryDate, onRemove }) => {
+const ManageProductItem = ({ quantity, name, barcode, description, expiryDate, rating, onRemove }) => {
     const currentMode = useSelector(state => state.mode.theme)
     const [showDetails, setShowDetails] = useState(false)
-
-    const date = new Date()
 
     return (
         <View style={{ ...styles.item, borderBottomColor: modeColor(currentMode).linesColor }}>
             <View style={styles.itemRow}>
-                <DefaultText style={styles.quantity}>2</DefaultText>
+                <DefaultText style={styles.quantity}>{quantity}</DefaultText>
                 <View style={styles.itemInfo}>
-                    <MainText style={styles.name}>{`name`.toUpperCase()}</MainText>
-                    <DefaultText style={styles.barcode}>000000000</DefaultText>
+                    <MainText style={styles.name}>{name.toUpperCase()}</MainText>
+                    <DefaultText style={styles.barcode}>{barcode}</DefaultText>
                 </View>
-                <Ionicons name='ios-trash-outline' size={22} color={modeColor(currentMode).trashColor} />
+                <Ionicons
+                    name='ios-trash-outline'
+                    size={22}
+                    color={modeColor(currentMode).trashColor}
+                    onPress={onRemove}
+                />
             </View>
             <View style={styles.buttonContainer}>
                 <CustomButton
@@ -43,13 +45,25 @@ const ManageProductItem = ({ quantity, name, barcode, description, expiryDate, o
                     {showDetails ? 'Hide Details' : 'Show Details'}
                 </CustomButton>
             </View>
-            {showDetails && (
+            {showDetails &&
                 <View style={styles.itemDetails}>
-                    <DefaultText style={styles.expires}>expires on:</DefaultText>
-                    <DefaultText style={styles.expiryDate}>{moment(new Date()).format('DD/MM/YYYY')}</DefaultText>
-                    <DefaultText style={styles.description}>Questa è la desrizione dell'item.. Molto buono!! da ricomprare</DefaultText>
+                    {expiryDate &&
+                        <View>
+                            <DefaultText style={styles.expires}>expires on:</DefaultText>
+                            <DefaultText style={styles.expiryDate}>{expiryDate}</DefaultText>
+                        </View>
+                    }
+                    <DefaultText style={styles.description}>{description}</DefaultText>
+                    <DefaultText style={styles.rating}>
+                        {rating}
+                        <Ionicons
+                            name="star"
+                            size={15}
+                            color={Colors.secondary}
+                        />
+                    </DefaultText>
                 </View>
-            )}
+            }
         </View>
     )
 }
@@ -102,7 +116,12 @@ const styles = StyleSheet.create({
     },
     description: {
         textAlign: 'center',
-        fontSize: 13
+        fontSize: 13,
+        marginBottom: 5
+    },
+    rating: {
+        fontSize: 15,
+        textAlign: 'center'
     }
 })
 

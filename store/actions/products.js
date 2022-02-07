@@ -191,7 +191,8 @@ const addProduct = (name, description, barcode, quantity, isGlutenFree, isLactos
                         lat: location?.lat,
                         lng: location?.lng
                     },
-                    rating
+                    rating: rating,
+                    favorite: false
                 }
             })
         } catch (err) {
@@ -228,7 +229,7 @@ export const toggleFavorite = id => {
     return { type: TOGGLE_FAVORITE, productId: id }
 }
 
-export const deleteProduct = (id) => {
+export const deleteProduct = id => {
     return async dispatch => {
         try {
             await removeProduct(id)

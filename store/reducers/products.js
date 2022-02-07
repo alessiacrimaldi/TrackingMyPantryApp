@@ -54,7 +54,8 @@ const productsReducer = (state = initialState, action) => {
                 action.productData.address,
                 action.productData.coords.lat,
                 action.productData.coords.lng,
-                action.productData.rating
+                action.productData.rating,
+                action.productData.favorite
             )
             return {
                 ...state,
@@ -80,7 +81,8 @@ const productsReducer = (state = initialState, action) => {
                         product.address,
                         product.lat,
                         product.lng,
-                        product.rating
+                        product.rating,
+                        setBoolean(product.favorite)
                     )
                 )
             }
@@ -100,7 +102,7 @@ const productsReducer = (state = initialState, action) => {
                 if (appliedFilters.vegetarian && !product.isVegetarian) {
                     return false
                 }
-                if (appliedFilters.expired && (new Date() <= new Date(product.expiryDate))) {
+                if (appliedFilters.expired && ((new Date() <= new Date(product.expiryDate)) || !product.expiryDate)) {
                     return false
                 }
                 return true
@@ -126,6 +128,20 @@ const productsReducer = (state = initialState, action) => {
             } else {
                 const product = state.userProducts.find(product => product.id === action.productId)
                 return { ...state, userFavoriteProducts: state.userFavoriteProducts.concat(product) }
+            }
+
+        case DELETE_PRODUCT:
+            return {
+                ...state,
+                userProducts: state.userProducts.filter(
+                    product => product.id !== action.productId
+                ),
+                filteredProducts: state.filteredProducts.filter(
+                    product => product.id !== action.productId
+                ),
+                userFavoriteProducts: state.userFavoriteProducts.filter(
+                    product => product.id !== action.productId
+                )
             }
 
         default:

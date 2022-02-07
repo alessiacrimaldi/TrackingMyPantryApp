@@ -7,20 +7,17 @@ import {
     TouchableNativeFeedback
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
-import moment from 'moment'
 import Colors from '../../constants/Colors'
 import DefaultText from '../../components/UI/DefaultText'
 import MainText from '../../components/UI/MainText'
 import Card from '../../components/UI/Card'
 
 
-const ProductItem = ({ date, favorite }) => {
+const ProductItem = ({ quantity, name, barcode, expiryDate, rating, favorite }) => {
     let TouchableComponent = TouchableOpacity
     if (Platform.OS === 'android' && Platform.Version >= 21) {
         TouchableComponent = TouchableNativeFeedback
     }
-
-    date = new Date()
 
     return (
         <Card style={styles.productItem}>
@@ -28,17 +25,25 @@ const ProductItem = ({ date, favorite }) => {
                 <TouchableComponent>
                     <View style={styles.card}>
                         <View style={styles.productRow}>
-                            <MainText style={{ color: Colors.details }}>(1)</MainText>
-                            {date &&
+                            <MainText style={{ color: Colors.details }}>({quantity})</MainText>
+                            {expiryDate &&
                                 <DefaultText style={{ color: Colors.details }}>
-                                    best before: {moment(date).format('DD/MM/YYYY')}
+                                    best before: {expiryDate}
                                 </DefaultText>
                             }
                         </View>
                         <View style={styles.productRow}>
                             <View>
-                                <MainText style={{ fontSize: 16 }}>{`Product`.toUpperCase()}</MainText>
-                                <DefaultText>barcode: <DefaultText style={{ color: Colors.secondary }}>000000</DefaultText></DefaultText>
+                                <MainText style={{ fontSize: 17 }}>{name.toUpperCase()}</MainText>
+                                <DefaultText style={{ fontSize: 15 }}>barcode: <DefaultText style={{ color: Colors.secondary, fontSize: 16 }}>{barcode}</DefaultText></DefaultText>
+                                <DefaultText style={{fontSize: 15}}>
+                                    {rating}
+                                    <Ionicons
+                                        name="star"
+                                        size={15}
+                                        color={Colors.secondary}
+                                    />
+                                </DefaultText>
                             </View>
                             {favorite &&
                                 <Ionicons
@@ -57,7 +62,7 @@ const ProductItem = ({ date, favorite }) => {
 
 const styles = StyleSheet.create({
     productItem: {
-        marginTop: 20,
+        marginVertical: 10,
         marginHorizontal: 15
     },
     touchable: {
