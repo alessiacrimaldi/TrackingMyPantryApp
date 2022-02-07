@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useCallback } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
 import { StyleSheet, View, FlatList } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { deleteProduct } from '../../store/actions/products'
 import { CustomButton } from '../../components/UI/Buttons'
 import { Ionicons } from '@expo/vector-icons'
+import * as productsActions from '../../store/actions/products'
 import Colors from '../../constants/Colors'
 import Card from '../../components/UI/Card'
 import MainText from '../../components/UI/MainText'
@@ -11,10 +13,16 @@ import ManageProductItem from '../../components/products/ManageProductItem'
 
 
 const AdminScreen = ({ navigation }) => {
-    const totalItems = (useSelector(state => state.products.userProducts)).length
     const items = useSelector(state => state.products.filteredProducts)
+    const totalItems = items.length
 
     const dispatch = useDispatch()
+
+    useFocusEffect(
+        useCallback(() => {
+            dispatch(productsActions.loadFilteredProducts())
+        }, [dispatch])
+    )
 
     const renderItem = itemData => {
         return <ManageProductItem

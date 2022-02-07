@@ -57,12 +57,12 @@ export const fetchProducts = (id) => {
     return promise
 }
 
-export const fetchFavorites = () => {
+export const fetchFavorites = (id) => {
     const promise = new Promise((resolve, reject) =>
         db.transaction((tx) => {
             tx.executeSql(
-                'SELECT * FROM products WHERE favorite = true',
-                [],
+                'SELECT * FROM products WHERE favorite = true AND userId = ?',
+                [id],
                 (_, result) => {
                     resolve(result)
                 },
@@ -80,6 +80,24 @@ export const addFavorite = (id) => {
         db.transaction((tx) => {
             tx.executeSql(
                 `UPDATE products SET favorite = true WHERE id = ?`,
+                [id],
+                (_, result) => {
+                    resolve(result)
+                },
+                (_, err) => {
+                    reject(err)
+                }
+            )
+        })
+    )
+    return promise
+}
+
+export const removeFavorite = (id) => {
+    const promise = new Promise((resolve, reject) =>
+        db.transaction((tx) => {
+            tx.executeSql(
+                `UPDATE products SET favorite = false WHERE id = ?`,
                 [id],
                 (_, result) => {
                     resolve(result)
@@ -111,6 +129,8 @@ export const removeProduct = (id) => {
     return promise
 }
 
+
+/* ---------------------------------------------------------------------------- */
 
 // export const destroy = () =>
 //     new Promise((resolve, reject) => {

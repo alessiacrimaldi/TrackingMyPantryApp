@@ -3,8 +3,8 @@ import {
     GET_PRODUCT_BY_BARCODE,
     ADD_PRODUCT,
     SET_PRODUCTS,
-    TOGGLE_FAVORITE,
     SET_FILTERS,
+    TOGGLE_FAVORITE,
     DELETE_PRODUCT
 } from '../actions/products'
 
@@ -13,9 +13,17 @@ const initialState = {
     pickedProduct: {},
     sessionToken: null,
     userProducts: [],
-    userFavoriteProducts: [],
-    filters: {},
-    filteredProducts: []
+    filters: {
+        sortByQuantity: false,
+        sortByRating: false,
+        glutenFree: false,
+        lactoseFree: false,
+        vegan: false,
+        vegetarian: false,
+        expired: false
+    },
+    filteredProducts: [],
+    userFavoriteProducts: []
 }
 
 const productsReducer = (state = initialState, action) => {
@@ -53,23 +61,33 @@ const productsReducer = (state = initialState, action) => {
                 userProducts: state.userProducts.concat(product)
             }
 
-        case TOGGLE_FAVORITE:
-            const existingIndex = state.userFavoriteProducts.findIndex(product => product.id === action.productId)
-            if (existingIndex >= 0) {
-                const updatedFavProducts = [...state.userFavoriteProducts]
-                updatedFavProducts.splice(existingIndex, 1)
-                return { ...state, userFavoriteProducts: updatedFavProducts }
-            } else {
-                const product = state.userProducts.find(product => product.id === action.productId)
-                return { ...state, userFavoriteProducts: state.userFavoriteProducts.concat(product) }
+        case SET_PRODUCTS:
+            return {
+                ...state,
+                userProducts: action.products.map(
+                    product => new Product(
+                        product.id.toString(),
+                        product.name,
+                        product.description,
+                        product.barcode,
+                        product.userId,
+                        product.quantity,
+                        setBoolean(product.isGlutenFree),
+                        setBoolean(product.isLactoseFree),
+                        setBoolean(product.isVegan),
+                        setBoolean(product.isVegetarian),
+                        product.expiryDate,
+                        product.address,
+                        product.lat,
+                        product.lng,
+                        product.rating
+                    )
+                )
             }
 
         case SET_FILTERS:
             const appliedFilters = action.filters
             const updatedFilteredProducts = state.userProducts.filter(product => {
-                if (appliedFilters.sortByRating && !product.rating) {
-                    return false
-                }
                 if (appliedFilters.glutenFree && !product.isGlutenFree) {
                     return false
                 }
@@ -99,9 +117,28 @@ const productsReducer = (state = initialState, action) => {
                 filteredProducts: updatedFilteredProducts
             }
 
+        case TOGGLE_FAVORITE:
+            const existingIndex = state.userFavoriteProducts.findIndex(product => product.id === action.productId)
+            if (existingIndex >= 0) {
+                const updatedFavProducts = [...state.userFavoriteProducts]
+                updatedFavProducts.splice(existingIndex, 1)
+                return { ...state, userFavoriteProducts: updatedFavProducts }
+            } else {
+                const product = state.userProducts.find(product => product.id === action.productId)
+                return { ...state, userFavoriteProducts: state.userFavoriteProducts.concat(product) }
+            }
+
         default:
             return state
     }
 }
 
 export default productsReducer
+
+const setBoolean = (value) => {
+    if (value === 0) {
+        return false
+    } else {
+        return true
+    }
+}

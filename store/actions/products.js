@@ -1,14 +1,14 @@
 import ENVIRONMENT from '../../env'
-import { insertProduct, fetchProducts, removeProduct, addFavorite } from '../../helpers/db'
+import { insertProduct, fetchProducts, addFavorite, removeFavorite, removeProduct } from '../../helpers/db'
 export const GET_PRODUCT_BY_BARCODE = 'GET_PRODUCT_BY_BARCODE'
 export const ADD_PRODUCT = 'ADD_PRODUCT'
 export const SET_PRODUCTS = 'SET_PRODUCTS'
-export const TOGGLE_FAVORITE = 'TOGGLE_FAVORITE'
 export const SET_FILTERS = 'SET_FILTERS'
+export const TOGGLE_FAVORITE = 'TOGGLE_FAVORITE'
 export const DELETE_PRODUCT = 'DELETE_PRODUCT'
 
 
-export const getProductByBarcode = (barcode) => {
+export const getProductByBarcode = barcode => {
     return async (dispatch, getState) => {
         const accessToken = getState().auth.token
         try {
@@ -42,7 +42,7 @@ export const getProductByBarcode = (barcode) => {
     }
 }
 
-export const addLocalProduct = (product) => {
+export const addLocalProduct = product => {
     return async (dispatch, getState) => {
         const accessToken = getState().auth.token
         const sessionToken = getState().products.sessionToken
@@ -91,7 +91,7 @@ export const addLocalProduct = (product) => {
     }
 }
 
-export const addRemoteAndLocalProduct = (product) => {
+export const addRemoteAndLocalProduct = product => {
     return async (dispatch, getState) => {
         const accessToken = getState().auth.token
         const sessionToken = getState().products.sessionToken
@@ -200,23 +200,32 @@ const addProduct = (name, description, barcode, quantity, isGlutenFree, isLactos
     }
 }
 
-export const loadProducts = (userId) => {
+export const loadProducts = userId => {
     return async dispatch => {
         try {
             const dbResult = await fetchProducts(userId)
-            dispatch({ type: SET_PRODUCTS, userProducts: dbResult.rows._array })
+            dispatch({ type: SET_PRODUCTS, products: dbResult.rows._array })
         } catch (err) {
             throw err
         }
     }
 }
 
-export const toggleFavorite = id => {
-    return { type: TOGGLE_FAVORITE, productId: id }
-}
-
 export const setFilters = filterSettings => {
     return { type: SET_FILTERS, filters: filterSettings }
+}
+
+export const loadFilteredProducts = () => {
+    return async (dispatch, getState) => {
+        const userId = getState().auth.userId
+        const filters = getState().products.filters
+        await dispatch(loadProducts(userId))
+        await dispatch(setFilters(filters))
+    }
+}
+
+export const toggleFavorite = id => {
+    return { type: TOGGLE_FAVORITE, productId: id }
 }
 
 export const deleteProduct = (id) => {
