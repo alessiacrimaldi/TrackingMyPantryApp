@@ -1,8 +1,9 @@
 import ENVIRONMENT from '../../env'
-import { insertProduct, fetchProducts, addFavorite, removeFavorite, removeProduct } from '../../helpers/db'
+import { insertProduct, fetchProducts, fetchFavorites, addFavorite, removeFavorite, removeProduct } from '../../helpers/db'
 export const GET_PRODUCT_BY_BARCODE = 'GET_PRODUCT_BY_BARCODE'
 export const ADD_PRODUCT = 'ADD_PRODUCT'
 export const SET_PRODUCTS = 'SET_PRODUCTS'
+export const SET_FAVORITES = 'SET_FAVORITES'
 export const SET_FILTERS = 'SET_FILTERS'
 export const TOGGLE_FAVORITE = 'TOGGLE_FAVORITE'
 export const DELETE_PRODUCT = 'DELETE_PRODUCT'
@@ -212,6 +213,19 @@ export const loadProducts = userId => {
     }
 }
 
+
+export const loadFavorites = () => {
+    return async (dispatch, getState) => {
+        const userId = getState().auth.userId
+        try {
+            const dbResult = await fetchFavorites(userId)
+            dispatch({ type: SET_FAVORITES, products: dbResult.rows._array })
+        } catch (err) {
+            throw err
+        }
+    }
+}
+
 export const setFilters = filterSettings => {
     return { type: SET_FILTERS, filters: filterSettings }
 }
@@ -225,8 +239,26 @@ export const loadFilteredProducts = () => {
     }
 }
 
-export const toggleFavorite = id => {
-    return { type: TOGGLE_FAVORITE, productId: id }
+export const insertFavorite = id => {
+    return async dispatch => {
+        try {
+            await addFavorite(id)
+            dispatch({ type: TOGGLE_FAVORITE, productId: id })
+        } catch (err) {
+            throw err
+        }
+    }
+}
+
+export const deleteFavorite = id => {
+    return async dispatch => {
+        try {
+            await removeFavorite(id)
+            dispatch({ type: TOGGLE_FAVORITE, productId: id })
+        } catch (err) {
+            throw err
+        }
+    }
 }
 
 export const deleteProduct = id => {

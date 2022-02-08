@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 
 import FavoritesScreen from '../../screens/products/FavoritesScreen'
 import ProductDetailsScreen from '../../screens/products/ProductDetailsScreen'
+import MapScreen from '../../screens/products/MapScreen'
 
 
 const Stack = createStackNavigator()
@@ -30,6 +31,15 @@ const ProductsFavNavigator = () => {
             <Stack.Screen
                 name="Product Details"
                 component={ProductDetailsScreen}
+                options={({ route }) => {
+                    return {
+                        title: route.params.productName
+                    }
+                }}
+            />
+            <Stack.Screen
+                name="Map"
+                component={MapScreen}
             />
         </Stack.Navigator>
     )

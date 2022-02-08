@@ -47,7 +47,7 @@ const ProductItem = ({ quantity, name, barcode, expiryDate, rating, favorite, on
                             </View>
                             {favorite &&
                                 <Ionicons
-                                    name="star"
+                                    name='star'
                                     size={25}
                                     color={Colors.ternary}
                                 />
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     productRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         marginBottom: 10
     }
 })

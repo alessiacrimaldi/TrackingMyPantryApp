@@ -3,7 +3,7 @@ import { StyleSheet, View, ScrollView } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { Ionicons } from '@expo/vector-icons'
 import { useSelector, useDispatch } from 'react-redux'
-import { toggleFavorite } from '../../store/actions/products'
+import * as productsActions from '../../store/actions/products'
 import CustomHeaderButton from '../../components/UI/HeaderButton'
 import Colors from '../../constants/Colors'
 import DefaultText from '../../components/UI/DefaultText'
@@ -44,7 +44,10 @@ const ProductDetailsScreen = ({ navigation, route }) => {
     )
 
     const toggleFavoriteHandler = useCallback(() => {
-        dispatch(toggleFavorite(productId))
+        {currentProductIsFavorite
+            ? dispatch(productsActions.deleteFavorite(productId))
+            : dispatch(productsActions.insertFavorite(productId))
+        }
     }, [dispatch, productId])
 
     useLayoutEffect(() => {

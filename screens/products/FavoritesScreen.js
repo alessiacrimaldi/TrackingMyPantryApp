@@ -1,13 +1,22 @@
-import React from 'react'
+import React, { useCallback } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
 import { StyleSheet, View, FlatList } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { useSelector, useDispatch } from 'react-redux'
+import * as productsActions from '../../store/actions/products'
 import DefaultText from '../../components/UI/DefaultText'
 import ProductItem from '../../components/products/ProductItem'
 
 
 const FavoritesScreen = ({ navigation }) => {
     const favoriteProducts = useSelector(state => state.products.userFavoriteProducts)
+    const dispatch = useDispatch()
+
+    useFocusEffect(
+        useCallback(() => {
+            dispatch(productsActions.loadFavorites())
+        }, [dispatch])
+    )
 
     const renderProduct = itemData => {
         return <ProductItem
@@ -16,7 +25,13 @@ const FavoritesScreen = ({ navigation }) => {
             barcode={itemData.item.barcode}
             expiryDate={itemData.item.expiryDate && itemData.item.readableDate}
             rating={itemData.item.rating}
-            favorite={itemData.item.favorite}
+            favorite={true}
+            onSelect={() => {
+                navigation.navigate('Product Details', {
+                    productId: itemData.item.id,
+                    productName: itemData.item.name
+                })
+            }}
         />
     }
 
@@ -29,7 +44,7 @@ const FavoritesScreen = ({ navigation }) => {
                     </DefaultText>
                     <DefaultText>Start adding some!</DefaultText>
                 </View>
-                : <View style={styles.listContainer}>
+                : <View style={{ marginTop: 10 }}>
                     <FlatList
                         keyExtractor={item => item.id}
                         data={favoriteProducts}
@@ -47,9 +62,6 @@ const styles = StyleSheet.create({
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center'
-    },
-    listContainer: {
-        marginVertical: 15
     }
 })
 

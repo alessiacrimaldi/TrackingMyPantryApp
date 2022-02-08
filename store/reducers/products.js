@@ -3,6 +3,7 @@ import {
     GET_PRODUCT_BY_BARCODE,
     ADD_PRODUCT,
     SET_PRODUCTS,
+    SET_FAVORITES,
     SET_FILTERS,
     TOGGLE_FAVORITE,
     DELETE_PRODUCT
@@ -66,6 +67,31 @@ const productsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 userProducts: action.products.map(
+                    product => new Product(
+                        product.id.toString(),
+                        product.name,
+                        product.description,
+                        product.barcode,
+                        product.userId,
+                        product.quantity,
+                        setBoolean(product.isGlutenFree),
+                        setBoolean(product.isLactoseFree),
+                        setBoolean(product.isVegan),
+                        setBoolean(product.isVegetarian),
+                        product.expiryDate,
+                        product.address,
+                        product.lat,
+                        product.lng,
+                        product.rating,
+                        setBoolean(product.favorite)
+                    )
+                )
+            }
+
+        case SET_FAVORITES:
+            return {
+                ...state,
+                userFavoriteProducts: action.products.map(
                     product => new Product(
                         product.id.toString(),
                         product.name,

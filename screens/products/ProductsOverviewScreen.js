@@ -25,7 +25,6 @@ const ProductsOverviewScreen = ({ navigation }) => {
             barcode={itemData.item.barcode}
             expiryDate={itemData.item.expiryDate && itemData.item.readableDate}
             rating={itemData.item.rating}
-            favorite={itemData.item.favorite}
             onSelect={() => {
                 navigation.navigate('Product Details', {
                     productId: itemData.item.id,

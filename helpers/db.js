@@ -39,7 +39,7 @@ export const insertProduct = (name, description, barcode, userId, quantity, isGl
     return promise
 }
 
-export const fetchProducts = (id) => {
+export const fetchProducts = id => {
     const promise = new Promise((resolve, reject) =>
         db.transaction((tx) => {
             tx.executeSql(
@@ -57,7 +57,7 @@ export const fetchProducts = (id) => {
     return promise
 }
 
-export const fetchFavorites = (id) => {
+export const fetchFavorites = id => {
     const promise = new Promise((resolve, reject) =>
         db.transaction((tx) => {
             tx.executeSql(
@@ -75,7 +75,7 @@ export const fetchFavorites = (id) => {
     return promise
 }
 
-export const addFavorite = (id) => {
+export const addFavorite = id => {
     const promise = new Promise((resolve, reject) =>
         db.transaction((tx) => {
             tx.executeSql(
@@ -93,7 +93,7 @@ export const addFavorite = (id) => {
     return promise
 }
 
-export const removeFavorite = (id) => {
+export const removeFavorite = id => {
     const promise = new Promise((resolve, reject) =>
         db.transaction((tx) => {
             tx.executeSql(
@@ -111,7 +111,7 @@ export const removeFavorite = (id) => {
     return promise
 }
 
-export const removeProduct = (id) => {
+export const removeProduct = id => {
     const promise = new Promise((resolve, reject) =>
         db.transaction((tx) => {
             tx.executeSql(
