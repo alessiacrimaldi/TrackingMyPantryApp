@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
     },
     star: {
         position: 'absolute',
-        top: 46,
+        top: Platform.OS === 'android' ? 54 : 46,
         right: 23
     },
     properties: {
