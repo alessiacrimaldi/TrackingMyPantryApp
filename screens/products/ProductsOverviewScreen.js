@@ -11,20 +11,21 @@ import ProductItem from '../../components/products/ProductItem'
 const ProductsOverviewScreen = ({ navigation }) => {
     const availableProducts = useSelector(state => state.products.filteredProducts)
     const [isLoading, setIsLoading] = useState(false)
-    const [isRefreshing, setIsRefreshing] = useState(false)
 
     const dispatch = useDispatch()
 
+    /* To avoid an infinite loop */
     const loadProducts = useCallback(async () => {
-        await dispatch(productsActions.loadFilteredProducts())
+        dispatch(productsActions.loadFilteredProducts())
     }, [dispatch])
 
+    /* To fetch the products initially */
     useEffect(() => {
         setIsLoading(true)
         loadProducts().then(() => {
             setIsLoading(false)
         })
-    }, [dispatch, loadProducts])
+    }, [loadProducts])
 
     if (isLoading) {
         return (
@@ -60,8 +61,6 @@ const ProductsOverviewScreen = ({ navigation }) => {
                 </View>
                 : <View style={{ marginTop: 10 }}>
                     <FlatList
-                        onRefresh={loadProducts}
-                        refreshing={isRefreshing}
                         keyExtractor={item => item.id}
                         data={availableProducts}
                         renderItem={renderProduct}

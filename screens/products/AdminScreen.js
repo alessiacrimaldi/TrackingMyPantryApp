@@ -14,23 +14,23 @@ const AdminScreen = ({ navigation }) => {
     const totalItems = useSelector(state => state.products.userProducts).length
     const items = useSelector(state => state.products.filteredProducts)
     const [isLoading, setIsLoading] = useState(false)
-    const [isRefreshing, setIsRefreshing] = useState(false)
 
     const dispatch = useDispatch()
 
+    /* To avoid an infinite loop */
     const loadProducts = useCallback(async () => {
-        setIsRefreshing(true)
-        await dispatch(productsActions.loadFilteredProducts())
-        setIsRefreshing(false)
+        dispatch(productsActions.loadFilteredProducts())
     }, [dispatch])
 
+    /* To fetch the products initially, for the first loading we need it! */
     useEffect(() => {
         setIsLoading(true)
         loadProducts().then(() => {
             setIsLoading(false)
         })
-    }, [dispatch, loadProducts])
+    }, [loadProducts])
 
+    /* Setting Up a Navigation Listener, the products will be reloaded by it when navigating through the drawer, but not the first time! */
     useEffect(() => {
         const willFocusSub = navigation.addListener('focus', loadProducts)
         return willFocusSub
@@ -92,8 +92,6 @@ const AdminScreen = ({ navigation }) => {
             </Card>
             <View style={styles.listContainer}>
                 <FlatList
-                    onRefresh={loadProducts}
-                    refreshing={isRefreshing}
                     keyExtractor={item => item.id}
                     data={items}
                     renderItem={renderItem}
