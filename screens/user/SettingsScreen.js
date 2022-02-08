@@ -32,7 +32,7 @@ const SettingsScreen = () => {
                 <MainText>NOTIFICATIONS</MainText>
                 <CustomSwitch
                     color={Colors.primary}
-                    label='Notify me when products are nearly to expire'
+                    label='Notify me for the next product which is nearly to expire'
                     state={isAvailable}
                     onChange={newValue => setIsAvailable(newValue)}
                 />
