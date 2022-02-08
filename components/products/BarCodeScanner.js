@@ -1,3 +1,5 @@
+/* Componente per la richiesta dei permessi della fotocamera e lo scanner del barcode */
+
 import React, { useState, useEffect } from 'react'
 import { View, Alert } from 'react-native'
 import { BarCodeScanner, usePermissions } from 'expo-barcode-scanner'

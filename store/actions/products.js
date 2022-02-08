@@ -1,3 +1,15 @@
+/* Azioni relative ai prodotti:
+   - GET PRODUCTS BY BARCODE
+   - POST PRODUCT PREFERENCE
+   - POST PRODUCT DETAILS
+   +
+   - Aggiunta di un prodotto in locale
+   - Fetch dei prodotti dal database locale
+   - Aggiunta o Rimozione dei preferiti
+   - Settaggio dei filtri
+   - Rimozione di un prodotto in locale
+*/
+
 import ENVIRONMENT from '../../env'
 import { insertProduct, fetchProducts, fetchFavorites, addFavorite, removeFavorite, removeProduct } from '../../helpers/db'
 export const GET_PRODUCT_BY_BARCODE = 'GET_PRODUCT_BY_BARCODE'

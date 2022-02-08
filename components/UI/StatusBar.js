@@ -1,3 +1,5 @@
+/* Componente personalizzato: status bar (per iOS) chiara o scura a seconda del tema dark o light */
+
 import React from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { useSelector } from 'react-redux'

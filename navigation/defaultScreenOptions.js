@@ -1,3 +1,5 @@
+/* Opzioni stilistiche di default di tutti i navigators (a seconda del tema dark o light) */
+
 import { Platform } from 'react-native'
 import Colors from '../constants/Colors'
 

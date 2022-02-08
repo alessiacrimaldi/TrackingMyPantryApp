@@ -1,3 +1,5 @@
+/* AppNavigator: Drawer Navigator per la navigazione dell'applicazione attraverso il menù a sinitra */
+
 import React from 'react'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { Ionicons } from '@expo/vector-icons'

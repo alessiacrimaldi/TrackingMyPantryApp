@@ -1,3 +1,5 @@
+/* Componente riutilizzabile: icona dell'header standard utilizzata nell'applicazione (a seconda del tema dark o light) */
+
 import React from 'react'
 import { Platform } from 'react-native'
 import { HeaderButton } from 'react-navigation-header-buttons'

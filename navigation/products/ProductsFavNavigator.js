@@ -1,3 +1,5 @@
+/* Favorites: Stack Navigator per la visualizzazione dei prodotti preferiti */
+
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { defaultLightScreenOption, defaultDarkScreenOption } from '../defaultScreenOptions'

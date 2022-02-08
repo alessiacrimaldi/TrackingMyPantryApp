@@ -1,3 +1,5 @@
+/* Componente per visualizzare l'anteprima della località scelta nella mappa o ottenuta dalla localizzazione dell'utente */
+
 import React from 'react'
 import { StyleSheet, TouchableOpacity, Image } from 'react-native'
 import ENVIRONMENT from '../../env'

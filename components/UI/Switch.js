@@ -1,3 +1,5 @@
+/* Componente riutilizzabile: switch di default utilizzato nell'applicazione */
+
 import React from 'react'
 import { StyleSheet, View, Switch } from 'react-native'
 import { useSelector } from 'react-redux'

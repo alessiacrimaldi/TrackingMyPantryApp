@@ -1,3 +1,5 @@
+/* Colori utilizzati nell'applicazione */
+
 export default {
     primary: '#724CA1',
     secondary: '#CC1B8D',

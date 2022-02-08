@@ -1,3 +1,5 @@
+/* Profile: Stack Navigator per il profilo utente, contenente i dati dell'utente loggato ed il logout */
+
 import React from 'react'
 import { Platform } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'

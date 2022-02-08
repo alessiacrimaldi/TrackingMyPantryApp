@@ -1,6 +1,12 @@
-/* to avoid "Setting a timer for a long period of time, i.e. multiple minutes, is a performance and correctness issue on Android" warning */
-import { LogBox } from 'react-native'
-LogBox.ignoreLogs(['Setting a timer for a long period of time'])
+/* File principale dell'applicazione; qui vengono:
+   - inizializzati tutti i pacchetti necessari,
+   - stabilita la connessione con il database locale
+   - caricati i font per l'applicazione
+   - inizializzato il Main Navigator tramite il quale viene gestita tutta l'app
+*/
+
+import { LogBox } from 'react-native' 
+LogBox.ignoreLogs(['Setting a timer for a long period of time']) // to avoid "Setting a timer for a long period of time, i.e. multiple minutes, is a performance and correctness issue on Android" warning
 
 import React from 'react'
 import CustomStatusBar from './components/UI/StatusBar'

@@ -1,3 +1,5 @@
+/* Operazioni effettuate nel database locale SQLite */
+
 import * as SQLite from 'expo-sqlite'
 
 

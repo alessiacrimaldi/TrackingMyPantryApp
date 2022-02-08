@@ -1,3 +1,5 @@
+/* Componente riutilizzabile: input di default utilizzato nell'applicazione, contenente le convalide degli input stessi */
+
 import React, { useReducer, useEffect } from 'react'
 import { StyleSheet, View, TextInput } from 'react-native'
 import { useSelector } from 'react-redux'
@@ -84,7 +86,7 @@ const Input = props => {
                 {...props}
                 style={{ ...styles.input, borderBottomColor: modeColors(currentMode).linesColor, color: modeColors(currentMode).textColor }}
                 value={inputState.value}
-                onChangeText={textChangeHandler}  // P.S: il parametro 'text' della funzione textChangeHandler viene in questo modo automaticamente passato come ultimo parametro
+                onChangeText={textChangeHandler}
                 onBlur={lostFocusHandler}
             />
             {!inputState.isValid && inputState.touched && (

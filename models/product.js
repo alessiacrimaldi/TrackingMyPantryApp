@@ -1,3 +1,5 @@
+/* Classe Product utilizzata nell'applicazione per creare i prodotti */
+
 import moment from 'moment'
 
 

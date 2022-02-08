@@ -1,3 +1,5 @@
+/* Settings Screen: Schermata per la visualizzazione e gestione delle impostazioni (Notifiche e Tema 'dark' o 'light') */
+
 import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { CustomButton } from '../../components/UI/Buttons'

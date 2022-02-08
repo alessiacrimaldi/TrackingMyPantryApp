@@ -1,3 +1,5 @@
+/* Scan Product Screen: Schermata per l'inserimento o la scannerizzazione del barcode del prodotto */
+
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, TextInput, TouchableWithoutFeedback, ActivityIndicator, Alert } from 'react-native'
 import { FontAwesome5, Entypo } from '@expo/vector-icons'

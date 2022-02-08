@@ -1,3 +1,5 @@
+/* Filters Screen: Schermata per l'applicazione dei filtri */
+
 import React, { useState, useLayoutEffect, useCallback } from 'react'
 import { StyleSheet, View, ScrollView, Alert } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'

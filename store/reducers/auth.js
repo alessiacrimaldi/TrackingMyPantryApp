@@ -1,3 +1,5 @@
+/* Reducer per le azioni relative all'autenticazione dell'utente */
+
 import { AUTHENTICATE, TRIED_LOGIN, LOGOUT } from '../actions/auth'
 
 

@@ -1,3 +1,5 @@
+/* Favorites Screen: Schermata per la visualizzazione dei prodotti preferiti */
+
 import React from 'react'
 import { StyleSheet, View, FlatList } from 'react-native'
 import { useSelector } from 'react-redux'

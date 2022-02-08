@@ -1,3 +1,5 @@
+/* Reducer per l'azione relativa al cambiamento del tema dell'applicazione: 'dark mode' o 'light mode' */
+
 import { CHANGE_THEME } from '../actions/theme'
 
 

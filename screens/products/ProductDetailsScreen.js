@@ -1,3 +1,6 @@
+/* Product Details Screen: Schermata per la visualizzazione complessiva delle informazioni relative ad un prodotto
+                           e per l'aggiunta o la rimozione del prodotto dai preferiti */
+
 import React, { useLayoutEffect, useCallback } from 'react'
 import { StyleSheet, View, ScrollView } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'

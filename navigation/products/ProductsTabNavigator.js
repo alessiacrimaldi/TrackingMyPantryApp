@@ -1,3 +1,5 @@
+/* 'Home' and 'Favorites' Tabs: Tab Navigator per la visualizzazione dei prodotti e dei prodotti preferiti */
+
 import React from 'react'
 import { Platform, Text, Dimensions } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'

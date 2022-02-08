@@ -1,3 +1,5 @@
+/* MainNavigator: Navigation Container contenente i condizionali per visualizzare Autenticazione o Applicazione, passando dallo Startup Screen */
+
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { useSelector } from 'react-redux'

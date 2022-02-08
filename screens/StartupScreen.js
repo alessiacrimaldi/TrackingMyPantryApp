@@ -1,3 +1,7 @@
+/* Startup Screen: Schermata che viene visitata sempre all'avvio dell'applicazione che rendirizza immediatamente l'utente:
+                   - all'applicazione (effettua l'auto-login se sono presenti le informazioni sull'utente)
+                   - alla schermata di autenticazione (se le informazioni non sono presenti o il token è scaduto, ossia sono passati 7 giorni) */
+
 import React, { useEffect } from 'react'
 import { StyleSheet, View, ActivityIndicator } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'

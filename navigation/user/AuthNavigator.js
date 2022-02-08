@@ -1,3 +1,5 @@
+/* Authentication: Stack Navigator per l'autenticazione e la registrazione */
+
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { defaultLightScreenOption, defaultDarkScreenOption } from '../defaultScreenOptions'

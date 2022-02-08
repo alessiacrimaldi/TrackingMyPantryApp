@@ -1,3 +1,5 @@
+/* Admin Screen: Schermata per la gestione dei prodotti (inserimento e rimozione) */
+
 import React, { useState, useEffect, useCallback } from 'react'
 import { StyleSheet, View, FlatList, Alert, ActivityIndicator } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'

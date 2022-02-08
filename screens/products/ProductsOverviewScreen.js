@@ -1,3 +1,5 @@
+/* Products Overview Screen: Schermata per la visualizzazione complessiva di tutti i prodotti */
+
 import React, { useState, useEffect, useCallback } from 'react'
 import { StyleSheet, View, FlatList, ActivityIndicator } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'

@@ -1,3 +1,5 @@
+/* Map Screen: Schermata per la visualizzazione della mappa e della 'Picked Location' */
+
 import React, { useState, useLayoutEffect, useCallback } from 'react'
 import { StyleSheet, TouchableOpacity, Platform, Alert, Dimensions } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'

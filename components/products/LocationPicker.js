@@ -1,3 +1,5 @@
+/* Componente per la scelta della localizzazione */
+
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, ActivityIndicator, Alert } from 'react-native'
 import { Entypo } from '@expo/vector-icons'

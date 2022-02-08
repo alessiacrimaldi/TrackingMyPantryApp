@@ -1,3 +1,5 @@
+/* Componente per renderizzare la lista dell'amministrazione dei prodotti in 'Admin Screen' */
+
 import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'

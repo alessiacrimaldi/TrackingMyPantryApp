@@ -1,3 +1,5 @@
+/* Componente riutilizzabile: card di default utilizzata nell'applicazione (a seconda del tema dark o light) */
+
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { useSelector } from 'react-redux'

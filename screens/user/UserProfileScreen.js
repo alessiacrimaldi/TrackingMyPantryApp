@@ -1,3 +1,5 @@
+/* Profile Screen: Schermata per la visualizzazione delle informazioni relative all'utente loggato ed il Logout */
+
 import React from 'react'
 import { StyleSheet, Platform, View, TouchableOpacity, TouchableNativeFeedback } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'

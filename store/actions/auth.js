@@ -1,3 +1,9 @@
+/* Azioni relative all'autenticazione dell'utente:
+   1) Registrazione
+   2) Login
+   3) Logout
+*/
+
 import AsyncStorage from '@react-native-async-storage/async-storage'
 export const AUTHENTICATE = 'AUTHENTICATE'
 export const TRIED_LOGIN = 'TRIED_LOGIN'

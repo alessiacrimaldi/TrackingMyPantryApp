@@ -1,3 +1,5 @@
+/* Componente riutilizzabile: testo standard utilizzato nell'applicazione (a seconda del tema dark o light) */
+
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
 import { useSelector } from 'react-redux'

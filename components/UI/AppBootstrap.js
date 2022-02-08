@@ -1,3 +1,5 @@
+/* Componente per il caricamento dei font per l'applicazione */
+
 import React, { useState } from 'react'
 import * as Font from 'expo-font'
 import AppLoading from 'expo-app-loading'

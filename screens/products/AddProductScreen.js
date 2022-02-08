@@ -1,3 +1,5 @@
+/* Add Product Screen: Schermata per l'aggiunta di tutte le informazioni riguardanti un prodotto */
+
 import React, { useState, useEffect, useReducer, useCallback } from 'react'
 import { StyleSheet, View, ScrollView, KeyboardAvoidingView, TouchableWithoutFeedback, Alert, ActivityIndicator } from 'react-native'
 import { Keyboard } from 'react-native'
@@ -72,7 +74,7 @@ const AddProductScreen = ({ navigation, route }) => {
     }
 
     const [formState, dispatchFormState] = useReducer(formReducer, {
-        /* lo stato (formState) cambierà ad ogni digitazione */
+        // lo stato (formState) cambierà ad ogni digitazione
         inputValues: {
             name: pickedProduct?.name,
             description: pickedProduct?.description,
@@ -132,7 +134,7 @@ const AddProductScreen = ({ navigation, route }) => {
 
     const inputChangeHandler = useCallback((inputIdentifier, inputValue, inputValidity) => {
         dispatchFormState({
-            type: FORM_INPUT_UPDATE, //La funzione reducer FORM_INPUT_UPDATE verrà eseguita per ogni nuova azione inviata
+            type: FORM_INPUT_UPDATE,  // la funzione reducer FORM_INPUT_UPDATE verrà eseguita per ogni nuova azione inviata
             value: inputValue,
             isValid: inputValidity,
             input: inputIdentifier

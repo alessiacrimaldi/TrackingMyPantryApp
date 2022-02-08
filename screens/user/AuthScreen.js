@@ -1,3 +1,5 @@
+/* Authentication Screen: Schermata per l'autenticazione o la registrazione dell'utente */
+
 import React, { useState, useEffect, useReducer, useCallback } from 'react'
 import {
     StyleSheet,
@@ -50,7 +52,7 @@ const AuthScreen = () => {
     const dispatch = useDispatch()
 
     const [formState, dispatchFormState] = useReducer(formReducer, {
-        /* lo stato (formState) cambierà ad ogni digitazione */
+        // lo stato (formState) cambierà ad ogni digitazione
         inputValues: {
             username: '',
             email: '',
@@ -98,7 +100,7 @@ const AuthScreen = () => {
 
     const inputChangeHandler = useCallback((inputIdentifier, inputValue, inputValidity) => {
         dispatchFormState({
-            type: FORM_INPUT_UPDATE, //La funzione reducer FORM_INPUT_UPDATE verrà eseguita per ogni nuova azione inviata
+            type: FORM_INPUT_UPDATE,  // la funzione reducer FORM_INPUT_UPDATE verrà eseguita per ogni nuova azione inviata
             value: inputValue,
             isValid: inputValidity,
             input: inputIdentifier

@@ -1,3 +1,5 @@
+/* Reducer per le azioni relative ai prodotti */
+
 import Product from '../../models/product'
 import {
     GET_PRODUCT_BY_BARCODE,

@@ -1,3 +1,5 @@
+/* Componente per la selezione della data di scadenza dal calendario (RN Calendar) */
+
 import React, { useState } from 'react'
 import { StyleSheet, View, Modal } from 'react-native'
 import { Calendar } from 'react-native-calendars'

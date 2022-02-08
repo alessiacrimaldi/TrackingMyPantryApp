@@ -1,3 +1,5 @@
+/* Componente per renderizzare la lista dei prodotti in 'Products Screen' */
+
 import React from 'react'
 import {
     StyleSheet,
