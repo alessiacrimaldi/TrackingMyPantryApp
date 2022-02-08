@@ -2,7 +2,7 @@ import React, { useState, useEffect, useReducer, useCallback } from 'react'
 import { StyleSheet, View, ScrollView, KeyboardAvoidingView, TouchableWithoutFeedback, Alert, ActivityIndicator } from 'react-native'
 import { Keyboard } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
-import { AntDesign } from '@expo/vector-icons'
+import { Ionicons, AntDesign } from '@expo/vector-icons'
 import { CustomButton } from '../../components/UI/Buttons'
 import * as productsActions from '../../store/actions/products'
 import Colors from '../../constants/Colors'
@@ -207,6 +207,12 @@ const AddProductScreen = ({ navigation, route }) => {
                                 min={1}
                                 max={5}
                             />
+                            <Ionicons
+                                style={styles.star}
+                                name="star"
+                                size={15}
+                                color={Colors.secondary}
+                            />
                         </Card>
                         <Card style={styles.cardInput}>
                             <MainText style={styles.label}>Expiry Date</MainText>
@@ -300,6 +306,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 2,
         paddingBottom: 5,
         borderBottomWidth: 1
+    },
+    star: {
+        position: 'absolute',
+        top: 46,
+        right: 23
     },
     properties: {
         marginHorizontal: 25
