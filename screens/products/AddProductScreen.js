@@ -197,6 +197,18 @@ const AddProductScreen = ({ navigation, route }) => {
                             />
                         </Card>
                         <Card style={styles.cardInput}>
+                            <Input
+                                id='rating'
+                                label='Rating *'
+                                errorText='Please enter a valid rating (between 1 and 5)'
+                                keyboardType='numeric'
+                                onInputChange={inputChangeHandler}
+                                required
+                                min={1}
+                                max={5}
+                            />
+                        </Card>
+                        <Card style={styles.cardInput}>
                             <MainText style={styles.label}>Expiry Date</MainText>
                             <View style={{ ...styles.input, borderBottomColor: modeColors(currentMode).linesColor, color: modeColors(currentMode).textColor }}>
                                 <DefaultText>{expiryDate}</DefaultText>
@@ -246,18 +258,6 @@ const AddProductScreen = ({ navigation, route }) => {
                         <Card style={styles.cardInput}>
                             <MainText style={styles.label}>Location</MainText>
                             <LocationPicker navigation={navigation} route={route} barcode={productBarcode} onLocationPicked={setSelectedLocation} colors={modeColors(currentMode)} />
-                        </Card>
-                        <Card style={styles.cardInput}>
-                            <Input
-                                id='rating'
-                                label='Rating *'
-                                errorText='Please enter a valid rating (between 1 and 5)'
-                                keyboardType='numeric'
-                                onInputChange={inputChangeHandler}
-                                required
-                                min={1}
-                                max={5}
-                            />
                         </Card>
                         <View style={styles.buttonContainer}>
                             <CustomButton

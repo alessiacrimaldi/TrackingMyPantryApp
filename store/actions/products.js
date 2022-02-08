@@ -58,17 +58,17 @@ export const addLocalProduct = product => {
                     },
                     body: JSON.stringify({
                         token: sessionToken,
-                        rating: +product.rating,
+                        rating: +1,
                         productId: product.id
                     })
                 }
             )
             const resData = await response.json()
             if (!response.ok) {
-                console.log('YOU HAVE ALREADY RELEASED A RATING FOR THIS PRODUCT!')
+                console.log('YOU HAVE ALREADY POSTED YOUR PREFERENCE FOR THIS PRODUCT!')
                 console.log(resData)
             } else {
-                console.log('THANKS! YOUR VOTE HAS BEEN RELEASED!')
+                console.log('THANKS! YOUR PREFERENCE HAS BEEN POSTED!')
                 console.log(resData)
             }
 
