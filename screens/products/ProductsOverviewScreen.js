@@ -16,11 +16,7 @@ const ProductsOverviewScreen = ({ navigation }) => {
     const dispatch = useDispatch()
 
     const loadProducts = useCallback(async () => {
-        try {
-            await dispatch(productsActions.loadFilteredProducts())
-        } catch (err) {
-            console.log(err)
-        }
+        await dispatch(productsActions.loadFilteredProducts())
     }, [dispatch])
 
     useEffect(() => {
@@ -29,11 +25,6 @@ const ProductsOverviewScreen = ({ navigation }) => {
             setIsLoading(false)
         })
     }, [dispatch, loadProducts])
-
-    useEffect(() => {
-        const willFocusSub = navigation.addListener('focus', loadProducts)
-        return willFocusSub
-    }, [loadProducts])
 
     if (isLoading) {
         return (

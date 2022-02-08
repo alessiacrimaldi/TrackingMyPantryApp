@@ -20,11 +20,7 @@ const AdminScreen = ({ navigation }) => {
 
     const loadProducts = useCallback(async () => {
         setIsRefreshing(true)
-        try {
-            await dispatch(productsActions.loadFilteredProducts())
-        } catch (err) {
-            console.log(err)
-        }
+        await dispatch(productsActions.loadFilteredProducts())
         setIsRefreshing(false)
     }, [dispatch])
 

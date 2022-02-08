@@ -47,7 +47,19 @@ export const addLocalProduct = product => {
     return async (dispatch, getState) => {
         const accessToken = getState().auth.token
         const sessionToken = getState().products.sessionToken
+        let address
         try {
+            if (product.location) {
+                const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${product.location.lat},${product.location.lng}&key=${ENVIRONMENT.googleApiKey}`)
+                if (!response.ok) {
+                    throw new Error('Something went wrong!')
+                }
+                const resData = await response.json()
+                if (!resData.results) {
+                    throw new Error('No result!')
+                }
+                address = resData.results[0].formatted_address
+            }
             /* POST PRODUCT PREFERENCE */
             const response = await fetch(
                 'https://lam21.iot-prism-lab.cs.unibo.it/votes',
@@ -83,6 +95,7 @@ export const addLocalProduct = product => {
                 product.vegan,
                 product.vegetarian,
                 product.expiryDate,
+                address,
                 product.location,
                 product.rating
             ))
@@ -96,7 +109,19 @@ export const addRemoteAndLocalProduct = product => {
     return async (dispatch, getState) => {
         const accessToken = getState().auth.token
         const sessionToken = getState().products.sessionToken
+        let address
         try {
+            if (product.location) {
+                const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${product.location.lat},${product.location.lng}&key=${ENVIRONMENT.googleApiKey}`)
+                if (!response.ok) {
+                    throw new Error('Something went wrong!')
+                }
+                const resData = await response.json()
+                if (!resData.results) {
+                    throw new Error('No result!')
+                }
+                address = resData.results[0].formatted_address
+            }
             /* POST PRODUCT DETAILS */
             const response = await fetch(
                 'https://lam21.iot-prism-lab.cs.unibo.it/products',
@@ -129,6 +154,7 @@ export const addRemoteAndLocalProduct = product => {
                 product.vegan,
                 product.vegetarian,
                 product.expiryDate,
+                address,
                 product.location,
                 product.rating
             ))
@@ -138,23 +164,9 @@ export const addRemoteAndLocalProduct = product => {
     }
 }
 
-const addProduct = (name, description, barcode, quantity, isGlutenFree, isLactoseFree, isVegan, isVegetarian, expiryDate, location, rating) => {
+const addProduct = (name, description, barcode, quantity, isGlutenFree, isLactoseFree, isVegan, isVegetarian, expiryDate, address, location, rating) => {
     return async (dispatch, getState) => {
         const userId = getState().auth.userId
-
-        let address
-        if (location) {
-            const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.lat},${location.lng}&key=${ENVIRONMENT.googleApiKey}`)
-            if (!response.ok) {
-                throw new Error('Something went wrong!')
-            }
-            const resData = await response.json()
-            if (!resData.results) {
-                throw new Error('No result!')
-            }
-            address = resData.results[0].formatted_address
-        }
-
         try {
             const dbResult = await insertProduct(
                 name,
