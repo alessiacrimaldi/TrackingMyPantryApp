@@ -206,20 +206,8 @@ export const loadProducts = userId => {
     return async dispatch => {
         try {
             const dbResult = await fetchProducts(userId)
-            dispatch({ type: SET_PRODUCTS, products: dbResult.rows._array })
-        } catch (err) {
-            throw err
-        }
-    }
-}
-
-
-export const loadFavorites = () => {
-    return async (dispatch, getState) => {
-        const userId = getState().auth.userId
-        try {
-            const dbResult = await fetchFavorites(userId)
-            dispatch({ type: SET_FAVORITES, products: dbResult.rows._array })
+            const dbResultFavs = await fetchFavorites(userId)
+            dispatch({ type: SET_PRODUCTS, products: dbResult.rows._array, favProducts: dbResultFavs.rows._array })
         } catch (err) {
             throw err
         }

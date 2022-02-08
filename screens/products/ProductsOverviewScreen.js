@@ -1,22 +1,47 @@
-import React, { useCallback } from 'react'
-import { useFocusEffect } from '@react-navigation/native'
-import { StyleSheet, View, FlatList } from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
+import React, { useState, useEffect, useCallback } from 'react'
+import { StyleSheet, View, FlatList, ActivityIndicator } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
+import { Ionicons } from '@expo/vector-icons'
 import * as productsActions from '../../store/actions/products'
+import Colors from '../../constants/Colors'
 import DefaultText from '../../components/UI/DefaultText'
 import ProductItem from '../../components/products/ProductItem'
 
 
 const ProductsOverviewScreen = ({ navigation }) => {
     const availableProducts = useSelector(state => state.products.filteredProducts)
+    const [isLoading, setIsLoading] = useState(false)
+    const [isRefreshing, setIsRefreshing] = useState(false)
+
     const dispatch = useDispatch()
 
-    useFocusEffect(
-        useCallback(() => {
-            dispatch(productsActions.loadFilteredProducts())
-        }, [dispatch])
-    )
+    const loadProducts = useCallback(async () => {
+        try {
+            await dispatch(productsActions.loadFilteredProducts())
+        } catch (err) {
+            console.log(err)
+        }
+    }, [dispatch])
+
+    useEffect(() => {
+        setIsLoading(true)
+        loadProducts().then(() => {
+            setIsLoading(false)
+        })
+    }, [dispatch, loadProducts])
+
+    useEffect(() => {
+        const willFocusSub = navigation.addListener('focus', loadProducts)
+        return willFocusSub
+    }, [loadProducts])
+
+    if (isLoading) {
+        return (
+            <View style={styles.centered}>
+                <ActivityIndicator size='large' color={Colors.details} />
+            </View>
+        )
+    }
 
     const renderProduct = itemData => {
         return <ProductItem
@@ -36,7 +61,7 @@ const ProductsOverviewScreen = ({ navigation }) => {
 
     return (
         <View>
-            {availableProducts.length === 0
+            {!isLoading && availableProducts.length === 0
                 ? <View style={styles.screen}>
                     <DefaultText>
                         There are no products <Ionicons name='cart' size={15} />
@@ -44,6 +69,8 @@ const ProductsOverviewScreen = ({ navigation }) => {
                 </View>
                 : <View style={{ marginTop: 10 }}>
                     <FlatList
+                        onRefresh={loadProducts}
+                        refreshing={isRefreshing}
                         keyExtractor={item => item.id}
                         data={availableProducts}
                         renderItem={renderProduct}
@@ -58,6 +85,11 @@ const ProductsOverviewScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     screen: {
         height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    centered: {
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
     }

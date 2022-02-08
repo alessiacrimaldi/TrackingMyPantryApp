@@ -3,7 +3,6 @@ import {
     GET_PRODUCT_BY_BARCODE,
     ADD_PRODUCT,
     SET_PRODUCTS,
-    SET_FAVORITES,
     SET_FILTERS,
     TOGGLE_FAVORITE,
     DELETE_PRODUCT
@@ -85,30 +84,25 @@ const productsReducer = (state = initialState, action) => {
                         product.rating,
                         setBoolean(product.favorite)
                     )
-                )
-            }
-
-        case SET_FAVORITES:
-            return {
-                ...state,
-                userFavoriteProducts: action.products.map(
-                    product => new Product(
-                        product.id.toString(),
-                        product.name,
-                        product.description,
-                        product.barcode,
-                        product.userId,
-                        product.quantity,
-                        setBoolean(product.isGlutenFree),
-                        setBoolean(product.isLactoseFree),
-                        setBoolean(product.isVegan),
-                        setBoolean(product.isVegetarian),
-                        product.expiryDate,
-                        product.address,
-                        product.lat,
-                        product.lng,
-                        product.rating,
-                        setBoolean(product.favorite)
+                ),
+                userFavoriteProducts: action.favProducts.map(
+                    favProduct => new Product(
+                        favProduct.id.toString(),
+                        favProduct.name,
+                        favProduct.description,
+                        favProduct.barcode,
+                        favProduct.userId,
+                        favProduct.quantity,
+                        setBoolean(favProduct.isGlutenFree),
+                        setBoolean(favProduct.isLactoseFree),
+                        setBoolean(favProduct.isVegan),
+                        setBoolean(favProduct.isVegetarian),
+                        favProduct.expiryDate,
+                        favProduct.address,
+                        favProduct.lat,
+                        favProduct.lng,
+                        favProduct.rating,
+                        setBoolean(favProduct.favorite)
                     )
                 )
             }
@@ -128,7 +122,7 @@ const productsReducer = (state = initialState, action) => {
                 if (appliedFilters.vegetarian && !product.isVegetarian) {
                     return false
                 }
-                if (appliedFilters.expired && ((new Date() <= new Date(product.expiryDate)) || !product.expiryDate)) {
+                if (appliedFilters.expired && ((new Date() < new Date(product.expiryDate)) || !product.expiryDate)) {
                     return false
                 }
                 return true
@@ -177,6 +171,8 @@ const productsReducer = (state = initialState, action) => {
 
 export default productsReducer
 
+
+/* Utils */
 const setBoolean = (value) => {
     if (value === 0) {
         return false

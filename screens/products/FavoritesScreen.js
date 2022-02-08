@@ -1,22 +1,13 @@
-import React, { useCallback } from 'react'
-import { useFocusEffect } from '@react-navigation/native'
+import React from 'react'
 import { StyleSheet, View, FlatList } from 'react-native'
+import { useSelector } from 'react-redux'
 import { Ionicons } from '@expo/vector-icons'
-import { useSelector, useDispatch } from 'react-redux'
-import * as productsActions from '../../store/actions/products'
 import DefaultText from '../../components/UI/DefaultText'
 import ProductItem from '../../components/products/ProductItem'
 
 
 const FavoritesScreen = ({ navigation }) => {
     const favoriteProducts = useSelector(state => state.products.userFavoriteProducts)
-    const dispatch = useDispatch()
-
-    useFocusEffect(
-        useCallback(() => {
-            dispatch(productsActions.loadFavorites())
-        }, [dispatch])
-    )
 
     const renderProduct = itemData => {
         return <ProductItem

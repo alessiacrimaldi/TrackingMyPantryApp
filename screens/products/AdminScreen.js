@@ -1,6 +1,5 @@
-import React, { useCallback } from 'react'
-import { useFocusEffect } from '@react-navigation/native'
-import { StyleSheet, View, FlatList, Alert } from 'react-native'
+import React, { useState, useEffect, useCallback } from 'react'
+import { StyleSheet, View, FlatList, Alert, ActivityIndicator } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { CustomButton } from '../../components/UI/Buttons'
 import { Ionicons } from '@expo/vector-icons'
@@ -14,14 +13,40 @@ import ManageProductItem from '../../components/products/ManageProductItem'
 const AdminScreen = ({ navigation }) => {
     const totalItems = useSelector(state => state.products.userProducts).length
     const items = useSelector(state => state.products.filteredProducts)
+    const [isLoading, setIsLoading] = useState(false)
+    const [isRefreshing, setIsRefreshing] = useState(false)
 
     const dispatch = useDispatch()
 
-    useFocusEffect(
-        useCallback(() => {
-            dispatch(productsActions.loadFilteredProducts())
-        }, [dispatch])
-    )
+    const loadProducts = useCallback(async () => {
+        setIsRefreshing(true)
+        try {
+            await dispatch(productsActions.loadFilteredProducts())
+        } catch (err) {
+            console.log(err)
+        }
+        setIsRefreshing(false)
+    }, [dispatch])
+
+    useEffect(() => {
+        setIsLoading(true)
+        loadProducts().then(() => {
+            setIsLoading(false)
+        })
+    }, [dispatch, loadProducts])
+
+    useEffect(() => {
+        const willFocusSub = navigation.addListener('focus', loadProducts)
+        return willFocusSub
+    }, [loadProducts])
+
+    if (isLoading) {
+        return (
+            <View style={styles.centered}>
+                <ActivityIndicator size='large' color={Colors.details} />
+            </View>
+        )
+    }
 
     const renderItem = itemData => {
         return <ManageProductItem
@@ -71,6 +96,8 @@ const AdminScreen = ({ navigation }) => {
             </Card>
             <View style={styles.listContainer}>
                 <FlatList
+                    onRefresh={loadProducts}
+                    refreshing={isRefreshing}
                     keyExtractor={item => item.id}
                     data={items}
                     renderItem={renderItem}
@@ -84,7 +111,12 @@ const AdminScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     screen: {
         marginVertical: 20,
-        marginHorizontal: 15
+        marginHorizontal: 15,
+    },
+    centered: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     card: {
         paddingVertical: 15,
