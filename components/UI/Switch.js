@@ -16,7 +16,7 @@ const modeColor = mode => {
     }
 }
 
-const CustomSwitch = ({ color, label, state, onChange }) => {
+const CustomSwitch = ({ color, label, state, onChange, isDisabled }) => {
     const currentMode = useSelector(state => state.mode.theme)
 
     return (
@@ -28,6 +28,7 @@ const CustomSwitch = ({ color, label, state, onChange }) => {
                 ios_backgroundColor={modeColor(currentMode)}
                 value={state}
                 onValueChange={onChange}
+                disabled={isDisabled}
             />
         </View>
     )

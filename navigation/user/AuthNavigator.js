@@ -26,7 +26,7 @@ const AuthNavigator = () => {
             <Stack.Screen
                 name="Authenticate"
                 component={AuthScreen}
-                options={{ title: 'Tacking My Pantry' }}
+                options={{ title: 'Tracking My Pantry' }}
             />
         </Stack.Navigator>
     )
