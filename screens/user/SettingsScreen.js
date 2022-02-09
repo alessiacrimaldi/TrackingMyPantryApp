@@ -91,7 +91,10 @@ const SettingsScreen = ({ navigation }) => {
         const tomorrow = new Date()
         tomorrow.setDate(tomorrow.getDate() + 1)
         const productsOrderedByDate = allProducts.filter(product => product.expiryDate && new Date(product.expiryDate) > tomorrow)
-        productsOrderedByDate.sort((a, b) => a.expiryDate - b.expiryDate)
+        productsOrderedByDate.sort((a, b) => {
+            return a.expiryDate.localeCompare(b.expiryDate)
+        })
+        console.log(productsOrderedByDate)
 
         if (productsOrderedByDate.length !== 0 && productsOrderedByDate[0].expiryDate) {
             const nextProductToExpire = productsOrderedByDate[0]
@@ -102,6 +105,9 @@ const SettingsScreen = ({ navigation }) => {
             triggerNotificationHandler(nextProductToExpire.id, nextProductToExpire.name, expirationRemainingSeconds)
             console.log(`Notification set up for ${nextProductToExpire.name} on ${expiryDate.toDateString()}`)
             Alert.alert('Notification set up!', 'Notification has been set up for the next product to expire')
+        } else if (allProducts.length === 0) {
+            alert('Sorry! There are no products')
+            setIsAvailable(false)
         } else {
             alert('Sorry! No product is nearly to expire')
             setIsAvailable(false)
