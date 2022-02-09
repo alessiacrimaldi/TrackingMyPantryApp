@@ -18,7 +18,9 @@ const ProductsOverviewScreen = ({ navigation }) => {
 
     /* To avoid an infinite loop */
     const loadProducts = useCallback(async () => {
-        dispatch(productsActions.loadFilteredProducts())
+        setIsLoading(true)
+        await dispatch(productsActions.loadFilteredProducts())
+        setIsLoading(false)
     }, [dispatch])
 
     /* To fetch the products initially */
