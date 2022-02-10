@@ -94,14 +94,12 @@ const SettingsScreen = ({ navigation }) => {
         productsOrderedByDate.sort((a, b) => {
             return a.expiryDate.localeCompare(b.expiryDate)
         })
-        console.log(productsOrderedByDate)
-
         if (productsOrderedByDate.length !== 0 && productsOrderedByDate[0].expiryDate) {
             const nextProductToExpire = productsOrderedByDate[0]
             const expiryDate = new Date(nextProductToExpire.expiryDate)
             expiryDate.setDate(expiryDate.getDate() - 1)
             const expirationRemainingSeconds = (expiryDate.getTime() - new Date().getTime()) / 1000
-
+            // trigger notification
             triggerNotificationHandler(nextProductToExpire.id, nextProductToExpire.name, expirationRemainingSeconds)
             console.log(`Notification set up for ${nextProductToExpire.name} on ${expiryDate.toDateString()}`)
             Alert.alert('Notification set up!', 'Notification has been set up for the next product to expire')
