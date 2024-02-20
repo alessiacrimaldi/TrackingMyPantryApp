@@ -1,3 +1,3 @@
 # LAM Project 2021
 
-Project of the course Laboratory of Mobile Applications a.a. 2020/2021
+Project of the course <i>Laboratory of Mobile Applications</i> a.y. 2020/2021
